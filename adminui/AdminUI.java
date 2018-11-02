@@ -14,7 +14,7 @@ public class AdminUI extends JFrame {
     /**
     *Initializes components in the JPanel
     */
-    public void initComponents() {
+    private void initComponents() {
 
         //initialise JPanels
         adminUI = new JPanel();
@@ -46,25 +46,25 @@ public class AdminUI extends JFrame {
         manageUserAccountsButton.setText("Add User Account");
         manageUserAccountsButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showManageUserMenu(evt);
+                showManageUserMenu();
             }
         });
         manageDepartmentsButton.setText("Add Department");
         manageDepartmentsButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showManageDepartmentMenu(evt);
+                showManageDepartmentMenu();
             }
         });
         manageDegreesButton.setText("Add Degree");
         manageDegreesButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showManageDegreeMenu(evt);
+                showManageDegreeMenu();
             }
         });
         manageModulesButton.setText("Add Module");
         manageModulesButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showManageModuleMenu(evt);
+                showManageModuleMenu();
             }
         });
         logOffButton.setText("Log Off");
@@ -72,19 +72,19 @@ public class AdminUI extends JFrame {
         pack();
     }
 
-    private void showManageUserMenu(java.awt.event.ActionEvent evt) {
+    private void showManageUserMenu() {
         adminMainMenu.setVisible(false);
         manageUserMenu.setVisible(true);
     }
-    private void showManageDepartmentMenu(java.awt.event.ActionEvent evt) {
+    private void showManageDepartmentMenu() {
         adminMainMenu.setVisible(false);
         manageDepartmentMenu.setVisible(true);
     }
-    private void showManageDegreeMenu(java.awt.event.ActionEvent evt) {
+    private void showManageDegreeMenu() {
         adminMainMenu.setVisible(false);
         manageDegreeMenu.setVisible(true);
     }
-    private void showManageModuleMenu(java.awt.event.ActionEvent evt) {
+    private void showManageModuleMenu() {
         adminMainMenu.setVisible(false);
         manageModuleMenu.setVisible(true);
     }
@@ -119,7 +119,7 @@ public class AdminUI extends JFrame {
 
     private JPanel adminUI;
     private JPanel adminMainMenu;
-    private ManageUserMenu manageUserMenu;
+    private JPanel manageUserMenu;
     private JPanel manageDepartmentMenu;
     private JPanel manageDegreeMenu;
     private JPanel manageModuleMenu;
@@ -132,7 +132,7 @@ public class AdminUI extends JFrame {
     private JLabel jLabel7;
     private JComboBox<String> databaseSelector;
 
-    public void placeComponents() {
+    private void placeComponents() {
 
       javax.swing.GroupLayout adminMainMenuLayout = new javax.swing.GroupLayout(adminMainMenu);
       adminMainMenu.setLayout(adminMainMenuLayout);
