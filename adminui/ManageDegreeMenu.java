@@ -11,4 +11,5 @@ public class ManageDegreeMenu extends Menu {
                         "Manage Degrees", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
     }
+    protected void placeComponents(){}
 }

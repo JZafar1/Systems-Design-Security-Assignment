@@ -42,7 +42,7 @@ public class ManageUserMenu extends Menu {
         setVisible(false);
     }
 
-    private void placeComponents() {
+    protected void placeComponents() {
 
       javax.swing.GroupLayout manageUserMenuLayout = new javax.swing.GroupLayout(this);
       setLayout(manageUserMenuLayout);

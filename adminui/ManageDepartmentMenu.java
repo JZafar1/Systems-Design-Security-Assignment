@@ -31,7 +31,7 @@ public class ManageDepartmentMenu extends Menu {
         placeComponents();
     }
 
-    private void placeComponents() {
+    protected void placeComponents() {
         javax.swing.GroupLayout manageDepartmentMenuLayout = new javax.swing.GroupLayout(this);
         setLayout(manageDepartmentMenuLayout);
         manageDepartmentMenuLayout.setHorizontalGroup(

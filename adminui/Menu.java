@@ -28,4 +28,5 @@ public abstract class Menu extends JPanel {
         setVisible(false);
         mainMenu.setVisible(true);
     }
+    protected abstract void placeComponents();
 }
