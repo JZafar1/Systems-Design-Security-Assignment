@@ -19,11 +19,12 @@ public class AdminUI extends JFrame {
         //initialise JPanels
         adminUI = new JPanel();
         adminMainMenu = new JPanel();
-        manageUserMenu = new ManageUserMenu(adminMainMenu);
-        manageDepartmentMenu = new ManageDepartmentMenu(adminMainMenu);
-        manageDegreeMenu = new ManageDegreeMenu(adminMainMenu);
-        manageModuleMenu = new ManageModuleMenu(adminMainMenu);
-        databasePanel = new DatabasePanel(adminMainMenu);
+        manageUserMenu = new ManageUserMenu(this);
+        manageDepartmentMenu = new ManageDepartmentMenu(this);
+        manageDegreeMenu = new ManageDegreeMenu(this);
+        manageModuleMenu = new ManageModuleMenu(this);
+        manageModuleLinksMenu = new ManageModuleLinksMenu(this);
+        databaseScrollPane = new DatabaseScrollPane(this);
 
         manageUserAccountsButton = new JButton();
         manageDepartmentsButton = new JButton();
@@ -89,6 +90,10 @@ public class AdminUI extends JFrame {
         manageModuleMenu.setVisible(true);
     }
 
+    public JPanel getMainMenu() {
+        return adminMainMenu;
+    }
+
     public static void main(String[] args) {
 
         try {
@@ -123,7 +128,8 @@ public class AdminUI extends JFrame {
     private JPanel manageDepartmentMenu;
     private JPanel manageDegreeMenu;
     private JPanel manageModuleMenu;
-    private JScrollPane databasePanel;
+    private JPanel manageModuleLinksMenu;
+    private JScrollPane databaseScrollPane;
     private JButton logOffButton;
     private JButton manageUserAccountsButton;
     private JButton manageDepartmentsButton;
@@ -156,6 +162,9 @@ public class AdminUI extends JFrame {
                       .addComponent(manageModulesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)))
               .addGap(228, 228, 228))
       );
+
+      adminMainMenuLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {manageDegreesButton, manageDepartmentsButton, manageModulesButton, manageUserAccountsButton});
+      
       adminMainMenuLayout.setVerticalGroup(
           adminMainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(adminMainMenuLayout.createSequentialGroup()
@@ -174,43 +183,44 @@ public class AdminUI extends JFrame {
 
       javax.swing.GroupLayout adminUILayout = new javax.swing.GroupLayout(adminUI);
       adminUI.setLayout(adminUILayout);
-      adminUILayout.setHorizontalGroup(
-          adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(adminUILayout.createSequentialGroup()
-              .addContainerGap()
-              .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                  .addComponent(databasePanel, javax.swing.GroupLayout.Alignment.TRAILING)
-                  .addGroup(adminUILayout.createSequentialGroup()
-                      .addComponent(logOffButton)
-                      .addGap(0, 0, Short.MAX_VALUE))
-                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminUILayout.createSequentialGroup()
-                      .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                          .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                          .addComponent(manageUserMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                          .addComponent(adminMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                          .addComponent(manageDegreeMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                          .addComponent(manageModuleMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                      .addContainerGap())))
-      );
-      adminUILayout.setVerticalGroup(
-          adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(adminUILayout.createSequentialGroup()
-              .addContainerGap()
-              .addComponent(adminMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-              .addComponent(manageUserMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-              .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-              .addComponent(manageDegreeMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-              .addComponent(manageModuleMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-              .addComponent(databasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-              .addComponent(logOffButton)
-              .addContainerGap())
-      );
+        adminUILayout.setHorizontalGroup(
+            adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminUILayout.createSequentialGroup()
+                        .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(manageUserMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(adminMainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(manageModuleMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(adminUILayout.createSequentialGroup()
+                        .addComponent(logOffButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(databaseScrollPane)))
+        );
+        adminUILayout.setVerticalGroup(
+            adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(adminMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(manageUserMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(manageModuleMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(databaseScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logOffButton)
+                .addContainerGap())
+        );
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

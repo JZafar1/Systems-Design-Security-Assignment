@@ -12,9 +12,9 @@ public class ManageDepartmentMenu extends Menu {
     private JButton addDepartmentButton;
     private JButton removeDepartmentButton;
 
-    public ManageDepartmentMenu(JPanel mainMenu) {
+    public ManageDepartmentMenu(AdminUI adminUI) {
 
-        super(mainMenu);
+        super(adminUI);
 
         departmentNameLabel = new JLabel();
         departmentNameField = new JTextField();

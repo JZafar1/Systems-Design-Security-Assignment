@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 
 public abstract class Menu extends JPanel {
 
-    private JPanel mainMenu;
+    private AdminUI adminUI;
     protected JButton backButton;
 
-    public Menu(JPanel mainMenu) {
+    public Menu(AdminUI adminUI) {
 
-        this.mainMenu = mainMenu;
+        this.adminUI = adminUI;
 
         backButton = new JButton();
         backButton.setText("Back");
@@ -26,7 +26,7 @@ public abstract class Menu extends JPanel {
     }
     private void hideMenu() {
         setVisible(false);
-        mainMenu.setVisible(true);
+        adminUI.getMainMenu().setVisible(true);
     }
     protected abstract void placeComponents();
 }

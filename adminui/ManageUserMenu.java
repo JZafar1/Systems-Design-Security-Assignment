@@ -13,9 +13,9 @@ public class ManageUserMenu extends Menu {
     private JButton addUserButton;
     private JButton removeUserButton;
 
-    public ManageUserMenu(JPanel mainMenu) {
+    public ManageUserMenu(AdminUI adminUI) {
 
-        super(mainMenu);
+        super(adminUI);
 
         forenameLabel = new JLabel();
         surnameLabel = new JLabel();
@@ -39,7 +39,6 @@ public class ManageUserMenu extends Menu {
         roleSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Adminstrator", "Registrar", "Teacher" }));
 
         placeComponents();
-        setVisible(false);
     }
 
     protected void placeComponents() {
