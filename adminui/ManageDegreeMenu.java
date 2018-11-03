@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManageDegreeMenu extends Menu {
 
@@ -47,11 +49,21 @@ public class ManageDegreeMenu extends Menu {
         addDegreeButton.setText("Add Degree");
         removeDegreeButton.setText("Remove Degree");
         manageDegreeLinksButton.setText("Manage Degree Links");
+        manageDegreeLinksButton.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDegreeLinkMenu();
+            }
+        });
+
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                         "Manage Degrees", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
         placeComponents();
+    }
+    private void showDegreeLinkMenu() {
+        getAdminUI().getDegreeLinkMenu().setVisible(true);
+        getAdminUI().getDegreeMenu().setVisible(false);
     }
     protected void placeComponents(){
         javax.swing.GroupLayout manageDegreeMenuLayout = new javax.swing.GroupLayout(this);

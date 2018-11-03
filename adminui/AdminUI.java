@@ -24,6 +24,7 @@ public class AdminUI extends JFrame {
         manageDegreeMenu = new ManageDegreeMenu(this);
         manageModuleMenu = new ManageModuleMenu(this);
         manageModuleLinksMenu = new ManageModuleLinksMenu(this);
+        manageDegreeLinksMenu = new ManageDegreeLinksMenu(this);
         databaseScrollPane = new DatabaseScrollPane(this);
 
         manageUserAccountsButton = new JButton();
@@ -96,6 +97,12 @@ public class AdminUI extends JFrame {
     public JPanel getModuleMenu() {
         return manageModuleMenu;
     }
+    public JPanel getDegreeMenu() {
+        return manageDegreeMenu;
+    }
+    public JPanel getDegreeLinkMenu() {
+        return manageDegreeLinksMenu;
+    }
     public JPanel getModuleLinkMenu() {
         return manageModuleLinksMenu;
     }
@@ -135,6 +142,7 @@ public class AdminUI extends JFrame {
     private JPanel manageDegreeMenu;
     private JPanel manageModuleMenu;
     private JPanel manageModuleLinksMenu;
+    private JPanel manageDegreeLinksMenu;
     private JScrollPane databaseScrollPane;
     private JButton logOffButton;
     private JButton manageUserAccountsButton;
@@ -198,15 +206,16 @@ public class AdminUI extends JFrame {
                         .addComponent(logOffButton)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(adminUILayout.createSequentialGroup()
-                        .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(manageDegreeLinksMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(databaseScrollPane)
-                            .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(manageModuleMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(manageUserMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(adminMainMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(manageDegreeMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(manageDegreeMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         adminUILayout.setVerticalGroup(
             adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,6 +228,8 @@ public class AdminUI extends JFrame {
                 .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(manageDegreeMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(manageDegreeLinksMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(manageModuleMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,7 +240,6 @@ public class AdminUI extends JFrame {
                 .addComponent(logOffButton)
                 .addContainerGap())
         );
-
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
