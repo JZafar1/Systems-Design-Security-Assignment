@@ -9,14 +9,13 @@ public abstract class Menu extends JPanel {
 
     private AdminUI adminUI;
     protected JButton backButton;
+    private ActionListener backButtonActionListener;
 
     public Menu(AdminUI adminUI) {
 
         this.adminUI = adminUI;
 
-        backButton = new JButton();
-        backButton.setText("Back");
-        backButton.addActionListener(new ActionListener() {
+        setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 hideMenu();
             }
@@ -27,6 +26,14 @@ public abstract class Menu extends JPanel {
     private void hideMenu() {
         setVisible(false);
         adminUI.getMainMenu().setVisible(true);
+    }
+    public void setBackButtonActionListener(ActionListener actionListener) {
+        backButton = new JButton();
+        backButton.setText("Back");
+        backButton.addActionListener(actionListener);
+    }
+    public AdminUI getAdminUI() {
+        return adminUI;
     }
     protected abstract void placeComponents();
 }

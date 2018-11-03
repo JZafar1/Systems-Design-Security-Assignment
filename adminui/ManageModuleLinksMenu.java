@@ -6,6 +6,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManageModuleLinksMenu extends Menu {
 
@@ -31,7 +33,7 @@ public class ManageModuleLinksMenu extends Menu {
     }
 
     private JButton addModuleLinkButton;
-    private JButton backButton;
+    private JButton removeModuleLinkButton;
     private JLabel selectModuleLabel;
     private JLabel degreeTableLabel;
     private JComboBox<String> moduleSelector;
@@ -42,18 +44,28 @@ public class ManageModuleLinksMenu extends Menu {
         super(adminUI);
 
         addModuleLinkButton = new JButton();
-        backButton = new JButton();
+        removeModuleLinkButton = new JButton();
         selectModuleLabel = new JLabel();
         degreeTableLabel = new JLabel();
         moduleSelector = new JComboBox<>();
         degreeSelectorTable = new DegreeTable();
 
+        setBackButtonActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                setVisible(false);
+                getAdminUI().getModuleMenu().setVisible(true);
+            }
+        });
+
         addModuleLinkButton.setText("Add Module Link");
-        backButton.setText("Remove Module Link");
+        removeModuleLinkButton.setText("Remove Module Link");
         selectModuleLabel.setText("Select Module: ");
         degreeTableLabel.setText("Select Degree(s) to add from table: ");
         moduleSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", 
                                                                                         "Item 3", "Item 4" }));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), 
+                                                                "Manage Modules Links", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, 
+                                                                    javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
         placeComponents();
     }
     protected void placeComponents() {
@@ -73,13 +85,13 @@ public class ManageModuleLinksMenu extends Menu {
                     .addGroup(manageModuleLinksMenuLayout.createSequentialGroup()
                         .addComponent(addModuleLinkButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(backButton)
+                        .addComponent(removeModuleLinkButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(backButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        manageModuleLinksMenuLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addModuleLinkButton, backButton});
+        manageModuleLinksMenuLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addModuleLinkButton, backButton, removeModuleLinkButton});
 
         manageModuleLinksMenuLayout.setVerticalGroup(
             manageModuleLinksMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,7 +108,7 @@ public class ManageModuleLinksMenu extends Menu {
                 .addGroup(manageModuleLinksMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton)
                     .addComponent(addModuleLinkButton)
-                    .addComponent(backButton))
+                    .addComponent(removeModuleLinkButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }

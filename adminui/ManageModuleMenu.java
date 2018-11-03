@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.event.*;
 
 public class ManageModuleMenu extends Menu {
 
@@ -35,7 +36,13 @@ public class ManageModuleMenu extends Menu {
                                         "Software Engineering", "English", "Maths" }));
         addModuleButton.setText("Add Module");
         removeModuleButton.setText("Remove Module");
+
         manageModuleLinks.setText("Manage Module Links");
+        manageModuleLinks.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showModuleLinkMenu();
+            }
+        });
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                         "Manage Modules", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
@@ -43,7 +50,8 @@ public class ManageModuleMenu extends Menu {
         placeComponents();
     }
     private void showModuleLinkMenu() {
-
+        getAdminUI().getModuleLinkMenu().setVisible(true);
+        getAdminUI().getModuleMenu().setVisible(false);
     }
     protected void placeComponents() {
         javax.swing.GroupLayout manageModuleMenuLayout = new javax.swing.GroupLayout(this);

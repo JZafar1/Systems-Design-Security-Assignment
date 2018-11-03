@@ -93,6 +93,12 @@ public class AdminUI extends JFrame {
     public JPanel getMainMenu() {
         return adminMainMenu;
     }
+    public JPanel getModuleMenu() {
+        return manageModuleMenu;
+    }
+    public JPanel getModuleLinkMenu() {
+        return manageModuleLinksMenu;
+    }
 
     public static void main(String[] args) {
 
