@@ -2,6 +2,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - AdminWindow",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "AdminWindow",
+            "args": ""
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - AdminUI",
             "request": "launch",
             "cwd": "${workspaceFolder}",
