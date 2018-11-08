@@ -1,3 +1,4 @@
+package src.ui.login;
 public class Login extends javax.swing.JFrame {
 
     public Login() {
@@ -26,10 +27,6 @@ public class Login extends javax.swing.JFrame {
         loginLabel.setForeground(new java.awt.Color(153, 153, 153));
         loginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loginLabel.setText("login ");
-
-        username.setText("jFormattedTextField1");
-
-        password.setText("jPasswordField1");
 
         emailLabel.setForeground(new java.awt.Color(153, 153, 153));
         emailLabel.setText("Email");
