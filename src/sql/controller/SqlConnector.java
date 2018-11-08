@@ -2,7 +2,6 @@ package src.sql.controller;
 
 import java.sql.*;
 import java.util.*;
-
 public class SqlConnector {
 
     public static void sqlInsert(Connection con) throws SQLException{
@@ -27,7 +26,7 @@ public class SqlConnector {
 
             while (result.next()) {
                 String id = result.getString(1);
-                String name = result.getString(2);
+                String name = result    .getString(2);
                 System.out.println("ID : " + id + " | Name : " + name);
             }
             result.close();
