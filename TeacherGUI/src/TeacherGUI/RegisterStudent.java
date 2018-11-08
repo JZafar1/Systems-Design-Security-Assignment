@@ -1,4 +1,4 @@
-//package teacherui;
+package TeacherGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class RegisterStudent extends Menu{
     private javax.swing.JButton register;
 
 
-    public RegisterStudent (TeacherGUI teaherui) {
+    public RegisterStudent (TeacherGUI teacherui) {
         super(teacherui);
         setVisible(true);
         initComponents();
@@ -33,7 +33,7 @@ public class RegisterStudent extends Menu{
         finalResult.setEditable(false);
         register = new javax.swing.JButton();
         register.setText("Register Student");
-        submit.addActionListener(new ActionListener() {
+        register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 registerNewStudent();
             }
@@ -45,7 +45,7 @@ public class RegisterStudent extends Menu{
     }
     public void placeComponents() {
         javax.swing.GroupLayout registerStudentLayout = new javax.swing.GroupLayout(this);
-                registerStudent.setLayout(registerStudentLayout);
+                setLayout(registerStudentLayout);
                 registerStudentLayout.setHorizontalGroup(
                     registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerStudentLayout.createSequentialGroup()

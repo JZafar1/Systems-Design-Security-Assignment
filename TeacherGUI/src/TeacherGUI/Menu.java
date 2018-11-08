@@ -1,4 +1,4 @@
-//package teacherui;
+package TeacherGUI;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
@@ -16,13 +16,13 @@ public abstract class Menu extends JPanel {
 
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                hideMenu();
+                //hideMenu();
             }
         });
 
         setVisible(false);
     }
-    private void hideMenu() {
+    public void hideMenu() {
         setVisible(false);
         teacherUI.getMainMenu().setVisible(true);
     }

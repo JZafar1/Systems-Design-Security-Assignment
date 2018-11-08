@@ -1,4 +1,4 @@
-//package teacherui;
+package TeacherGUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -52,7 +52,7 @@ public class EditGrades extends Menu {
 
     public void placeComponents() {
         javax.swing.GroupLayout editGradeLayout = new javax.swing.GroupLayout(this);
-        editGrade.setLayout(editGradeLayout);
+        setLayout(editGradeLayout);
         editGradeLayout.setHorizontalGroup(
             editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editGradeLayout.createSequentialGroup()

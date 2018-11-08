@@ -1,7 +1,8 @@
-package teacherui;
+package TeacherGUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class TeacherMainMenu extends Menu {
     private javax.swing.JLabel searchLabel;
@@ -14,7 +15,7 @@ public class TeacherMainMenu extends Menu {
     private javax.swing.JButton registerStudent;
     private javax.swing.JButton viewResults;
 
-    public TeacherMainMenu (TeacherGUI teaherui) {
+    public TeacherMainMenu (TeacherGUI teacherui) {
         super(teacherui);
         setVisible(true);
         initComponents();
@@ -25,7 +26,7 @@ public class TeacherMainMenu extends Menu {
         searchLabel = new JLabel();
         searchLabel.setText("Search for student");
         searchQuery = new JTextField();
-        displayResults = new jTextField();
+        displayResults = new JTextField();
         currentlySelectedLabel = new JLabel();
         currentlySelectedLabel.setText("Current Student");
         currentlySelected = new JTextField();
@@ -44,7 +45,7 @@ public class TeacherMainMenu extends Menu {
         editGrades.setText("Search");
         editGrades.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                eidtGradesMenu();
+                editGradesMenu();
             }
         });
         registerStudent.setText("Search");
@@ -75,7 +76,7 @@ public class TeacherMainMenu extends Menu {
 
     public void placeComponents() {
         javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(this);
-        mainMenu.setLayout(mainMenuLayout);
+        setLayout(mainMenuLayout);
         mainMenuLayout.setHorizontalGroup(
             mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMenuLayout.createSequentialGroup()
