@@ -10,19 +10,19 @@ public abstract class Menu extends JPanel {
     protected JButton backButton;
     private ActionListener backButtonActionListener;
 
-    public Menu(TeacherGUI teacherUI) {
+    public Menu(JFrame teacherUI) {
 
         this.teacherUI = teacherUI;
 
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                hideMenu();
+                //hideMenu();
             }
         });
 
         setVisible(false);
     }
-    private void hideMenu() {
+    public void hideMenu() {
         setVisible(false);
         teacherUI.getMainMenu().setVisible(true);
     }

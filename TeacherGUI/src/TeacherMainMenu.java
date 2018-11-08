@@ -2,6 +2,7 @@ package teacherui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class TeacherMainMenu extends Menu {
     private javax.swing.JLabel searchLabel;
@@ -25,7 +26,7 @@ public class TeacherMainMenu extends Menu {
         searchLabel = new JLabel();
         searchLabel.setText("Search for student");
         searchQuery = new JTextField();
-        displayResults = new jTextField();
+        displayResults = new JTextField();
         currentlySelectedLabel = new JLabel();
         currentlySelectedLabel.setText("Current Student");
         currentlySelected = new JTextField();
@@ -44,7 +45,7 @@ public class TeacherMainMenu extends Menu {
         editGrades.setText("Search");
         editGrades.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                eidtGradesMenu();
+                editGradesMenu();
             }
         });
         registerStudent.setText("Search");
