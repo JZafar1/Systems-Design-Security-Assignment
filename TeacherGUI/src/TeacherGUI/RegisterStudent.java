@@ -1,4 +1,4 @@
-//package teacherui;
+package TeacherGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +45,7 @@ public class RegisterStudent extends Menu{
     }
     public void placeComponents() {
         javax.swing.GroupLayout registerStudentLayout = new javax.swing.GroupLayout(this);
-                registerStudent.setLayout(registerStudentLayout);
+                setLayout(registerStudentLayout);
                 registerStudentLayout.setHorizontalGroup(
                     registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerStudentLayout.createSequentialGroup()

@@ -1,4 +1,4 @@
-//package teacherui;
+package TeacherGUI;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,7 @@ public abstract class Menu extends JPanel {
     protected JButton backButton;
     private ActionListener backButtonActionListener;
 
-    public Menu(JFrame teacherUI) {
+    public Menu(TeacherGUI teacherUI) {
 
         this.teacherUI = teacherUI;
 

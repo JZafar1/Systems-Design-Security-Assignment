@@ -1,4 +1,4 @@
-//package teacherui;
+package TeacherGUI;
 
 import javax.swing.*;
 import java.awt.*;

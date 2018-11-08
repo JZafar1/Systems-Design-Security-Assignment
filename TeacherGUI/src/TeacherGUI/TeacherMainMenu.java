@@ -1,4 +1,4 @@
-package teacherui;
+package TeacherGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class TeacherMainMenu extends Menu {
     private javax.swing.JButton registerStudent;
     private javax.swing.JButton viewResults;
 
-    public TeacherMainMenu (TeacherGUI teaherui) {
+    public TeacherMainMenu (TeacherGUI teacherui) {
         super(teacherui);
         setVisible(true);
         initComponents();
@@ -76,7 +76,7 @@ public class TeacherMainMenu extends Menu {
 
     public void placeComponents() {
         javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(this);
-        mainMenu.setLayout(mainMenuLayout);
+        setLayout(mainMenuLayout);
         mainMenuLayout.setHorizontalGroup(
             mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMenuLayout.createSequentialGroup()
