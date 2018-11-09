@@ -11,6 +11,8 @@ public class RegisterStudent extends Menu{
     private javax.swing.JTextField weightedMean;
     private javax.swing.JTextField finalResult;
     private javax.swing.JButton register;
+    private javax.swing.JButton exitButton2;
+
 
 
     public RegisterStudent (TeacherGUI teacherui) {
@@ -38,6 +40,15 @@ public class RegisterStudent extends Menu{
                 registerNewStudent();
             }
         });
+
+        exitButton2 = new javax.swing.JButton();
+        exitButton2.setText("Back");
+        exitButton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                getTeacherUI().getMainMenu().setVisible(true);
+            }
+        });
     }
 
     public void registerNewStudent() {
@@ -45,46 +56,51 @@ public class RegisterStudent extends Menu{
     }
     protected void placeComponents() {
         javax.swing.GroupLayout registerStudentLayout = new javax.swing.GroupLayout(this);
-                setLayout(registerStudentLayout);
-                registerStudentLayout.setHorizontalGroup(
-                    registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        setLayout(registerStudentLayout);
+        registerStudentLayout.setHorizontalGroup(
+            registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(registerStudentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerStudentLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(registerStudentLayout.createSequentialGroup()
                                 .addComponent(finalResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
-                                .addComponent(register))
-                            .addGroup(registerStudentLayout.createSequentialGroup()
-                                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(registerTitle)
-                                    .addGroup(registerStudentLayout.createSequentialGroup()
-                                        .addComponent(weightedMeanLabel)
-                                        .addGap(34, 34, 34)
-                                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(weightedMean, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                                            .addComponent(finalResult))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                );
-                registerStudentLayout.setVerticalGroup(
-                    registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(0, 101, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerStudentLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(exitButton2)))
+                        .addGap(28, 28, 28)
+                        .addComponent(register))
                     .addGroup(registerStudentLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(registerTitle)
-                        .addGap(18, 18, 18)
-                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(weightedMeanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(weightedMean))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(finalResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(finalResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(38, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerStudentLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(register)
-                        .addContainerGap())
-                );
+                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(registerTitle)
+                            .addGroup(registerStudentLayout.createSequentialGroup()
+                                .addComponent(weightedMeanLabel)
+                                .addGap(34, 34, 34)
+                                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(weightedMean, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                                    .addComponent(finalResult))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        registerStudentLayout.setVerticalGroup(
+            registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(registerStudentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(registerTitle)
+                .addGap(18, 18, 18)
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(weightedMeanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(weightedMean))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(finalResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(finalResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exitButton2)
+                    .addComponent(register, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+);
+
     }
 }

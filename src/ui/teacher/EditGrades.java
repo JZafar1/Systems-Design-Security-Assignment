@@ -11,6 +11,7 @@ public class EditGrades extends Menu {
     private javax.swing.JTextField currentGrade;
     private javax.swing.JTextField newGrade;
     private javax.swing.JButton submit;
+    private javax.swing.JButton exitButton1;
     private javax.swing.JComboBox<String> moduleList;
 
     public EditGrades (TeacherGUI teacherui) {
@@ -34,13 +35,21 @@ public class EditGrades extends Menu {
         newGradeLabel.setText("Enter new grade");
         newGrade = new JTextField();
         submit = new JButton();
-
+        exitButton1 = new JButton();
         moduleList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Temp" })); //List to be generated from DB
 
         submit.setText("Save Changes");
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 commitChange();
+            }
+        });
+
+        exitButton1.setText("Back");
+        exitButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                getTeacherUI().getMainMenu().setVisible(true);
             }
         });
     }
@@ -57,6 +66,8 @@ public class EditGrades extends Menu {
             editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editGradeLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(exitButton1)
+                .addGap(18, 18, 18)
                 .addComponent(submit))
             .addGroup(editGradeLayout.createSequentialGroup()
                 .addContainerGap()
@@ -95,7 +106,9 @@ public class EditGrades extends Menu {
                         .addComponent(newGradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(submit))
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submit)
+                    .addComponent(exitButton1)))
         );
     }
 }
