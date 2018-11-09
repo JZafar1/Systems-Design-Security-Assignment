@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ManageModuleMenu extends Menu {
 
@@ -48,6 +51,22 @@ public class ManageModuleMenu extends Menu {
                         "Manage Modules", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
         placeComponents();
+        
+        addModuleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                String name = moduleNameField.getText();
+                String leadDepartment = (String)departmentComboBox.getSelectedItem();
+                String command = "INSERT INTO Module VALUES (module123," + name +");";
+                
+                try {
+                    databaseConnection.makeAnUpdate(command);   
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
     }
     private void showModuleLinkMenu() {
         getAdminUI().getModuleLinkMenu().setVisible(true);
