@@ -22,7 +22,8 @@ public class TeacherGUI extends JPanel {
         registerStudent = new RegisterStudent(this);
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
-
+        editGrades.setVisible(false);
+        registerStudent.setVisible(false);
         /*setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Administrator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
@@ -49,7 +50,7 @@ public class TeacherGUI extends JPanel {
     }
 
 
-    private void placeComponents() {
+    protected void placeComponents() {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(

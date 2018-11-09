@@ -50,7 +50,7 @@ public class EditGrades extends Menu {
         return false;
     }
 
-    public void placeComponents() {
+    protected void placeComponents() {
         javax.swing.GroupLayout editGradeLayout = new javax.swing.GroupLayout(this);
         setLayout(editGradeLayout);
         editGradeLayout.setHorizontalGroup(

@@ -43,7 +43,7 @@ public class RegisterStudent extends Menu{
     public void registerNewStudent() {
 
     }
-    public void placeComponents() {
+    protected void placeComponents() {
         javax.swing.GroupLayout registerStudentLayout = new javax.swing.GroupLayout(this);
                 setLayout(registerStudentLayout);
                 registerStudentLayout.setHorizontalGroup(

@@ -22,7 +22,7 @@ public class TeacherMainMenu extends Menu {
         placeComponents();
     }
 
-    public void initComponents() {
+    private void initComponents() {
         searchLabel = new JLabel();
         searchLabel.setText("Search for student");
         searchQuery = new JTextField();
@@ -42,39 +42,42 @@ public class TeacherMainMenu extends Menu {
                 //Query DB
             }
         });
-        editGrades.setText("Search");
+        editGrades.setText("Add or Update Grades");
         editGrades.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 editGradesMenu();
             }
         });
-        registerStudent.setText("Search");
+        registerStudent.setText("Register student for next period of study");
         registerStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 registerStudentMenu();
             }
         });
-        viewResults.setText("Search");
+        viewResults.setText("View student results & information");
         viewResults.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                viewResultsMenu();
+                viewStudentInfo();
             }
         });
     }
 
-    public void editGradesMenu() {
-
+    private void editGradesMenu() {
+        setVisible(false);
+        getTeacherUI().getEditGrade().setVisible(true);
     }
 
-    public void registerStudentMenu() {
-
+    private void registerStudentMenu() {
+        setVisible(false);
+        getTeacherUI().getRegisterStudent().setVisible(true);
     }
 
-    public void viewResultsMenu() {
-
+    private void viewStudentInfo() {
+        setVisible(false);
+        getTeacherUI().getStudentInfo().setVisible(true);
     }
 
-    public void placeComponents() {
+    protected void placeComponents() {
         javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(this);
         setLayout(mainMenuLayout);
         mainMenuLayout.setHorizontalGroup(
