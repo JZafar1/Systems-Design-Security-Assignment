@@ -1,5 +1,10 @@
 package src.ui.admin;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -29,6 +34,21 @@ public class ManageDepartmentMenu extends Menu {
                         "Manage Departments", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
         placeComponents();
+        
+        addDepartmentButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                String name = departmentNameField.getText();
+                String command = "INSERT INTO Department VALUES (COM123," + name +");";
+                
+                try {
+                    databaseConnection.makeAnUpdate(command);   
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
     }
 
     protected void placeComponents() {

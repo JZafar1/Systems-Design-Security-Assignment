@@ -8,6 +8,9 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ManageDegreeMenu extends Menu {
 
@@ -60,6 +63,24 @@ public class ManageDegreeMenu extends Menu {
                         "Manage Degrees", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
         placeComponents();
+        
+        addDegreeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                String name = degreeNameField.getText();
+                String levelOfStudy = (String)levelOfStudyDropDown.getSelectedItem();
+                String yearPlacement = (String)yearPlacementDropDown .getSelectedItem();
+                String command = "INSERT INTO Degree VALUES (COM1003," + name + "," + yearPlacement + "," + levelOfStudy + ");";
+                
+                try {
+                    databaseConnection.makeAnUpdate(command);   
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+        
     }
     private void showDegreeLinkMenu() {
         getAdminUI().getDegreeLinkMenu().setVisible(true);

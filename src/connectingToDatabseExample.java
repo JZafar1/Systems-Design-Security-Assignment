@@ -44,6 +44,10 @@ public class connectingToDatabseExample {
         }
         finally {
             if (con != null) con.close();
-        } 
+        }
+
+
+        
     }
+    
 }
