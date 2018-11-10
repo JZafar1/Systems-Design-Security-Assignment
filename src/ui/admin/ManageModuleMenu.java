@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import src.sql.controller.*;
 
 public class ManageModuleMenu extends Menu {
 
@@ -54,17 +55,7 @@ public class ManageModuleMenu extends Menu {
         
         addModuleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-                String name = moduleNameField.getText();
-                String leadDepartment = (String)departmentComboBox.getSelectedItem();
-                String command = "INSERT INTO Module VALUES (module123," + name +");";
-                
-                try {
-                    databaseConnection.makeAnUpdate(command);   
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+                AdminController.addModule(moduleNameField.getText());
             }
         });
     }
