@@ -37,6 +37,23 @@ public class AdminController{
         databaseModel.insertIntoDatabase("Users",values);
         
     }
+
+    public void addDegree(String name, String leadDepartment, String level, String placement) {
+
+        String serialNumber = "03";
+        String degreeCode = leadDepartment + "U" + serialNumber;
+        String values = "('" + degreeCode + "','" + name + "','" + placement + "','" + level + "')";
+
+        databaseModel.insertIntoDatabase("Degree", values);
+
+    }
+
+    public void addModule(String name) {
+
+        String values = "('code1','" + name + "')";
+
+        databaseModel.insertIntoDatabase("Module", values);
+    }
     
     private String generatePassword(int length){
         

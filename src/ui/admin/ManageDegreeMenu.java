@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import src.sql.controller.*;
 
 public class ManageDegreeMenu extends Menu {
 
@@ -25,6 +26,7 @@ public class ManageDegreeMenu extends Menu {
     private JButton addDegreeButton;
     private JButton removeDegreeButton;
     private JButton manageDegreeLinksButton;
+    private AdminController controller;
 
     public ManageDegreeMenu(AdminUI adminUI) {
 
@@ -41,6 +43,8 @@ public class ManageDegreeMenu extends Menu {
         addDegreeButton = new JButton();
         removeDegreeButton = new JButton();
         manageDegreeLinksButton = new JButton();
+
+        controller = new AdminController();
 
         degreeNameLabel.setText("Degree Name: ");
         leadDepartmentLabel.setText("Lead Department: ");
@@ -66,18 +70,7 @@ public class ManageDegreeMenu extends Menu {
         
         addDegreeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-                String name = degreeNameField.getText();
-                String levelOfStudy = (String)levelOfStudyDropDown.getSelectedItem();
-                String yearPlacement = (String)yearPlacementDropDown .getSelectedItem();
-                String command = "INSERT INTO Degree VALUES (COM1003," + name + "," + yearPlacement + "," + levelOfStudy + ");";
-                
-                try {
-                    databaseConnection.makeAnUpdate(command);   
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+                controller.addDegree(degreeNameField.getText(), (String)leadDepartmentDropDown.getSelectedItem(), (String)levelOfStudyDropDown.getSelectedItem() ,(String)yearPlacementDropDown .getSelectedItem());
             }
         });
         
