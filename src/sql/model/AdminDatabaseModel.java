@@ -8,20 +8,6 @@ public class AdminDatabaseModel extends DatabaseModel {
 
     public AdminDatabaseModel() {}
     
-    public void insertIntoDatabase(String table, String values) throws SQLException {
-        openConnection();
-        openStatement();
-        try {
-            int count = getStatement().executeUpdate("INSERT INTO " + table + " VALUES " + values + ";");
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            closeStatement();
-            closeConnection();
-        }
-    }
     public ArrayList<Department> getDepartments(String values) throws SQLException {
         openConnection();
         openStatement();

@@ -19,7 +19,7 @@ public class SqlConnector {
 
     public static void sqlQuery(Connection con) throws SQLException{
 
-        String sqlQuery = "SELECT * FROM Department;";
+        String sqlQuery = "SELECT * FROM Users;";
         try (Statement stmt = con.createStatement()) {
 
             ResultSet result = stmt.executeQuery(sqlQuery);

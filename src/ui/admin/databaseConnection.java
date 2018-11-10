@@ -37,7 +37,6 @@ public class databaseConnection {
 
                 statement = con.createStatement();
                 int countRowsUpdated = statement.executeUpdate(command);
-                con.commit();
 
             }
             catch(SQLException exception){

@@ -2,13 +2,10 @@ package src.ui.admin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import src.sql.controller.*;
 
 public class ManageDepartmentMenu extends Menu {
 
@@ -25,6 +22,7 @@ public class ManageDepartmentMenu extends Menu {
         departmentNameField = new JTextField();
         addDepartmentButton = new JButton();
         removeDepartmentButton = new JButton();
+        
 
         departmentNameLabel.setText("Department Name: ");
         addDepartmentButton.setText("Add Department");
@@ -37,16 +35,7 @@ public class ManageDepartmentMenu extends Menu {
         
         addDepartmentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-                String name = departmentNameField.getText();
-                String command = "INSERT INTO Department VALUES (COM123," + name +");";
-                
-                try {
-                    databaseConnection.makeAnUpdate(command);   
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+                AdminController.addDepartment(departmentNameField.getText());
             }
         });
     }

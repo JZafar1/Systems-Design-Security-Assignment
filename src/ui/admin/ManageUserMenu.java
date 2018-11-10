@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import src.sql.controller.*;
 
 public class ManageUserMenu extends Menu {
 
@@ -46,16 +47,7 @@ public class ManageUserMenu extends Menu {
         addUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-                String name = forenameField.getText();
-                String surname = surnameField.getText();
-                String role = (String)roleSelector.getSelectedItem();
-                String command = "INSERT INTO Users VALUES (" + name + ",test1234," + role + ",email@gmail.com," + surname + ",Mrs.);";
-                
-                try {
-                    databaseConnection.makeAnUpdate(command);   
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManageUserMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                AdminController.addUser(forenameField.getText(),surnameField.getText(),(String)roleSelector.getSelectedItem());
                 
             }
         });
