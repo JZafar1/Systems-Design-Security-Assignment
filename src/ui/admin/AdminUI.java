@@ -12,7 +12,7 @@ public class AdminUI extends JPanel {
     private JPanel manageModuleMenu;
     private JPanel manageModuleLinksMenu;
     private JPanel manageDegreeLinksMenu;
-    private JScrollPane databaseScrollPane;
+    private JScrollPane databaseView;
     private JButton logOffButton;
 
     public AdminUI() {
@@ -32,7 +32,7 @@ public class AdminUI extends JPanel {
         manageModuleMenu = new ManageModuleMenu(this);
         manageModuleLinksMenu = new ManageModuleLinksMenu(this);
         manageDegreeLinksMenu = new ManageDegreeLinksMenu(this);
-        databaseScrollPane = new DatabaseScrollPane(this);
+        databaseView = new DatabaseView(this);
 
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
@@ -66,6 +66,9 @@ public class AdminUI extends JPanel {
     public JPanel getModuleLinkMenu() {
         return manageModuleLinksMenu;
     }
+    public JScrollPane getDatabaseView() {
+        return databaseView;
+    }
 
     private void placeComponents() {
 
@@ -82,7 +85,7 @@ public class AdminUI extends JPanel {
                         .addGroup(adminUILayout.createSequentialGroup()
                             .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(manageDegreeLinksMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(databaseScrollPane)
+                                .addComponent(databaseView)
                                 .addComponent(manageModuleMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(manageUserMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -109,7 +112,7 @@ public class AdminUI extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(databaseScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(databaseView, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logOffButton)
                 .addContainerGap())

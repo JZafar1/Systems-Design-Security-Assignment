@@ -34,6 +34,13 @@ public class AdminMainMenu extends Menu {
         databaseSelectorLabel.setText("Choose infomation to show:");
         databaseSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User Accounts (Staff)", 
             "User Accounts (Students)", "Departments", "Degrees", "Modules" }));
+        /*databaseSelector.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JComboBox sourceComboBox = (JComboBox) e.getSource();
+                String selectedString = (String) databaseSelector.getSelectedItem();
+                getAdminUI().getDatabaseView().switchDatabase(selectedString);
+            }
+        });*/
 
         //initialise JButtons for UI
         manageUserAccountsButton.setText("Manage User Accounts");

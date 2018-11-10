@@ -13,6 +13,7 @@ public class ManageDepartmentMenu extends Menu {
     private JTextField departmentNameField;
     private JButton addDepartmentButton;
     private JButton removeDepartmentButton;
+    private AdminController controller;
 
     public ManageDepartmentMenu(AdminUI adminUI) {
 
@@ -23,6 +24,7 @@ public class ManageDepartmentMenu extends Menu {
         addDepartmentButton = new JButton();
         removeDepartmentButton = new JButton();
         
+        controller = new AdminController();
 
         departmentNameLabel.setText("Department Name: ");
         addDepartmentButton.setText("Add Department");
@@ -35,7 +37,7 @@ public class ManageDepartmentMenu extends Menu {
         
         addDepartmentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AdminController.addDepartment(departmentNameField.getText());
+                controller.addDepartment(departmentNameField.getText());
             }
         });
     }

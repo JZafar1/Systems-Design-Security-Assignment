@@ -1,0 +1,18 @@
+package src.sql.controller;
+
+import src.sql.model.AdminDatabaseModel;
+import src.sql.tables.*;
+
+public class DatabaseViewController {
+
+    private AdminDatabaseModel databaseModel;
+
+    public DatabaseViewController() {
+        databaseModel = new AdminDatabaseModel();
+    }
+
+    public Object[][] getDepartments() {
+        Departments departments = databaseModel.getDepartments("*");
+        return departments.getDepartmentTable();
+    }
+}

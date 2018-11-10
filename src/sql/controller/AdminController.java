@@ -9,17 +9,23 @@ import src.sql.model.*;
 
 
 public class AdminController{
+
+    private AdminDatabaseModel databaseModel;
+
+    public AdminController() {
+        databaseModel = new AdminDatabaseModel();
+    }
     
-    public static void addDepartment(String name){
+    public void addDepartment(String name){
         
         String departmentCode = name.substring(0,3);
         String values = "('" + departmentCode + "','"  + name + "')";
         
-        DatabaseModel.insertIntoDatabase("Department",values);
+        databaseModel.insertIntoDatabase("Department",values);
                 
     }
     
-    public static void addUser(String name, String surname, String role){
+    public void addUser(String name, String surname, String role){
         
         int count = 1;
         String username = name + surname + count;
@@ -28,11 +34,11 @@ public class AdminController{
         String title = "Mr.";
         String values = "('" + username + "','" + password + "','"  + role + "','" + email + "','" + name + "','" + title + "','" + surname + "')";
         
-        DatabaseModel.insertIntoDatabase("Users",values);
+        databaseModel.insertIntoDatabase("Users",values);
         
     }
     
-    private static String generatePassword(int length){
+    private String generatePassword(int length){
         
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         String password = "";

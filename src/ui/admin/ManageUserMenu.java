@@ -18,6 +18,7 @@ public class ManageUserMenu extends Menu {
     private JComboBox<String> roleSelector;
     private JButton addUserButton;
     private JButton removeUserButton;
+    private AdminController controller;
 
     public ManageUserMenu(AdminUI adminUI) {
 
@@ -31,6 +32,8 @@ public class ManageUserMenu extends Menu {
         roleSelector = new JComboBox<>();
         addUserButton = new JButton();
         removeUserButton = new JButton();
+
+        controller = new AdminController();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                         "Manage User Accounts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
@@ -47,7 +50,7 @@ public class ManageUserMenu extends Menu {
         addUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-                AdminController.addUser(forenameField.getText(),surnameField.getText(),(String)roleSelector.getSelectedItem());
+                controller.addUser(forenameField.getText(),surnameField.getText(),(String)roleSelector.getSelectedItem());
                 
             }
         });

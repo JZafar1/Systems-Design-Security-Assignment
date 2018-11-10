@@ -7,71 +7,58 @@ import java.util.logging.Logger;
 
 public abstract class DatabaseModel {
 
-    private static Connection connection;
-    private static Statement statement;
-    private static ResultSet resultSet;
+    private Connection connection;
+    private Statement statement;
+    private ResultSet resultSet;
     
-    public static void insertIntoDatabase(String table, String values){
-        
+    public void insertIntoDatabase(String table, String values) {
+        initConnection();
+        initStatement();
         try {
-            openConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            openStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            int count = getStatement().executeUpdate("INSERT INTO " + table + " VALUES " + values + ";");
+            try {
+                openConnection();
+                openStatement();
+                int count = getStatement().executeUpdate("INSERT INTO " + table + " VALUES " + values + ";");
+            }
+            finally {
+                closeStatement();
+                closeConnection();
+            }
         }
         catch (SQLException ex) {
             ex.printStackTrace();
         }
-        finally {
-            try {
-                closeStatement();
-            } catch (SQLException ex) {
-                Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                closeConnection();
-            } catch (SQLException ex) {
-                Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
-    protected static void openConnection() throws SQLException {
+    protected void initConnection() {connection = null;}
+    protected void openConnection() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team046", "team046", "cbe569aa");
     }
-    protected static void closeConnection() throws SQLException {
+    protected void closeConnection() throws SQLException {
         if (connection != null) {
             connection.close();
         }
     }
-    protected static void openStatement() throws SQLException { 
-        statement = connection.createStatement(); 
-    }
-    protected static void closeStatement() throws SQLException {
+    
+    protected void initStatement() { statement = null; }
+    protected void openStatement() throws SQLException { statement = connection.createStatement(); }
+    protected void closeStatement() throws SQLException {
         if (statement != null) {
             statement.close();
         }
     }
-    protected static void openResultQuery(String query) throws SQLException {
+    protected void openResultQuery(String query) throws SQLException{
         resultSet = getStatement().executeQuery(query); 
     }
-    protected static void closeResultQuery() throws SQLException {
+    protected void closeResultQuery() throws SQLException {
         if (resultSet != null) {
             resultSet.close();
         }
     }
-    protected static ResultSet getResult() { 
+    protected ResultSet getResult() { 
         return resultSet; 
     }
-    protected static Statement getStatement() {
+    protected Statement getStatement() {
         if (statement != null) {
             return statement;
         } else {
