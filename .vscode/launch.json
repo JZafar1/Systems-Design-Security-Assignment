@@ -2,6 +2,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - TeacherWindow",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "TeacherGUI.TeacherWindow",
+            "args": ""
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - AdminWindow",
             "request": "launch",
             "cwd": "${workspaceFolder}",
