@@ -7,6 +7,7 @@ public abstract DatabaseModel {
 
     Connection con;
     Statement stmt;
+    ResultSet resultSet;
 
     public DatabaseModel() {}
 
@@ -18,14 +19,19 @@ public abstract DatabaseModel {
             con.close();
         }
     }
-    protected void openStatement() {
-        stmt = con.createStatment();
-    }
+    protected void openStatement() { stmt = con.createStatment(); }
     protected void closeStatement() {
         if (stmt != null) {
             stmt.close();
         }
     }
+    protected void openResultQuery(String query) {resultSet = getStatement().exceuteQuery(query); }
+    protected void closeResultQuery() {
+        if (resultSet != null) {
+            resultSet.close();
+        }
+    }
+    protected ResultSet getResult() { return resultSet; }
     protected Statement getStatement() {
         if (stmt != null) {
             return stmt;

@@ -1,4 +1,4 @@
-package src.sql.model;
+package src.sql.tables;
 
 public class Department {
     String code;
