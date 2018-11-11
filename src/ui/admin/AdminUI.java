@@ -1,4 +1,6 @@
 package src.ui.admin;
+
+import src.ui.database.DatabaseView;;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +14,7 @@ public class AdminUI extends JPanel {
     private JPanel manageModuleMenu;
     private JPanel manageModuleLinksMenu;
     private JPanel manageDegreeLinksMenu;
-    private JScrollPane databaseView;
+    private DatabaseView databaseView;
     private JButton logOffButton;
 
     public AdminUI() {
@@ -33,6 +35,8 @@ public class AdminUI extends JPanel {
         manageModuleLinksMenu = new ManageModuleLinksMenu(this);
         manageDegreeLinksMenu = new ManageDegreeLinksMenu(this);
         databaseView = new DatabaseView(this);
+
+        databaseView.showUsers();
 
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
@@ -66,7 +70,7 @@ public class AdminUI extends JPanel {
     public JPanel getModuleLinkMenu() {
         return manageModuleLinksMenu;
     }
-    public JScrollPane getDatabaseView() {
+    public DatabaseView getDatabaseView() {
         return databaseView;
     }
 

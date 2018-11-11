@@ -34,10 +34,10 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return departments;
     }
-    public ArrayList<Degree> getDegrees(String values) {
+    public Degrees getDegrees(String values) {
         initConnection();
         initStatement();
-        ArrayList<Degree> degreeList = new ArrayList<Degree>();
+        Degrees degrees = new Degrees();
         try {
             try {
                 openConnection();
@@ -48,8 +48,7 @@ public class AdminDatabaseModel extends DatabaseModel {
                     String name = getResult().getString(2);
                     String yearInIndustry = getResult().getString(3);
                     String levelOfStudy = getResult().getString(4);
-                    Degree degree = new Degree(code, name, yearInIndustry, levelOfStudy);
-                    degreeList.add(degree);
+                    degrees.addRow(code, name, yearInIndustry, levelOfStudy);
                 }
             }
             finally {
@@ -60,12 +59,12 @@ public class AdminDatabaseModel extends DatabaseModel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return degreeList;
+        return degrees;
     }
-    public ArrayList<Module> getModules(String values) {
+    public Modules getModules(String values) {
         initConnection();
         initStatement();
-        ArrayList<Module> moduleList = new ArrayList<Module>();
+        Modules modules = new Modules();
         try {
             try {
                 openConnection();
@@ -74,8 +73,7 @@ public class AdminDatabaseModel extends DatabaseModel {
                 while (getResult().next()) {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);
-                    Module module = new Module(code, name);
-                    moduleList.add(module);
+                    modules.addRow(code, name);
                 }
             }
             finally {
@@ -87,12 +85,12 @@ public class AdminDatabaseModel extends DatabaseModel {
         catch(SQLException ex) {
             ex.printStackTrace();
         }
-        return moduleList;
+        return modules;
     }
-    public ArrayList<User> getUsers(String values, String conditon) {
+    public Users getUsers(String values, String conditon) {
         initConnection();
         initStatement();
-        ArrayList<User> userList = new ArrayList<User>();
+        Users users = new Users();
         try {
             try {
                 openConnection();
@@ -105,8 +103,7 @@ public class AdminDatabaseModel extends DatabaseModel {
                     String forename = getResult().getString(5);
                     String title = getResult().getString(6);
                     String surname = getResult().getString(7);
-                    User user = new User(role, title, forename, surname, username, email);
-                    userList.add(user);
+                    users.addRow(role, title, forename, surname, username, email);
                 }
             }
             finally {
@@ -118,17 +115,17 @@ public class AdminDatabaseModel extends DatabaseModel {
         catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return userList;
+        return users;
     }
-    public ArrayList<Student> getStudents(String values) {
+    public Students getStudents(String values) {
         initConnection();
         initStatement();
-        ArrayList<Student> studentList = new ArrayList<Student>();
+        Students students = new Students();
         try {
             try{
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Student, Users USING (username);");
+                openResultQuery("SELECT " + values + " FROM Student JOIN Users USING (Username);");
                 while (getResult().next()) {
                     String username = getResult().getString(1);
                     String regNum = getResult().getString(2);
@@ -140,9 +137,8 @@ public class AdminDatabaseModel extends DatabaseModel {
                     String forename = getResult().getString(10);
                     String title = getResult().getString(11);
                     String surname = getResult().getString(12);
-                    Student student = new Student(title, forename, surname, username, email,
+                    students.addRow(title, forename, surname, username, email,
                                                     regNum, levelOfStudy, grade, degree, tutor);
-                    studentList.add(student);
                 }
             }
             finally {
@@ -154,6 +150,6 @@ public class AdminDatabaseModel extends DatabaseModel {
         catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return studentList;
+        return students;
     }
 }
