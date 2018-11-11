@@ -25,6 +25,7 @@ public abstract class Menu extends JPanel {
     }
     private void hideMenu() {
         setVisible(false);
+        getAdminUI().getDatabaseView().showUsers();
         adminUI.getMainMenu().setVisible(true);
     }
     public void setBackButtonActionListener(ActionListener actionListener) {

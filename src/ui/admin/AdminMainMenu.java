@@ -73,18 +73,22 @@ public class AdminMainMenu extends Menu {
     }
     private void showManageUserMenu() {
         setVisible(false);
+        getAdminUI().getDatabaseView().showUsers();
         getAdminUI().getUserMenu().setVisible(true);
     }
     private void showManageDepartmentMenu() {
         setVisible(false);
+        getAdminUI().getDatabaseView().showDepartments();
         getAdminUI().getDepartmentMenu().setVisible(true);
     }
     private void showManageDegreeMenu() {
         setVisible(false);
+        getAdminUI().getDatabaseView().showDegrees();
         getAdminUI().getDegreeMenu().setVisible(true);
     }
     private void showManageModuleMenu() {
         setVisible(false);
+        getAdminUI().getDatabaseView().showModules();
         getAdminUI().getModuleMenu().setVisible(true);
     }
     protected void placeComponents() {

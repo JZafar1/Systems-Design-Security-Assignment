@@ -27,6 +27,7 @@ public class AdminUI extends JPanel {
     private void initComponents() {
 
         //initialise JPanels
+        databaseView = new DatabaseView(this);
         adminMainMenu = new AdminMainMenu(this);
         manageUserMenu = new ManageUserMenu(this);
         manageDepartmentMenu = new ManageDepartmentMenu(this);
@@ -34,7 +35,6 @@ public class AdminUI extends JPanel {
         manageModuleMenu = new ManageModuleMenu(this);
         manageModuleLinksMenu = new ManageModuleLinksMenu(this);
         manageDegreeLinksMenu = new ManageDegreeLinksMenu(this);
-        databaseView = new DatabaseView(this);
 
         databaseView.showUsers();
 
