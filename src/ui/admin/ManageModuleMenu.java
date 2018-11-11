@@ -15,7 +15,7 @@ import src.sql.controller.*;
 public class ManageModuleMenu extends Menu {
 
     private JLabel moduleNameLabel;
-    private JLabel leadDegreeLabel;
+    private JLabel leadDepartmentLabel;
     private JTextField moduleNameField;
     private JComboBox<String> departmentComboBox;
     private JButton addModuleButton;
@@ -28,7 +28,7 @@ public class ManageModuleMenu extends Menu {
         super(adminUI);
 
         moduleNameLabel = new JLabel();
-        leadDegreeLabel = new JLabel(); 
+        leadDepartmentLabel = new JLabel(); 
         moduleNameField = new JTextField();
         departmentComboBox = new JComboBox<>();
         addModuleButton = new JButton();
@@ -38,7 +38,7 @@ public class ManageModuleMenu extends Menu {
         controller = new AdminController();
 
         moduleNameLabel.setText("Module Name: ");
-        leadDegreeLabel.setText("Lead Degree: ");
+        leadDepartmentLabel.setText("Lead Department: ");
         departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Computer Science", 
                                         "Software Engineering", "English", "Maths" }));
         addModuleButton.setText("Add Module");
@@ -79,7 +79,7 @@ public class ManageModuleMenu extends Menu {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(moduleNameField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(leadDegreeLabel)
+                        .addComponent(leadDepartmentLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(departmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(227, 227, 227))
@@ -104,7 +104,7 @@ public class ManageModuleMenu extends Menu {
                 .addGroup(manageModuleMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(moduleNameLabel)
                     .addComponent(moduleNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(leadDegreeLabel)
+                    .addComponent(leadDepartmentLabel)
                     .addComponent(departmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(manageModuleMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

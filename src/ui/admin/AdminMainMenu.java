@@ -67,7 +67,6 @@ public class AdminMainMenu extends Menu {
         });
     }
     private void switchDatabase(ActionEvent e) {
-        JComboBox sourceComboBox = (JComboBox) e.getSource();
         String selectedString = (String) databaseSelector.getSelectedItem();
         getAdminUI().getDatabaseView().switchDatabase(selectedString);
     }

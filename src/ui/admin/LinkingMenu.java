@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 public abstract class LinkingMenu extends Menu {
 
-    private class ChildTable extends JScrollPane {
+    protected class ChildTable extends JScrollPane {
 
         private JTable childTable;
 
@@ -61,46 +61,12 @@ public abstract class LinkingMenu extends Menu {
     protected void setChildTableLabelText(String label) { childTableLabel.setText(label); }
     protected void setParentSelectorText(String[] list) {  parentSelector.setModel(new javax.swing.DefaultComboBoxModel<>(list)); } 
 
-    protected void placeComponents() {
-        javax.swing.GroupLayout linkingMenuLayout = new javax.swing.GroupLayout(this);
-        setLayout(linkingMenuLayout);
-        linkingMenuLayout.setHorizontalGroup(
-            linkingMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(linkingMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(linkingMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(linkingMenuLayout.createSequentialGroup()
-                        .addComponent(selectParentLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(parentSelector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(childTableLabel)
-                    .addComponent(childSelectorTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(linkingMenuLayout.createSequentialGroup()
-                        .addComponent(addLinkButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeLinkButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(backButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        linkingMenuLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addLinkButton, backButton, removeLinkButton});
-        linkingMenuLayout.setVerticalGroup(
-            linkingMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(linkingMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(linkingMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectParentLabel)
-                    .addComponent(parentSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(childTableLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(childSelectorTable, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(linkingMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backButton)
-                    .addComponent(addLinkButton)
-                    .addComponent(removeLinkButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-    }
+    protected JButton getAddLinkButton() { return addLinkButton; }
+    protected JButton getRemoveLinkButton() { return removeLinkButton; }
+    protected JLabel getSelectParentLabel() { return selectParentLabel; }
+    protected JLabel getChildTableLabel() { return childTableLabel; }
+    protected JComboBox getParentSelector() { return parentSelector; }
+    protected ChildTable getChildSelectorTable() { return childSelectorTable; }
+
+    protected abstract void placeComponents();
 }
