@@ -55,7 +55,13 @@ public class ManageUserMenu extends Menu {
             }
         });
         
-        
+        removeUserButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                controller.removeUser(forenameField.getText(),surnameField.getText());
+                
+            }
+        });
 
         placeComponents();
     }

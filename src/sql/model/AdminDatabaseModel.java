@@ -73,8 +73,7 @@ public class AdminDatabaseModel extends DatabaseModel {
                 while (getResult().next()) {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);
-                    String teachingDepartment = getResult().getString(3);
-                    modules.addRow(code, name, teachingDepartment);
+                    modules.addRow(code, name);
                 }
             }
             finally {
@@ -126,7 +125,7 @@ public class AdminDatabaseModel extends DatabaseModel {
             try{
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Student JOIN\ Users USING (Username);");
+                openResultQuery("SELECT " + values + " FROM Student JOIN Users USING (Username);");
                 while (getResult().next()) {
                     String username = getResult().getString(1);
                     String regNum = getResult().getString(2);

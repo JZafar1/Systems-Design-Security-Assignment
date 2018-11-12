@@ -11,26 +11,43 @@ public abstract class DatabaseModel {
     private Statement statement;
     private ResultSet resultSet;
     
-    public void insertIntoDatabase(String table, String values) {
-        initConnection();
-        initStatement();
-        try {
+    public void insertIntoDatabase(String table, String values){
+        execute("INSERT INTO " + table + " VALUES " + values + ";");
+    }
+    
+    public void removeFromDatabase(String table, String conditions){
+        execute("DELETE FROM " + table + " WHERE " + conditions + ";");
+    }
+    
+    private void execute(String querry){
+        
+        try{
+            
+            openConnection();
+            openStatement();
+
             try {
-                openConnection();
-                openStatement();
-                int count = getStatement().executeUpdate("INSERT INTO " + table + " VALUES " + values + ";");
+                int count = getStatement().executeUpdate(querry);
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
             }
             finally {
                 closeStatement();
                 closeConnection();
             }
+            
+        } 
+        catch (SQLException ex){
+            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        
     }
 
-    protected void initConnection() {connection = null;}
+    protected void initConnection() {
+        connection = null;
+    }
+    
     protected void openConnection() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team046", "team046", "cbe569aa");
     }
@@ -40,24 +57,34 @@ public abstract class DatabaseModel {
         }
     }
     
-    protected void initStatement() { statement = null; }
-    protected void openStatement() throws SQLException { statement = connection.createStatement(); }
+    protected void initStatement() {
+        statement = null; 
+    }
+    
+    protected void openStatement() throws SQLException {
+        statement = connection.createStatement(); 
+    }
+    
     protected void closeStatement() throws SQLException {
         if (statement != null) {
             statement.close();
         }
     }
+    
     protected void openResultQuery(String query) throws SQLException{
         resultSet = getStatement().executeQuery(query); 
     }
+    
     protected void closeResultQuery() throws SQLException {
         if (resultSet != null) {
             resultSet.close();
         }
     }
+    
     protected ResultSet getResult() { 
         return resultSet; 
     }
+    
     protected Statement getStatement() {
         if (statement != null) {
             return statement;
@@ -65,4 +92,5 @@ public abstract class DatabaseModel {
             return null;
         }
     }
+    
 }

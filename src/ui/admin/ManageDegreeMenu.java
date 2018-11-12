@@ -74,6 +74,12 @@ public class ManageDegreeMenu extends Menu {
             }
         });
         
+        removeDegreeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                controller.removeDegree((String)leadDepartmentDropDown.getSelectedItem());
+            }
+        });
+        
     }
     private void showDegreeLinkMenu() {
         getAdminUI().getDegreeLinkMenu().setVisible(true);

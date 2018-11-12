@@ -55,6 +55,28 @@ public class AdminController{
         databaseModel.insertIntoDatabase("Module", values);
     }
     
+    public void removeDepartment(String name){
+        
+        String departmentCode = name.substring(0,3);
+        String conditions = "(DepartmentCode = '" + departmentCode + "');";
+        
+        databaseModel.removeFromDatabase("Department",conditions);
+    }
+    
+    public void removeUser(String name, String surname){
+        String username = name + surname + "1";
+        String conditions = "(Username = '" + username + "');";
+        
+        databaseModel.removeFromDatabase("Users",conditions);
+    }
+    
+    public void removeDegree(String leadDepartment){
+        String degreeCode = leadDepartment + "U03";
+        String conditions = "(DegreeCode = '" + degreeCode + "');";
+        
+        databaseModel.removeFromDatabase("Degree",conditions);
+    }
+    
     private String generatePassword(int length){
         
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

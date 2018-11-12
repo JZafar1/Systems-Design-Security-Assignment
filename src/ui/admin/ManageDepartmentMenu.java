@@ -40,6 +40,12 @@ public class ManageDepartmentMenu extends Menu {
                 controller.addDepartment(departmentNameField.getText());
             }
         });
+        
+        removeDepartmentButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                controller.removeDepartment(departmentNameField.getText());
+            }
+        });
     }
 
     protected void placeComponents() {
