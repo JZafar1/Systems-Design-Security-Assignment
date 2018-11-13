@@ -31,7 +31,4 @@ public class AdminWindow extends JFrame {
         );
         pack();
     }
-    public static void main(String[] args) {
-        AdminWindow adminWindow = new AdminWindow();
-    }
 }

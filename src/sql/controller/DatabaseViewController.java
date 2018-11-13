@@ -19,7 +19,7 @@ public class DatabaseViewController {
         return degrees.getTable();
     }
     public Object[][] getModules() {
-        Modules modules = databaseModel.getModules("*");
+        Modules modules = databaseModel.getModules("*","");
         return modules.getTable();   
     }
     public Object[][] getUsers() {

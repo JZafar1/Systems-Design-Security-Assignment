@@ -20,28 +20,20 @@ public abstract class DatabaseModel {
     }
     
     private void execute(String querry){
-        
         try{
-            
             openConnection();
             openStatement();
-
             try {
                 int count = getStatement().executeUpdate(querry);
-            }
-            catch (SQLException ex) {
-                ex.printStackTrace();
             }
             finally {
                 closeStatement();
                 closeConnection();
             }
-            
         } 
         catch (SQLException ex){
             Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     protected void initConnection() {

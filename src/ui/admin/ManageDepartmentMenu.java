@@ -3,6 +3,7 @@ package src.ui.admin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import src.sql.controller.*;
@@ -37,15 +38,35 @@ public class ManageDepartmentMenu extends Menu {
         
         addDepartmentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.addDepartment(departmentNameField.getText());
+                addDepartment();
             }
         });
         
         removeDepartmentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.removeDepartment(departmentNameField.getText());
+                removeDepartment();
             }
         });
+    }
+
+    private void addDepartment() {
+        String departmentName = departmentNameField.getText();
+        if (departmentName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Department Name Field Empty!");
+        } else {
+            controller.addDepartment(departmentName);
+            getAdminUI().getDatabaseView().showDepartments();
+        }
+    }
+
+    private void removeDepartment() {
+        String departmentID = getAdminUI().getDatabaseView().getSelectedRow(0);
+        if (departmentID == null) {
+            JOptionPane.showMessageDialog(this, "No department selected!");
+        } else {
+            controller.removeDepartment(getAdminUI().getDatabaseView().getSelectedRow(0));
+            getAdminUI().getDatabaseView().showDepartments();
+        }
     }
 
     protected void placeComponents() {

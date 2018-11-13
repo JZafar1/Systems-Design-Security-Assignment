@@ -60,7 +60,7 @@ public class DatabaseView extends JScrollPane{
     
     public void showModules() {
         databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getModules(),
-                new String[] { "Module Code", "Module Name" }));
+                new String[] { "Module Code", "Module Name", "Teaching Department"}));
         setViewportView(databaseTable);
     }
     public void showUsers() {
@@ -75,4 +75,16 @@ public class DatabaseView extends JScrollPane{
                                 "Email", "Level of Study", "Grade", "Degree", "Tutor"}));
         setViewportView(databaseTable);
     }
+
+    /**
+     * Returns selected field in the selected row
+     * @param col - col index of selected row you want to return
+     * @return
+     */
+    public String getSelectedRow(int col) { 
+        int row = databaseTable.getSelectedRow();
+        if (row == -1)
+            return null;
+        return databaseTable.getModel().getValueAt(row, col).toString();
+     }
 }

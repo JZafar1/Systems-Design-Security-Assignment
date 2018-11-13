@@ -61,7 +61,7 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return degrees;
     }
-    public Modules getModules(String values) {
+    public Modules getModules(String values, String condition) {
         initConnection();
         initStatement();
         Modules modules = new Modules();
@@ -69,11 +69,12 @@ public class AdminDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Module;");
+                openResultQuery("SELECT " + values + " FROM Module " + condition + ";");
                 while (getResult().next()) {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);
-                    modules.addRow(code, name);
+                    String teachingDepartment = getResult().getString(3);
+                    modules.addRow(code, name, teachingDepartment);
                 }
             }
             finally {

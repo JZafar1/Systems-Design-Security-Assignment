@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -38,9 +39,8 @@ public class ManageModuleMenu extends Menu {
         controller = new AdminController();
 
         moduleNameLabel.setText("Module Name: ");
-        leadDepartmentLabel.setText("Lead Department: ");
-        departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Computer Science", 
-                                        "Software Engineering", "English", "Maths" }));
+        leadDepartmentLabel.setText("Teaching Department: ");
+        departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getDepartmentNames()));
         addModuleButton.setText("Add Module");
         removeModuleButton.setText("Remove Module");
 
@@ -58,9 +58,35 @@ public class ManageModuleMenu extends Menu {
         
         addModuleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.addModule(moduleNameField.getText());
+                addModule();
             }
         });
+        removeModuleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                removeModule();
+            }
+        });
+    }
+    
+    private void addModule() {
+        String moduleName = moduleNameField.getText();
+        String teachingDepartment = (String) departmentComboBox.getSelectedItem();
+        if (moduleName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Module name field empty!");
+        } else {
+            controller.addModule(moduleName, teachingDepartment);
+            getAdminUI().getDatabaseView().showModules();
+        }
+    }
+
+    private void removeModule() {
+        String moduleID = getAdminUI().getDatabaseView().getSelectedRow(0);
+        if (moduleID == null) {
+            JOptionPane.showMessageDialog(this, "No module selected!");
+        } else {
+            controller.removeModule(getAdminUI().getDatabaseView().getSelectedRow(0));
+            getAdminUI().getDatabaseView().showModules();
+        }
     }
     private void showModuleLinkMenu() {
         getAdminUI().getModuleLinkMenu().setVisible(true);
