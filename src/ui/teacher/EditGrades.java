@@ -55,6 +55,7 @@ public class EditGrades extends Menu {
                 getTeacherUI().getMainMenu().setVisible(true);
             }
         });
+        displayModule();
     }
 
     private void displayModule() {

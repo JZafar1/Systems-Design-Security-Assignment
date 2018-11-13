@@ -42,13 +42,13 @@ public class DatabaseViewTeacher extends src.sql.model.DatabaseModel{
         return results;
     }
 
-    public ArrayList<String> showStudents(String regNo) {
+    public ArrayList<String> getStudents() {
         ArrayList<String> students = new ArrayList<String>();
         try {
             try{
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT * FROM Student WHERE (Registration Number) = '"+ regNo + "'  JOIN Users USING (Username);");
+                openResultQuery("SELECT * FROM Student JOIN Users USING (Username);");
                 while (getResult().next()) {
                     String name = getResult().getString(12) + " " + getResult().getString(10);
                     students.add(name);
