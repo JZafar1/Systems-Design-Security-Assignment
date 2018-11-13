@@ -2,6 +2,8 @@ package src.ui.teacher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import src.ui.database.DatabaseViewTeacher;
+import java.util.ArrayList;
 
 public class EditGrades extends Menu {
     private javax.swing.JLabel title;
@@ -13,12 +15,14 @@ public class EditGrades extends Menu {
     private javax.swing.JButton submit;
     private javax.swing.JButton exitButton1;
     private javax.swing.JComboBox<String> moduleList;
+    private DatabaseViewTeacher dbView;
 
     public EditGrades (TeacherGUI teacherui) {
         super(teacherui);
         setVisible(true);
         initComponents();
         placeComponents();
+        dbView = new DatabaseViewTeacher();
     }
 
     public void initComponents() {
@@ -36,7 +40,6 @@ public class EditGrades extends Menu {
         newGrade = new JTextField();
         submit = new JButton();
         exitButton1 = new JButton();
-        moduleList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Temp" })); //List to be generated from DB
 
         submit.setText("Save Changes");
         submit.addActionListener(new ActionListener() {
@@ -52,6 +55,12 @@ public class EditGrades extends Menu {
                 getTeacherUI().getMainMenu().setVisible(true);
             }
         });
+    }
+
+    private void displayModule() {
+        ArrayList<String> allModules = dbView.showModules();
+        moduleList.setModel(new DefaultComboBoxModel(allModules.toArray()));
+
     }
     /* Method to take parameters representing changes to be made to DB and return true
     if the DB is successfully updated, flase otherwise*/

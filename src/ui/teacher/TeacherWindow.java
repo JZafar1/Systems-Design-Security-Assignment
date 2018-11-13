@@ -31,12 +31,9 @@ public class TeacherWindow extends JFrame {
         pack();
     }
 
-        public static void main(String[] args) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TeacherWindow();
-            }
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> {
+            new TeacherWindow().setVisible(true);
         });
     }
 }
