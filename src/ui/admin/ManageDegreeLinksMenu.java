@@ -2,19 +2,26 @@ package src.ui.admin;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import src.sql.controller.AdminController;
 
 public class ManageDegreeLinksMenu extends LinkingMenu {
+
+        private AdminController controller;
 
     public ManageDegreeLinksMenu(AdminUI adminUI) {
         
         super(adminUI);
+
+        controller = new AdminController();
 
         setAddLinkButtonText("Add Degree Link");
         setRemoveLinkButtonText("Remove Degree Link");
         setSelectParentLabelText("Select Degree: ");
         setChildTableLabelText("Select Departments(s) to add from table: ");
         setMenuTitle("Manage Degrees Links");
-        setParentSelectorText(new String[] {"Degree 1", "Degree 2", "Degree 3", "Degree 4"});
+        setParentSelectorText(controller.getDegreeNames());
+        
+        getChildSelectorTable().showDepartments();
 
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {

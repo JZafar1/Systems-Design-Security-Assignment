@@ -7,6 +7,7 @@ import javax.swing.*;
 import src.ui.admin.*;
 import src.sql.model.*;
 import src.sql.tables.Departments;
+import src.sql.tables.Degrees;
 import src.sql.tables.Modules;
 
 public class AdminController {
@@ -20,6 +21,10 @@ public class AdminController {
         Departments departments = databaseModel.getDepartments("*");
         return departments.getDepartmentNames();
     }
+    public String[] getDegreeNames() {
+        Degrees degrees = databaseModel.getDegrees("*");
+        return degrees.getDegreeNames();
+    }
     public void addDepartment(String name){
         
         String departmentCode = name.substring(0,3).toUpperCase();
@@ -28,23 +33,22 @@ public class AdminController {
         databaseModel.insertIntoDatabase("Department",values);
                 
     }
-    public void addUser(String name, String surname, String role){
+    public void addUser(String name, String surname, String password, String role){
         
         int count = 1;
         String username = name + surname + count;
         String email = username + "@sheffield.ac.uk";
-        String password = generatePassword(12);
         String title = "Mr.";
         String values = "('" + username + "','" + password + "','"  + role + "','" + email + "','" + name + "','" + title + "','" + surname + "')";
         
         databaseModel.insertIntoDatabase("Users",values);
         
     }
-    public void addDegree(String name, String leadDepartment, String level) {
+    public void addDegree(String name, String leadDepartment, String levelOfStudy) {
 
         String serialNumber = "03";
         String degreeCode = leadDepartment + "U" + serialNumber;
-        String values = "('" + degreeCode + "','" + name +  "','" + level + "')";
+        String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "')";
 
         databaseModel.insertIntoDatabase("Degree", values);
 
@@ -64,8 +68,7 @@ public class AdminController {
         String conditions = "(DepartmentCode = '" + departmentCode + "');";
         databaseModel.removeFromDatabase("Department",conditions);
     }
-    public void removeUser(String name, String surname){
-        String username = name + surname + "1";
+    public void removeUser(String username){
         String conditions = "(Username = '" + username + "');";
         
         databaseModel.removeFromDatabase("Users",conditions);

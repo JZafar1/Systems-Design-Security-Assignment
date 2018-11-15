@@ -17,5 +17,15 @@ public abstract class Table {
         table = tableList.toArray(table);
         return table;
     }
+    public Object[] getColumn(int columnNum) {
+        int rowNum = tableList.size();
+        Object[] columnValues = new String[rowNum];
+    
+        for (int c = 0; c < rowNum; c++) {
+            Object[] row = tableList.get(c);
+            columnValues[c] = row[columnNum];
+        }
+        return columnValues;
+    } 
     public ArrayList<Object[]> getTableList() { return tableList; }
 }

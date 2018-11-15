@@ -8,4 +8,7 @@ public class Degrees extends Table{
     public void addRow(String code, String name, String levelOfStudy) {
         super.addRow(new Object[] {code, name, levelOfStudy});
     }
+    public String[] getDegreeNames() {
+        return (String[]) super.getColumn(1);
+    }
 }

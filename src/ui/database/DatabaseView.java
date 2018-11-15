@@ -3,6 +3,7 @@ package src.ui.database;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import src.sql.controller.*;
 import src.sql.model.AdminDatabaseModel;
 import src.sql.tables.*;
@@ -20,6 +21,8 @@ public class DatabaseView extends JScrollPane{
         this.adminUI = adminUI;
         controller = new DatabaseViewController();
         databaseTable = new JTable();
+
+        databaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         showDepartments();
     }

@@ -10,13 +10,6 @@ public class Departments extends Table {
         super.addRow(new Object[] {code, name});
     }
     public String[] getDepartmentNames() {
-        ArrayList<Object[]> table = getTableList();
-        int rowNum = table.size();
-        String[] departmentNames = new String[rowNum];
-        for (int c = 0; c < rowNum; c++) {
-            Object[] row = table.get(c);
-            departmentNames[c] = (String) row[1];
-        }
-        return departmentNames;
+        return (String[]) super.getColumn(1);
     }
 }

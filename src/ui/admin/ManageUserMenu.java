@@ -50,25 +50,40 @@ public class ManageUserMenu extends Menu {
 
         addUserButton.setText("Add User");
         removeUserButton.setText("Remove User");
-        roleSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Adminstrator", "Registrar", "Teacher" }));
+        roleSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { /*"Student", */"Adminstrator", "Registrar", "Teacher" }));
         
         addUserButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                controller.addUser(forenameField.getText(),surnameField.getText(),(String)roleSelector.getSelectedItem());
-                
-            }
+            public void actionPerformed(ActionEvent e) { addUser(); }
         });
         
         removeUserButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                controller.removeUser(forenameField.getText(),surnameField.getText());
-                
-            }
+            public void actionPerformed(ActionEvent e) { removeUser(); }
         });
 
         placeComponents();
+    }
+
+    private void addUser() {
+        String forename = forenameField.getText();
+        String surname = surnameField.getText();
+        String password = passwordField.getText();
+        String role = (String) roleSelector.getSelectedItem();
+        if (forename.isEmpty() || surname.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "One or more of the input fields is empty!");
+        } else {
+            controller.addUser(forename, surname, password, role);
+            getAdminUI().getDatabaseView().showUsers();
+        }
+    }
+
+    private void removeUser() {
+        String username = getAdminUI().getDatabaseView().getSelectedRow(4);
+        if (username == null) {
+            JOptionPane.showMessageDialog(this, "No user selected!");
+        } else {
+            controller.removeUser(username);
+            getAdminUI().getDatabaseView().showUsers();
+        }
     }
 
     protected void placeComponents() {

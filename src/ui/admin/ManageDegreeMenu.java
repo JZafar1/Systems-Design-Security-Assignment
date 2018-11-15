@@ -23,7 +23,6 @@ public class ManageDegreeMenu extends Menu {
     private JTextField degreeNameField;
     private JComboBox<String> leadDepartmentDropDown;
     private JComboBox<String> levelOfStudyDropDown;
-    private JComboBox<String> yearPlacementDropDown;
     private JButton addDegreeButton;
     private JButton removeDegreeButton;
     private JButton manageDegreeLinksButton;
@@ -40,7 +39,6 @@ public class ManageDegreeMenu extends Menu {
         degreeNameField = new JTextField();
         leadDepartmentDropDown = new JComboBox<>();
         levelOfStudyDropDown = new JComboBox<>();
-        yearPlacementDropDown = new JComboBox<>();
         addDegreeButton = new JButton();
         removeDegreeButton = new JButton();
         manageDegreeLinksButton = new JButton();
@@ -51,9 +49,8 @@ public class ManageDegreeMenu extends Menu {
         leadDepartmentLabel.setText("Lead Department: ");
         levelOfStudyLabel.setText("Level of Study: ");
         yearPlacementLabel.setText("Year Placement: ");
-        leadDepartmentDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        levelOfStudyDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        yearPlacementDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        leadDepartmentDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getDepartmentNames()));
+        levelOfStudyDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "123", "12P3", "4" }));
         addDegreeButton.setText("Add Degree");
         removeDegreeButton.setText("Remove Degree");
         manageDegreeLinksButton.setText("Manage Degree Links");
@@ -74,14 +71,15 @@ public class ManageDegreeMenu extends Menu {
                 addDegree();
             }
         });
-        
+
         removeDegreeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.removeDegree((String)leadDepartmentDropDown.getSelectedItem());
+                removeDegree();
             }
         });
-        
+
     }
+
     private void addDegree() {
         String degreeName = degreeNameField.getText();
         String leadDepartment = (String) leadDepartmentDropDown.getSelectedItem();
@@ -94,69 +92,70 @@ public class ManageDegreeMenu extends Menu {
         }
     }
 
+    private void removeDegree() {
+        String degreeCode = getAdminUI().getDatabaseView().getSelectedRow(0);
+        if (degreeCode == null) {
+            JOptionPane.showMessageDialog(this, "No degree selected!");
+        } else {
+            controller.removeDegree(degreeCode);
+            getAdminUI().getDatabaseView().showDegrees();
+        }
+    }
     private void showDegreeLinkMenu() {
         getAdminUI().getDegreeLinkMenu().setVisible(true);
         getAdminUI().getDegreeMenu().setVisible(false);
     }
     protected void placeComponents(){
-        javax.swing.GroupLayout manageDegreeMenuLayout = new javax.swing.GroupLayout(this);
-        setLayout(manageDegreeMenuLayout);
-        manageDegreeMenuLayout.setHorizontalGroup(
-            manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manageDegreeMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(manageDegreeMenuLayout.createSequentialGroup()
-                        .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(levelOfStudyLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(degreeNameLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(degreeNameField)
-                            .addComponent(levelOfStudyDropDown, 0, 237, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(yearPlacementLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(leadDepartmentLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(yearPlacementDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(leadDepartmentDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(manageDegreeMenuLayout.createSequentialGroup()
-                        .addComponent(addDegreeButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeDegreeButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(manageDegreeLinksButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(backButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        setLayout(layout);
+        layout.setHorizontalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup().addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup().addGroup(layout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(levelOfStudyLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(degreeNameLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(degreeNameField)
+                                                .addComponent(levelOfStudyDropDown, 0, 237, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18).addComponent(leadDepartmentLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(leadDepartmentDropDown, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup().addComponent(addDegreeButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(removeDegreeButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(manageDegreeLinksButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(backButton)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-        manageDegreeMenuLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addDegreeButton, backButton, manageDegreeLinksButton, removeDegreeButton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL,
+                new java.awt.Component[] { addDegreeButton, backButton, manageDegreeLinksButton, removeDegreeButton });
 
-        manageDegreeMenuLayout.setVerticalGroup(
-            manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(manageDegreeMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(degreeNameLabel)
-                    .addComponent(degreeNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(leadDepartmentLabel)
-                    .addComponent(leadDepartmentDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(levelOfStudyLabel)
-                    .addComponent(levelOfStudyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(yearPlacementLabel)
-                    .addComponent(yearPlacementDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(manageDegreeMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addDegreeButton)
-                    .addComponent(removeDegreeButton)
-                    .addComponent(backButton)
-                    .addComponent(manageDegreeLinksButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        layout.setVerticalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup().addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(degreeNameLabel)
+                                .addComponent(degreeNameField, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(leadDepartmentLabel).addComponent(leadDepartmentDropDown,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(levelOfStudyLabel).addComponent(levelOfStudyDropDown,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(addDegreeButton).addComponent(removeDegreeButton).addComponent(backButton)
+                                .addComponent(manageDegreeLinksButton))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
     }
 }

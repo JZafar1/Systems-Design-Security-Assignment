@@ -64,7 +64,7 @@ public class ManageDepartmentMenu extends Menu {
         if (departmentID == null) {
             JOptionPane.showMessageDialog(this, "No department selected!");
         } else {
-            controller.removeDepartment(getAdminUI().getDatabaseView().getSelectedRow(0));
+            controller.removeDepartment(departmentID);
             getAdminUI().getDatabaseView().showDepartments();
         }
     }
