@@ -9,7 +9,7 @@ import src.sql.model.*;
 import src.sql.tables.Departments;
 import src.sql.tables.Modules;
 
-public class AdminController{
+public class AdminController {
 
     private AdminDatabaseModel databaseModel;
 
@@ -40,11 +40,11 @@ public class AdminController{
         databaseModel.insertIntoDatabase("Users",values);
         
     }
-    public void addDegree(String name, String leadDepartment, String level, String placement) {
+    public void addDegree(String name, String leadDepartment, String level) {
 
         String serialNumber = "03";
         String degreeCode = leadDepartment + "U" + serialNumber;
-        String values = "('" + degreeCode + "','" + name + "','" + placement + "','" + level + "')";
+        String values = "('" + degreeCode + "','" + name +  "','" + level + "')";
 
         databaseModel.insertIntoDatabase("Degree", values);
 

@@ -3,6 +3,7 @@ package src.ui.admin;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -70,7 +71,7 @@ public class ManageDegreeMenu extends Menu {
         
         addDegreeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.addDegree(degreeNameField.getText(), (String)leadDepartmentDropDown.getSelectedItem(), (String)levelOfStudyDropDown.getSelectedItem() ,(String)yearPlacementDropDown .getSelectedItem());
+                addDegree();
             }
         });
         
@@ -81,6 +82,18 @@ public class ManageDegreeMenu extends Menu {
         });
         
     }
+    private void addDegree() {
+        String degreeName = degreeNameField.getText();
+        String leadDepartment = (String) leadDepartmentDropDown.getSelectedItem();
+        String levelOfStudy = (String) levelOfStudyDropDown.getSelectedItem();
+        if (degreeName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Degree name is empty!");
+        } else {
+            controller.addDegree(degreeName, leadDepartment, levelOfStudy);
+            getAdminUI().getDatabaseView().showDegrees();
+        }
+    }
+
     private void showDegreeLinkMenu() {
         getAdminUI().getDegreeLinkMenu().setVisible(true);
         getAdminUI().getDegreeMenu().setVisible(false);

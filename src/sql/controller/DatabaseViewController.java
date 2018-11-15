@@ -27,7 +27,7 @@ public class DatabaseViewController {
         return users.getTable();
     }
     public Object[][] getStudents() {
-        Students students = databaseModel.getStudents("*");
+        Students students = databaseModel.getStudents("*","");
         return students.getTable();
     }
 }

@@ -3,6 +3,7 @@ package src.sql.model;
 import src.sql.tables.*;
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.locks.Condition;
 
 public class AdminDatabaseModel extends DatabaseModel {
 
@@ -46,9 +47,8 @@ public class AdminDatabaseModel extends DatabaseModel {
                 while (getResult().next()) {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);
-                    String yearInIndustry = getResult().getString(3);
-                    String levelOfStudy = getResult().getString(4);
-                    degrees.addRow(code, name, yearInIndustry, levelOfStudy);
+                    String levelOfStudy = getResult().getString(3);
+                    degrees.addRow(code, name, levelOfStudy);
                 }
             }
             finally {
@@ -118,7 +118,7 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return users;
     }
-    public Students getStudents(String values) {
+    public Students getStudents(String values, String condition) {
         initConnection();
         initStatement();
         Students students = new Students();
@@ -126,7 +126,7 @@ public class AdminDatabaseModel extends DatabaseModel {
             try{
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Student JOIN Users USING (Username);");
+                openResultQuery("SELECT " + values + " FROM Student JOIN Users USING (Username) " + condition + ";");
                 while (getResult().next()) {
                     String username = getResult().getString(1);
                     String regNum = getResult().getString(2);
