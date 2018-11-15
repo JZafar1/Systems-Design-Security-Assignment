@@ -9,19 +9,25 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import src.sql.controller.AdminController;
 
 public class ManageModuleLinksMenu extends LinkingMenu {
 
     private JLabel degreeLevelLabel;
     private JLabel seasonLabel;
     private JLabel creditsLabel;
+    private JLabel coreLabel;
     private JComboBox<String> degreeLevelDropDown;
     private JComboBox<String> seasonDropDown;
+    private JComboBox<String> coreDropDown;
     private JTextField creditsField;
+    private AdminController controller;
 
     public ManageModuleLinksMenu(AdminUI adminUI) {
 
         super(adminUI);
+
+        controller = new AdminController();
 
         setAddLinkButtonText("Add Module Link");
         setRemoveLinkButtonText("Remove Module Link");
@@ -33,15 +39,20 @@ public class ManageModuleLinksMenu extends LinkingMenu {
         degreeLevelLabel = new JLabel();
         seasonLabel = new JLabel();
         creditsLabel = new JLabel();
+        coreLabel = new JLabel();
         degreeLevelDropDown = new JComboBox<>();
         seasonDropDown = new JComboBox<>();
+        coreDropDown = new JComboBox<>();
         creditsField = new JTextField();
+
+        getChildSelectorTable().showDegrees();
 
         degreeLevelLabel.setText("Degree Level: ");
         seasonLabel.setText("Season: ");
         creditsLabel.setText("Credits: ");
         degreeLevelDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Level 1", "Level 2", "Level 3","Level 4"}));
         seasonDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Autumn", "Spring"}));
+        coreDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Core", "Not Core"}));
 
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -75,6 +86,11 @@ public class ManageModuleLinksMenu extends LinkingMenu {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(seasonDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 87,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(coreLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(coreDropDown,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(creditsLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -125,7 +141,10 @@ public class ManageModuleLinksMenu extends LinkingMenu {
                                 .addComponent(creditsLabel)
                                 .addComponent(creditsField,
                                         javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(coreLabel)
+                                .addComponent(coreDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, 
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(getChildTableLabel())
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

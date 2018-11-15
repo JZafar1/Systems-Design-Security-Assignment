@@ -6,7 +6,7 @@ import src.sql.controller.AdminController;
 
 public class ManageDegreeLinksMenu extends LinkingMenu {
 
-        private AdminController controller;
+    private AdminController controller;
 
     public ManageDegreeLinksMenu(AdminUI adminUI) {
         
