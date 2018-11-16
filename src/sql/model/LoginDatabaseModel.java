@@ -2,21 +2,26 @@ package src.sql.model;
 
 import java.sql.*;
 
+import src.sql.tables.UserCredentials;
+
 public class LoginDatabaseModel extends DatabaseModel {
 
     public LoginDatabaseModel() {}
 
-    public String getUser(String email, String password) {
+    public UserCredentials getUserCredentials(String email) {
         initConnection();
         initStatement();
-        String role = null;
+        UserCredentials userCredentials = new UserCredentials();
         try {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT Role FROM Users WHERE Email='" + email + "' AND password='" + password + "';");
+                openResultQuery("SELECT password, Role, Salt FROM Users WHERE Email='" + email + "';");
                 while (getResult().next()) {
-                    role = getResult().getString(1);
+                    byte[] password = getResult().getBytes(1);
+                    String role = getResult().getString(2);
+                    byte[] salt = getResult().getBytes(3);
+                    userCredentials.setCredentials(password, salt, role);
                 }
             } finally {
                 closeResultQuery();
@@ -26,6 +31,6 @@ public class LoginDatabaseModel extends DatabaseModel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return role;
+        return userCredentials;
     }
 }

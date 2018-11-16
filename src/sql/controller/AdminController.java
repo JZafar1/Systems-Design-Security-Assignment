@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import src.ui.admin.*;
+import src.sql.controller.PasswordHasher;
 import src.sql.model.*;
 import src.sql.tables.Departments;
 import src.sql.tables.Degrees;
@@ -33,15 +34,23 @@ public class AdminController {
         databaseModel.insertIntoDatabase("Department",values);
                 
     }
-    public void addUser(String name, String surname, String password, String role){
+    public void addUser(String name, String surname, String password, String role) {
         
         int count = 1;
+
+        byte[] salt = PasswordHasher.generateSalt();
+        byte[] hashedPassword = PasswordHasher.generateHashPassword(password, salt);
+
+        System.out.println(hashedPassword);
+
         String username = name + surname + count;
         String email = username + "@sheffield.ac.uk";
         String title = "Mr.";
-        String values = "('" + username + "','" + password + "','"  + role + "','" + email + "','" + name + "','" + title + "','" + surname + "')";
+        /*String values = "('" + username + "','" + hashedPassword + "','"  + role + "','" + email + "','" + 
+                               name + "','" + title + "','" + surname + "','" + salt+"')";*/
         
-        databaseModel.insertIntoDatabase("Users",values);
+        //databaseModel.insertIntoDatabase("Users",values);
+        databaseModel.insertUsers(username, hashedPassword, role, email, name, title, surname, salt);
         
     }
     public void addDegree(String name, String leadDepartment, String levelOfStudy) {

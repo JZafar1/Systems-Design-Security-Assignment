@@ -27,7 +27,7 @@ public class MainWindow extends JFrame {
         pack();
     }
     public void setUser(String role) {
-        if (role.equals("Adminstrator")) {
+        if (role != null && role.equals("Adminstrator")) {
             showAdminWindow();
             System.out.println(role);
         } else {
@@ -37,7 +37,7 @@ public class MainWindow extends JFrame {
 
     public void showAdminWindow() {
         getContentPane().removeAll();
-        getContentPane().add(adminWindow);
+        getContentPane().add(new AdminUI(this));
     }
 
     public static void main(String[] args) {
