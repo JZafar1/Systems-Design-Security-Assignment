@@ -11,13 +11,14 @@ public class Students extends Table {
         super.addRow(new Object[]  {regNum, title, forename, surname, username, email, 
                                     levelOfStudy, grade, degree, tutor});
     }
-    public ArrayList<String> getStudentNames() {
-        ArrayList<Object[]> table = getTableList();
-        int rowNum = table.size();
-        ArrayList<String> studentNames = new ArrayList<String>();
+    
+    public String[] getStudentNames() {
+        int rowNum = getTableList().size();
+        String[] studentNameList = new String[rowNum];
         for (int c = 0; c < rowNum; c++) {
-            studentNames.add(((String) table.get(c)[1]) + " " +  ((String) table.get(c)[2]));
+            Object[] row = getTableList().get(c);
+            studentNameList[c] = ((String) row[0]) + " " + ((String) row[1]);
         }
-        return studentNames;
+        return studentNameList;
     }
 }

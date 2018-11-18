@@ -20,4 +20,13 @@ public class Modules extends Table {
             return departmentCode + String.format("%04d", (code + 1));
         }
     }
+    public String[] getModuleNames() {
+        int rowNum = getTableList().size();
+        String[] moduleNameList = new String[rowNum];
+        for (int c = 0; c < rowNum; c++) {
+            Object[] row = getTableList().get(c);
+            moduleNameList[c] = ((String) row[0]) + " " + ((String) row[1]);
+        }
+        return moduleNameList;
+    }
 }

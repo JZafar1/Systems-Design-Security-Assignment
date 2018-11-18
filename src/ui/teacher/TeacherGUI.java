@@ -3,15 +3,18 @@ package src.ui.teacher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import src.ui.MainWindow;
 
 public class TeacherGUI extends JPanel {
     private JPanel editGrades;
     private JPanel teacherMainMenu;
     private JPanel registerStudent;
     //private JPanel viewStudentInfo;
+    private MainWindow mainWindow;
     private JButton logOffButton;
 
-    public TeacherGUI() {
+    public TeacherGUI(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
         setVisible(true);
         initComponents();
     }
@@ -22,6 +25,11 @@ public class TeacherGUI extends JPanel {
         registerStudent = new RegisterStudent(this);
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
+        logOffButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mainWindow.showLogInWindow();
+            }
+        });
         editGrades.setVisible(false);
         registerStudent.setVisible(false);
         /*setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),

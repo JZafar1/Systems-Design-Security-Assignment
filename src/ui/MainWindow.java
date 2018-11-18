@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import src.ui.admin.AdminUI;
+import src.ui.teacher.TeacherGUI;
 import src.ui.login.Login;
 
 public class MainWindow extends JFrame {
@@ -26,9 +27,19 @@ public class MainWindow extends JFrame {
         pack();
     }
     public void setUser(String role) {
-        if (role != null && role.equals("Adminstrator")) {
-            showAdminWindow();
-            System.out.println("Connected to database");
+        if (role != null) {
+            switch(role) {
+                case "Adminstrator":
+                    showAdminWindow();
+                    System.out.println("Connected to database");
+                    break;
+                case "Teacher":
+                    showTeacherWindow();
+                    System.out.println("Connected to database");
+                    break;
+                default:
+                    break;
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid infomation!");
         }
@@ -39,10 +50,15 @@ public class MainWindow extends JFrame {
         getContentPane().add(new Login(this));
         pack();
     }
-
+    public void showTeacherWindow() {
+        getContentPane().removeAll();
+        getContentPane().add(new TeacherGUI(this));
+        pack();
+    }
     public void showAdminWindow() {
         getContentPane().removeAll();
         getContentPane().add(new AdminUI(this));
         pack();
     }
+
 }

@@ -34,7 +34,7 @@ public class ManageModuleLinksMenu extends LinkingMenu {
         setSelectParentLabelText("Select Module: ");
         setChildTableLabelText("Select Degree(s) to add from table: ");
         setMenuTitle("Manage Module Links");
-        setParentSelectorText(new String[] {"Module 1", "Module 2", "Module 3", "Module 4"});
+        setParentSelectorText(controller.getModuleNames());
 
         degreeLevelLabel = new JLabel();
         seasonLabel = new JLabel();

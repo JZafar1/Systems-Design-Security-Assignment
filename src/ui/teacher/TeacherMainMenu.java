@@ -3,7 +3,7 @@ package src.ui.teacher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import src.ui.database.DatabaseViewTeacher;
+import src.sql.controller.TeacherController;
 import java.util.ArrayList;
 
 public class TeacherMainMenu extends Menu {
@@ -15,14 +15,14 @@ public class TeacherMainMenu extends Menu {
     private javax.swing.JButton registerStudent;
     private javax.swing.JButton viewResults;
     private javax.swing.JComboBox studentList;
-    private DatabaseViewTeacher dbView;
+    private TeacherController controller;
 
     public TeacherMainMenu (TeacherGUI teacherui) {
         super(teacherui);
+        controller = new TeacherController();
         setVisible(true);
         initComponents();
         placeComponents();
-        dbView = new DatabaseViewTeacher();
     }
 
     private void initComponents() {
@@ -69,8 +69,8 @@ public class TeacherMainMenu extends Menu {
     }
 
     private void displayStudents() {
-        ArrayList<String> stuList = dbView.getStudents();
-        studentList.setModel(new DefaultComboBoxModel(stuList.toArray()));
+        String[] stuList = controller.getStudents();
+        studentList.setModel(new DefaultComboBoxModel(stuList));
 
     }
 

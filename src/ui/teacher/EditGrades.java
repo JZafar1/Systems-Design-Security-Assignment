@@ -2,7 +2,7 @@ package src.ui.teacher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import src.ui.database.DatabaseViewTeacher;
+import src.sql.controller.TeacherController;
 import java.util.ArrayList;
 
 public class EditGrades extends Menu {
@@ -15,14 +15,14 @@ public class EditGrades extends Menu {
     private javax.swing.JButton submit;
     private javax.swing.JButton exitButton1;
     private javax.swing.JComboBox<String> moduleList;
-    private DatabaseViewTeacher dbView;
+    private TeacherController controller;
 
     public EditGrades (TeacherGUI teacherui) {
         super(teacherui);
+        controller = new TeacherController();
         setVisible(true);
         initComponents();
         placeComponents();
-        dbView = new DatabaseViewTeacher();
     }
 
     public void initComponents() {
@@ -30,7 +30,7 @@ public class EditGrades extends Menu {
         title.setText("Add or update grades");
         select = new JLabel();
         select.setText("Select Module");
-        moduleList = new JComboBox();
+        moduleList = new JComboBox<String>();
         currentGradeLabel = new JLabel();
         currentGradeLabel.setText("Current Grade");
         currentGrade = new JTextField();
@@ -59,9 +59,7 @@ public class EditGrades extends Menu {
     }
 
     private void displayModule() {
-        ArrayList<String> allModules = dbView.showModules();
-        moduleList.setModel(new DefaultComboBoxModel(allModules.toArray()));
-
+        moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleNames()));
     }
     /* Method to take parameters representing changes to be made to DB and return true
     if the DB is successfully updated, flase otherwise*/

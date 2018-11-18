@@ -26,6 +26,10 @@ public class AdminController {
         Degrees degrees = databaseModel.getDegrees("*");
         return degrees.getDegreeNames();
     }
+    public String[] getModuleNames() {
+        Modules modules = databaseModel.getModules("*","");
+        return modules.getModuleNames();
+    }
     public void addDepartment(String name){
         
         String departmentCode = name.substring(0,3).toUpperCase();

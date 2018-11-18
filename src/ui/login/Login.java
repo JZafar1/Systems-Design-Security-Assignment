@@ -62,7 +62,7 @@ public class Login extends javax.swing.JPanel {
         clearButton.setBackground(new java.awt.Color(0, 102, 153));
         clearButton.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         clearButton.setForeground(new java.awt.Color(255, 255, 255));
-        clearButton.setText("CLear");
+        clearButton.setText("Clear");
         clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearButtonActionPerformed(evt);
