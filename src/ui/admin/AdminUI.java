@@ -1,6 +1,7 @@
 package src.ui.admin;
 
-import src.ui.database.DatabaseView;;
+import src.ui.database.DatabaseView;
+import src.ui.MainWindow;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,8 +17,10 @@ public class AdminUI extends JPanel {
     private JPanel manageDegreeLinksMenu;
     private DatabaseView databaseView;
     private JButton logOffButton;
+    private MainWindow mainWindow;
 
-    public AdminUI() {
+    public AdminUI(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
         setVisible(true);
         initComponents();
     }
@@ -40,6 +43,11 @@ public class AdminUI extends JPanel {
 
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
+        logOffButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                logOff();
+            }
+        });
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Administrator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
@@ -49,6 +57,10 @@ public class AdminUI extends JPanel {
         placeComponents();
     }
 
+    public void logOff() {
+        getMainWindow().showLogInWindow();
+    }
+    private MainWindow getMainWindow() { return mainWindow; }
     public JPanel getMainMenu() {
         return adminMainMenu;
     }

@@ -16,11 +16,9 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         super("Main Window");
 
-        Container contentPane = getContentPane();
-        contentPane.add(new Login(this));
-
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         screenSize = toolkit.getScreenSize();
+        showLogInWindow();
         setLocation(screenSize.width / 9, screenSize.height / 9);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -30,23 +28,21 @@ public class MainWindow extends JFrame {
     public void setUser(String role) {
         if (role != null && role.equals("Adminstrator")) {
             showAdminWindow();
-            System.out.println(role);
+            System.out.println("Connected to database");
         } else {
             JOptionPane.showMessageDialog(this, "Invalid infomation!");
         }
     }
 
-    public void showAdminWindow() {
+    public void showLogInWindow() {
         getContentPane().removeAll();
-        getContentPane().add(new AdminUI());
-        resetWindowSize();
+        getContentPane().add(new Login(this));
+        pack();
     }
 
-    public void resetWindowSize() {
-        setSize((int) ((screenSize.width*3)/4), (int) ((screenSize.height*3)/4));
-        //setLocation(screenSize.width / 8, screenSize.height / 8);
-    }
-    public static void main(String[] args) {
-        new MainWindow();
+    public void showAdminWindow() {
+        getContentPane().removeAll();
+        getContentPane().add(new AdminUI(this));
+        pack();
     }
 }

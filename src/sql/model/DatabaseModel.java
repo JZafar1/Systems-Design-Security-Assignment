@@ -14,31 +14,6 @@ public abstract class DatabaseModel {
     public void insertIntoDatabase(String table, String values){
         execute("INSERT INTO " + table + " VALUES " + values + ";");
     }
-
-    public void insertUsers(String username, byte[] password, String role, String email, String name, String title, String surname, byte[] salt) {
-        try {
-            openConnection();
-            openStatement();
-            try {
-                PreparedStatement ps = getConnection().prepareStatement("INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                ps.setString(1, username);
-                ps.setBytes(2, password);
-                ps.setString(3, role);
-                ps.setString(4,email);
-                ps.setString(5, name);
-                ps.setString(6, title);
-                ps.setString(7, surname);
-                ps.setBytes(8, salt);
-                ps.executeUpdate();
-                ps.close();
-            } finally {
-                closeStatement();
-                closeConnection();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
     public void removeFromDatabase(String table, String conditions){
         execute("DELETE FROM " + table + " WHERE " + conditions + ";");

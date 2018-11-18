@@ -4,10 +4,39 @@ import src.sql.tables.*;
 import java.sql.*;
 import java.util.*;
 import java.util.concurrent.locks.Condition;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdminDatabaseModel extends DatabaseModel {
 
     public AdminDatabaseModel() {}
+
+    public void insertUsers(String username, byte[] password, String role, String email, String name, String title,
+            String surname, byte[] salt) {
+        try {
+            openConnection();
+            openStatement();
+            try {
+                PreparedStatement ps = getConnection()
+                        .prepareStatement("INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                ps.setString(1, username);
+                ps.setBytes(2, password);
+                ps.setString(3, role);
+                ps.setString(4, email);
+                ps.setString(5, name);
+                ps.setString(6, title);
+                ps.setString(7, surname);
+                ps.setBytes(8, salt);
+                ps.executeUpdate();
+                ps.close();
+            } finally {
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public Departments getDepartments(String values) {
         initConnection();

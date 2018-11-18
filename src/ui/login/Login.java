@@ -2,6 +2,7 @@ package src.ui.login;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import src.sql.controller.LoginController;
@@ -26,7 +27,7 @@ public class Login extends javax.swing.JPanel {
         loginPanel = new javax.swing.JPanel();
         loginLabel = new javax.swing.JLabel();
         email = new JTextField();
-        password = new JTextField();
+        password = new JPasswordField(20);
         emailLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
@@ -129,11 +130,11 @@ public class Login extends javax.swing.JPanel {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         String emailString = email.getText();
-        String passwordString = password.getText();
-        if (emailString.isEmpty() || passwordString.isEmpty()) {
+        char[] passwordArray = password.getPassword();
+        if (emailString.isEmpty() || passwordArray.length == 0) {
             JOptionPane.showMessageDialog(this, "One or more fields are empty!");
         } else {
-            String role = controller.checkUser(emailString, passwordString);
+            String role = controller.checkUser(emailString, passwordArray);
             getMainWindow().setUser(role);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -153,7 +154,7 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JPanel loginPanel;
-    private javax.swing.JTextField password;
+    private javax.swing.JPasswordField password;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField email;
     // End of variables declaration//GEN-END:variables

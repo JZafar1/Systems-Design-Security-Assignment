@@ -13,12 +13,11 @@ public class LoginController {
         databaseModel = new LoginDatabaseModel();
     }
 
-    public String checkUser(String email, String password) {
+    public String checkUser(String email, char[] passwordArray) {
+        String password = String.valueOf(passwordArray);
+
         UserCredentials userCredentials = databaseModel.getUserCredentials(email);
         byte[] inputPassword = PasswordHasher.generateHashPassword(password, userCredentials.getSalt());
-
-        //System.out.println(inputPassword);
-        System.out.println(userCredentials.getPasswordHash());
 
         if (Arrays.equals(inputPassword, userCredentials.getPasswordHash())) {
             return userCredentials.getRole();
