@@ -37,7 +37,7 @@ public class AdminDatabaseModel extends DatabaseModel {
             Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public Departments getDepartments(String values) {
+    public Departments getDepartments(String values, String condition) {
         initConnection();
         initStatement();
         Departments departments = new Departments();
@@ -45,7 +45,7 @@ public class AdminDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Department;");
+                openResultQuery("SELECT " + values + " FROM Department " + condition + ";");
                 while (getResult().next()) {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);

@@ -9,12 +9,12 @@ import java.awt.event.*;
 public class AdminUI extends JPanel {
 
     private JPanel adminMainMenu;
-    private JPanel manageUserMenu;
-    private JPanel manageDepartmentMenu;
-    private JPanel manageDegreeMenu;
-    private JPanel manageModuleMenu;
-    private ManageModuleLinksMenu manageModuleLinksMenu;
-    private ManageDegreeLinksMenu manageDegreeLinksMenu;
+    private ManageUsers manageUsers;
+    private ManageDepartments manageDepartments;
+    private ManageDegrees manageDegrees;
+    private ManageModules manageModules;
+    private ManageModuleLinks manageModuleLinks;
+    private ManageDegreeLinks manageDegreeLinks;
     private DatabaseView databaseView;
     private JButton logOffButton;
     private MainWindow mainWindow;
@@ -32,12 +32,12 @@ public class AdminUI extends JPanel {
         //initialise JPanels
         databaseView = new DatabaseView(this);
         adminMainMenu = new AdminMainMenu(this);
-        manageUserMenu = new ManageUserMenu(this);
-        manageDepartmentMenu = new ManageDepartmentMenu(this);
-        manageDegreeMenu = new ManageDegreeMenu(this);
-        manageModuleMenu = new ManageModuleMenu(this);
-        manageModuleLinksMenu = new ManageModuleLinksMenu(this);
-        manageDegreeLinksMenu = new ManageDegreeLinksMenu(this);
+        manageUsers = new ManageUsers(this);
+        manageDepartments = new ManageDepartments(this);
+        manageDegrees = new ManageDegrees(this);
+        manageModules = new ManageModules(this);
+        manageModuleLinks = new ManageModuleLinks(this);
+        manageDegreeLinks = new ManageDegreeLinks(this);
 
         databaseView.showUsers();
 
@@ -60,22 +60,22 @@ public class AdminUI extends JPanel {
         return adminMainMenu;
     }
     public JPanel getUserMenu() {
-        return manageUserMenu;
+        return manageUsers;
     }
     public JPanel getDepartmentMenu() {
-        return manageDepartmentMenu;
+        return manageDepartments;
     }
     public JPanel getDegreeMenu() {
-        return manageDegreeMenu;
+        return manageDegrees;
     }
     public JPanel getModuleMenu() {
-        return manageModuleMenu;
+        return manageModules;
     }
-    public ManageDegreeLinksMenu getDegreeLinkMenu() {
-        return manageDegreeLinksMenu;
+    public ManageDegreeLinks getDegreeLinkMenu() {
+        return manageDegreeLinks;
     }
-    public ManageModuleLinksMenu getModuleLinkMenu() {
-        return manageModuleLinksMenu;
+    public ManageModuleLinks getModuleLinkMenu() {
+        return manageModuleLinks;
     }
     public DatabaseView getDatabaseView() {
         return databaseView;
@@ -95,14 +95,14 @@ public class AdminUI extends JPanel {
                             .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(adminUILayout.createSequentialGroup()
                             .addGroup(adminUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(manageDegreeLinksMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(manageDegreeLinks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(databaseView)
-                                .addComponent(manageModuleMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(manageUserMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(manageModules, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(manageDepartments, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(manageUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(adminMainMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(manageDegreeMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(manageDegrees, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(manageModuleLinks, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addContainerGap())))
         );
         adminUILayout.setVerticalGroup(
@@ -111,17 +111,17 @@ public class AdminUI extends JPanel {
                 .addContainerGap()
                 .addComponent(adminMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(manageUserMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(manageDepartmentMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageDepartments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(manageDegreeMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageDegrees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
-                .addComponent(manageDegreeLinksMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageDegreeLinks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(manageModuleMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageModules, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(manageModuleLinksMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageModuleLinks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(databaseView, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

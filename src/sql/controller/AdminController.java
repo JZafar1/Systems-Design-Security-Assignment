@@ -19,7 +19,7 @@ public class AdminController {
         databaseModel = new AdminDatabaseModel();
     }
     public String[] getDepartmentNames() {
-        Departments departments = databaseModel.getDepartments("*");
+        Departments departments = databaseModel.getDepartments("*","");
         return departments.getDepartmentNames();
     }
     public String[] getDegreeNames() {
@@ -30,13 +30,22 @@ public class AdminController {
         Modules modules = databaseModel.getModules("*","");
         return modules.getModuleNames();
     }
-    public void addDepartment(String name){
+    /**
+     * Method adds a department to the database.
+     * @param name - Department name to be added to the database
+     * @return success - Boolean indicating if Department name was already in the database
+     */
+    public Boolean addDepartment(String name){
         
-        String departmentCode = name.substring(0,3).toUpperCase();
-        String values = "('" + departmentCode + "','"  + name + "')";
-        
-        databaseModel.insertIntoDatabase("Department",values);
-                
+        Departments departments = databaseModel.getDepartments("*", "WHERE `Full Name`='" + name + "'");
+        if (departments.getDepartmentNames().length == 0) {
+            String departmentCode = name.substring(0, 3).toUpperCase();
+            String values = "('" + departmentCode + "','" + name + "')";
+            databaseModel.insertIntoDatabase("Department", values);
+            return true;
+        } else {
+            return false;
+        }        
     }
     public void addUser(String name, String surname, String password, String role) {
         

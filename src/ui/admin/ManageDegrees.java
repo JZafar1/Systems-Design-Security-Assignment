@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
-public class ManageDegreeMenu extends Menu {
+public class ManageDegrees extends Menu {
 
     private JLabel degreeNameLabel;
     private JLabel leadDepartmentLabel;
@@ -28,7 +28,7 @@ public class ManageDegreeMenu extends Menu {
     private JButton manageDegreeLinksButton;
     private AdminController controller;
 
-    public ManageDegreeMenu(AdminUI adminUI) {
+    public ManageDegrees(AdminUI adminUI) {
 
         super(adminUI);
 

@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
-public class ManageUserMenu extends Menu {
+public class ManageUsers extends Menu {
 
     private JLabel forenameLabel;
     private JLabel surnameLabel;
@@ -22,7 +22,7 @@ public class ManageUserMenu extends Menu {
     private JButton removeUserButton;
     private AdminController controller;
 
-    public ManageUserMenu(AdminUI adminUI) {
+    public ManageUsers(AdminUI adminUI) {
 
         super(adminUI);
 

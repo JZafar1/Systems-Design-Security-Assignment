@@ -11,7 +11,7 @@ public class DatabaseViewController {
         databaseModel = new AdminDatabaseModel();
     }
     public Object[][] getDepartments() {
-        Departments departments = databaseModel.getDepartments("*");
+        Departments departments = databaseModel.getDepartments("*","");
         return departments.getTable();
     }
     public Object[][] getDegrees() {

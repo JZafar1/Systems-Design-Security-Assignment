@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
-public class ManageModuleMenu extends Menu {
+public class ManageModules extends Menu {
 
     private JLabel moduleNameLabel;
     private JLabel leadDepartmentLabel;
@@ -24,7 +24,7 @@ public class ManageModuleMenu extends Menu {
     private JButton manageModuleLinks;
     private AdminController controller;
 
-    public ManageModuleMenu(AdminUI adminUI) {
+    public ManageModules(AdminUI adminUI) {
 
         super(adminUI);
 

@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import src.sql.controller.*;
 
-public class ManageDepartmentMenu extends Menu {
+public class ManageDepartments extends Menu {
 
     private JLabel departmentNameLabel;
     private JTextField departmentNameField;
@@ -16,7 +16,7 @@ public class ManageDepartmentMenu extends Menu {
     private JButton removeDepartmentButton;
     private AdminController controller;
 
-    public ManageDepartmentMenu(AdminUI adminUI) {
+    public ManageDepartments(AdminUI adminUI) {
 
         super(adminUI);
 
@@ -54,8 +54,11 @@ public class ManageDepartmentMenu extends Menu {
         if (departmentName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Department Name Field Empty!");
         } else {
-            controller.addDepartment(departmentName);
-            getAdminUI().getDatabaseView().showDepartments();
+            if (controller.addDepartment(departmentName)) {
+                getAdminUI().getDatabaseView().showDepartments();
+            } else {
+                JOptionPane.showMessageDialog(this, "Department already exists!");
+            }
         }
     }
 

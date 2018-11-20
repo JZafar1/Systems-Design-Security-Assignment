@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import src.sql.controller.AdminController;
 
-public class ManageDegreeLinksMenu extends LinkingMenu {
+public class ManageDegreeLinks extends LinkingMenu {
 
     private AdminController controller;
 
-    public ManageDegreeLinksMenu(AdminUI adminUI) {
+    public ManageDegreeLinks(AdminUI adminUI) {
         
         super(adminUI);
 
