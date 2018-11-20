@@ -26,6 +26,18 @@ public abstract class Table {
             columnValues[c] = row[columnNum];
         }
         return columnValues;
-    } 
+    }
+    /**
+     * Method returns bool reflecting if a string occurs in a given column.
+     * @param String targetValue - value we testing to see if it occurs in a given column
+     * @param int columnNum - index of column we are searching
+     */
+    public Boolean occursInTable(String targetValue, int columnNum) {
+        for (String s: (String[]) getColumn(columnNum)) {
+            if (s.equals(targetValue))
+                return true;
+        }
+        return false;
+    }
     public ArrayList<Object[]> getTableList() { return tableList; }
 }

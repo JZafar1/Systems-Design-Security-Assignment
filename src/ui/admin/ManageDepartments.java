@@ -57,7 +57,7 @@ public class ManageDepartments extends Menu {
             if (controller.addDepartment(departmentName)) {
                 getAdminUI().getDatabaseView().showDepartments();
             } else {
-                JOptionPane.showMessageDialog(this, "Department already exists!");
+                JOptionPane.showMessageDialog(this, "Department name already exists!");
             }
         }
     }

@@ -36,15 +36,16 @@ public class AdminController {
      * @return success - Boolean indicating if Department name was already in the database
      */
     public Boolean addDepartment(String name){
-        
-        Departments departments = databaseModel.getDepartments("*", "WHERE `Full Name`='" + name + "'");
-        if (departments.getDepartmentNames().length == 0) {
-            String departmentCode = name.substring(0, 3).toUpperCase();
+
+        String departmentCode = name.substring(0, 3).toUpperCase();
+
+        Departments departments = databaseModel.getDepartments("*","");
+        if (departments.occursInTable(departmentCode,0)) {
+            return false;
+        } else {
             String values = "('" + departmentCode + "','" + name + "')";
             databaseModel.insertIntoDatabase("Department", values);
             return true;
-        } else {
-            return false;
         }        
     }
     public void addUser(String name, String surname, String password, String role) {
