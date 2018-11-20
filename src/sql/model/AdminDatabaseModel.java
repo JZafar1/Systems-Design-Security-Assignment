@@ -37,7 +37,6 @@ public class AdminDatabaseModel extends DatabaseModel {
             Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     public Departments getDepartments(String values) {
         initConnection();
         initStatement();
@@ -181,5 +180,32 @@ public class AdminDatabaseModel extends DatabaseModel {
             ex.printStackTrace();
         }
         return students;
+    }
+    public DegreeLinks getDegreeLinks(String values, String condition) {
+        initConnection();
+        initStatement();
+        DegreeLinks degreeLinks = new DegreeLinks();
+        try {
+            try{
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT " + values + " FROM `Department degree (linking)` " + condition + ";");
+                while (getResult().next()) {
+                    int id = getResult().getInt(1);
+                    String departmentCode = getResult().getString(2);
+                    String degreeCode = getResult().getString(3);
+                    degreeLinks.addRow(id, departmentCode, degreeCode);
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return degreeLinks;
     }
 }

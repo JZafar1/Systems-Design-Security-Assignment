@@ -75,19 +75,26 @@ public class AdminController {
         }
         return baseCode + numCode;
     }
+    public void addDegreeLink(String departmentCode, String degreeCode) {
+    
+        String values = "(NULL, '" + departmentCode + "','" + degreeCode + "')";
+        databaseModel.insertIntoDatabase("`Department degree (linking)`", values);
+    }
     public void addDegree(String name, String leadDepartment, String levelOfStudy) {
-        String departmentCode;
+
+        String departmentCode = leadDepartment.substring(0, 3).toUpperCase();
+        String degreeCodeChars;
         if (levelOfStudy.charAt(0)=='1') {
-            departmentCode = leadDepartment.substring(0, 3).toUpperCase() + "U";
+            degreeCodeChars = departmentCode + "U";
         } else {
-            departmentCode = leadDepartment.substring(0, 3).toUpperCase() + "P";
+            degreeCodeChars = departmentCode + "P";
         }
-        Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode LIKE '" + departmentCode + "%'");
-        String degreeCode = generateUniqueCode(departmentCode, degree.getTableList(), "2");
+        Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode LIKE '" + degreeCodeChars + "%'");
+        String degreeCode = generateUniqueCode(degreeCodeChars, degree.getTableList(), "2");
         String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "')";
 
         databaseModel.insertIntoDatabase("Degree", values);
-
+        addDegreeLink(departmentCode, degreeCode);
     }
     public void addModule(String name, String teachingDepartment) {
         //generates new unique module code
@@ -109,23 +116,10 @@ public class AdminController {
     }
     public void removeUser(String username){
         String conditions = "(Username = '" + username + "');";
-        
         databaseModel.removeFromDatabase("Users",conditions);
     }
     public void removeDegree(String degreeCode){
+        databaseModel.removeFromDatabase("`Department degree (linking)`","(Degree_DegreeCode='" + degreeCode + "');");
         databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
     }
-    private String generatePassword(int length){
-        
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        String password = "";
-        Random randomVariable = new Random();
-        for(int i =0; i<length;i++){
-            password += characters.charAt(randomVariable.nextInt(characters.length()));
-        }
-        
-        return password;
-        
-    }
-    
 }

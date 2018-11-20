@@ -45,7 +45,7 @@ public class ManageModuleLinksMenu extends LinkingMenu {
         coreDropDown = new JComboBox<>();
         creditsField = new JTextField();
 
-        getChildSelectorTable().showDegrees();
+        refreshDatabaseView();
 
         degreeLevelLabel.setText("Degree Level: ");
         seasonLabel.setText("Season: ");
@@ -62,6 +62,9 @@ public class ManageModuleLinksMenu extends LinkingMenu {
         });
 
         placeComponents();
+    }
+    public void refreshDatabaseView() {
+        getChildSelectorTable().showDegrees(); 
     }
     protected void placeComponents() {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

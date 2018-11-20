@@ -90,6 +90,7 @@ public class ManageModuleMenu extends Menu {
     }
     private void showModuleLinkMenu() {
         getAdminUI().getModuleLinkMenu().setVisible(true);
+        getAdminUI().getModuleLinkMenu().refreshDatabaseView();
         getAdminUI().getModuleMenu().setVisible(false);
     }
     protected void placeComponents() {

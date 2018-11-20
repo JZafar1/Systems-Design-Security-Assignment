@@ -103,6 +103,8 @@ public class ManageDegreeMenu extends Menu {
     }
     private void showDegreeLinkMenu() {
         getAdminUI().getDegreeLinkMenu().setVisible(true);
+        getAdminUI().getDegreeLinkMenu().refreshDatabaseView();
+        getAdminUI().getDatabaseView().showDegreeLinks();
         getAdminUI().getDegreeMenu().setVisible(false);
     }
     protected void placeComponents(){

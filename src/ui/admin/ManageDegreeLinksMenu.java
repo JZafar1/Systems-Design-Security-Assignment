@@ -21,16 +21,20 @@ public class ManageDegreeLinksMenu extends LinkingMenu {
         setMenuTitle("Manage Degrees Links");
         setParentSelectorText(controller.getDegreeNames());
         
-        getChildSelectorTable().showDepartments();
+        refreshDatabaseView();
 
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 setVisible(false);
                 getAdminUI().getDegreeMenu().setVisible(true);
+                getAdminUI().getDatabaseView().showDegrees();
             }
         });
 
         placeComponents();
+    }
+    public void refreshDatabaseView() {
+        getChildSelectorTable().showDegrees(); 
     }
     protected void placeComponents() {
         javax.swing.GroupLayout linkingMenuLayout = new javax.swing.GroupLayout(this);

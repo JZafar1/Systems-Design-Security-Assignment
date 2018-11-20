@@ -13,8 +13,8 @@ public class AdminUI extends JPanel {
     private JPanel manageDepartmentMenu;
     private JPanel manageDegreeMenu;
     private JPanel manageModuleMenu;
-    private JPanel manageModuleLinksMenu;
-    private JPanel manageDegreeLinksMenu;
+    private ManageModuleLinksMenu manageModuleLinksMenu;
+    private ManageDegreeLinksMenu manageDegreeLinksMenu;
     private DatabaseView databaseView;
     private JButton logOffButton;
     private MainWindow mainWindow;
@@ -71,10 +71,10 @@ public class AdminUI extends JPanel {
     public JPanel getModuleMenu() {
         return manageModuleMenu;
     }
-    public JPanel getDegreeLinkMenu() {
+    public ManageDegreeLinksMenu getDegreeLinkMenu() {
         return manageDegreeLinksMenu;
     }
-    public JPanel getModuleLinkMenu() {
+    public ManageModuleLinksMenu getModuleLinkMenu() {
         return manageModuleLinksMenu;
     }
     public DatabaseView getDatabaseView() {

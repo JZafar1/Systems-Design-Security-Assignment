@@ -30,4 +30,8 @@ public class DatabaseViewController {
         Students students = databaseModel.getStudents("*","");
         return students.getTable();
     }
+    public Object[][] getDegreeLinks() {
+        DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","");
+        return degreeLinks.getTable();
+    }
 }
