@@ -10,6 +10,7 @@ import src.sql.model.*;
 import src.sql.tables.Departments;
 import src.sql.tables.Degrees;
 import src.sql.tables.Modules;
+import src.sql.tables.Users;
 
 public class AdminController {
 
@@ -17,6 +18,38 @@ public class AdminController {
 
     public AdminController() {
         databaseModel = new AdminDatabaseModel();
+    }
+    
+    /**
+     * Function generates a code for a table.
+     * 
+     * @param String baseCode - The string code that entries in a table will share
+     *               e.g. "COM"
+     * @param ArrayList<Object[]> table - table represented as a ArrayList of
+     *               Object arrays
+     * @param String numCodeLength - length of the unqiue number the code will have
+     */
+    private String generateUniqueCode(String baseCode, ArrayList<Object[]> table, String numCodeLength) {
+        String numCode;
+        int rowNum = table.size();
+        if (rowNum == 0) {
+            numCode = String.format("%0" + numCodeLength + "d", 0);
+        } else {
+            String prevNumCode = (String) table.get(rowNum - 1)[0];
+            int code = Integer.parseInt(prevNumCode.substring(baseCode.length()));
+            numCode = String.format("%0" + numCodeLength + "d", (code + 1));
+        }
+        return baseCode + numCode;
+    }
+    private String generateUsername(String baseUsername, ArrayList<Object[]> table) {
+        int rowNum = table.size();
+        if (rowNum == 0) {
+            return baseUsername + "1";
+        } else {
+            String prevName = (String) table.get(rowNum - 1)[4];
+            int prevNum = Integer.parseInt(prevName.substring(baseUsername.length()));
+            return baseUsername + Integer.toString(prevNum + 1);
+        }
     }
     public String[] getDepartmentNames() {
         Departments departments = databaseModel.getDepartments("*","");
@@ -49,15 +82,14 @@ public class AdminController {
         }        
     }
     public void addUser(String name, String surname, String password, String role) {
-        
-        int count = 1;
 
         byte[] salt = PasswordHasher.generateSalt();
         byte[] hashedPassword = PasswordHasher.generateHashPassword(password, salt);
 
-        System.out.println(hashedPassword);
+        String baseUsername = (name.substring(0, 1) + surname).toLowerCase();
+        Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%';");
+        String username = generateUsername(baseUsername, users.getTableList());
 
-        String username = name + surname + count;
         String email = username + "@sheffield.ac.uk";
         String title = "Mr.";
         /*String values = "('" + username + "','" + hashedPassword + "','"  + role + "','" + email + "','" + 
@@ -66,24 +98,6 @@ public class AdminController {
         //databaseModel.insertIntoDatabase("Users",values);
         databaseModel.insertUsers(username, hashedPassword, role, email, name, title, surname, salt);
         
-    }
-    /**Function generates a code for a table.
-     * 
-     * @param String baseCode - The string code that entries in a table will share e.g. "COM"
-     * @param ArrayList<Object[]> table - table represented as a ArrayList of Object arrays
-     * @param String numCodeLength - length of the unqiue number the code will have
-     */
-    private String generateUniqueCode(String baseCode, ArrayList<Object[]> table, String numCodeLength) {
-        String numCode;
-        int rowNum = table.size();
-        if (rowNum == 0) {
-            numCode = String.format("%0" + numCodeLength + "d", 0);
-        } else {
-            String predNumCode = (String) table.get(rowNum - 1)[0];
-            int code = Integer.parseInt(predNumCode.substring(baseCode.length()));
-            numCode = String.format("%0" + numCodeLength + "d", (code + 1));
-        }
-        return baseCode + numCode;
     }
     public void addDegreeLink(String departmentCode, String degreeCode) {
     
