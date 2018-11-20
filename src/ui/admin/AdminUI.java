@@ -45,7 +45,7 @@ public class AdminUI extends JPanel {
         logOffButton.setText("Log Off");
         logOffButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                getMainWindow().showLogInWindow();
+                mainWindow.showLogInWindow();
             }
         });
 

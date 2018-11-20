@@ -23,7 +23,7 @@ public class AdminController {
         return departments.getDepartmentNames();
     }
     public String[] getDegreeNames() {
-        Degrees degrees = databaseModel.getDegrees("*");
+        Degrees degrees = databaseModel.getDegrees("*", "");
         return degrees.getDegreeNames();
     }
     public String[] getModuleNames() {
@@ -57,19 +57,45 @@ public class AdminController {
         databaseModel.insertUsers(username, hashedPassword, role, email, name, title, surname, salt);
         
     }
+    /**Function generates a code for a table.
+     * 
+     * @param String baseCode - The string code that entries in a table will share e.g. "COM"
+     * @param ArrayList<Object[]> table - table represented as a ArrayList of Object arrays
+     * @param String numCodeLength - length of the unqiue number the code will have
+     */
+    private String generateUniqueCode(String baseCode, ArrayList<Object[]> table, String numCodeLength) {
+        String numCode;
+        int rowNum = table.size();
+        if (rowNum == 0) {
+            numCode = String.format("%0" + numCodeLength + "d", 0);
+        } else {
+            String predNumCode = (String) table.get(rowNum - 1)[0];
+            int code = Integer.parseInt(predNumCode.substring(baseCode.length()));
+            numCode = String.format("%0" + numCodeLength + "d", (code + 1));
+        }
+        return baseCode + numCode;
+    }
     public void addDegree(String name, String leadDepartment, String levelOfStudy) {
-
-        String serialNumber = "03";
-        String degreeCode = leadDepartment + "U" + serialNumber;
+        String departmentCode;
+        if (levelOfStudy.charAt(0)=='1') {
+            departmentCode = leadDepartment.substring(0, 3).toUpperCase() + "U";
+        } else {
+            departmentCode = leadDepartment.substring(0, 3).toUpperCase() + "P";
+        }
+        Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode LIKE '" + departmentCode + "%'");
+        String degreeCode = generateUniqueCode(departmentCode, degree.getTableList(), "2");
         String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "')";
 
         databaseModel.insertIntoDatabase("Degree", values);
 
     }
     public void addModule(String name, String teachingDepartment) {
-        String departmentCode = teachingDepartment.substring(0,3).toUpperCase();
+        //generates new unique module code
+        String departmentCode = teachingDepartment.substring(0, 3).toUpperCase();
         Modules modules = databaseModel.getModules("*", "WHERE ModuleCode LIKE '" + departmentCode + "%'");
-        String moduleCode = modules.generateModuleCode(departmentCode);
+        
+        String moduleCode = generateUniqueCode(departmentCode, modules.getTableList(), "4");
+
         String values = "('"+ moduleCode + "','" + name + "','" + teachingDepartment + "')";
         databaseModel.insertIntoDatabase("Module", values);
     }
@@ -86,11 +112,8 @@ public class AdminController {
         
         databaseModel.removeFromDatabase("Users",conditions);
     }
-    public void removeDegree(String leadDepartment){
-        String degreeCode = leadDepartment + "U03";
-        String conditions = "(DegreeCode = '" + degreeCode + "');";
-        
-        databaseModel.removeFromDatabase("Degree",conditions);
+    public void removeDegree(String degreeCode){
+        databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
     }
     private String generatePassword(int length){
         

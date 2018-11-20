@@ -15,7 +15,7 @@ public class DatabaseViewController {
         return departments.getTable();
     }
     public Object[][] getDegrees() {
-        Degrees degrees = databaseModel.getDegrees("*");
+        Degrees degrees = databaseModel.getDegrees("*","");
         return degrees.getTable();
     }
     public Object[][] getModules() {

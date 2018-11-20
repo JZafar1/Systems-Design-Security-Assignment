@@ -64,7 +64,7 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return departments;
     }
-    public Degrees getDegrees(String values) {
+    public Degrees getDegrees(String values, String condition) {
         initConnection();
         initStatement();
         Degrees degrees = new Degrees();
@@ -72,7 +72,7 @@ public class AdminDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Degree;");
+                openResultQuery("SELECT " + values + " FROM Degree " + condition + ";");
                 while (getResult().next()) {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);

@@ -37,6 +37,10 @@ public class MainWindow extends JFrame {
                     showTeacherWindow();
                     System.out.println("Connected to database");
                     break;
+                case "Registrar":
+                    showRegistrarWindow();
+                    System.out.println("Connected to database");
+                    break;
                 default:
                     break;
             }
@@ -59,6 +63,9 @@ public class MainWindow extends JFrame {
         getContentPane().removeAll();
         getContentPane().add(new AdminUI(this));
         pack();
+    }
+    public void showRegistrarWindow() {
+        System.out.println("showRegistrarWindow method is called");
     }
 
 }

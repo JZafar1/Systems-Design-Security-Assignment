@@ -10,3 +10,7 @@ password:123
 Teacher login details
 username:JamesSmith1@sheffield.ac.uk
 password:456
+
+Registrar login details
+username:GarryJones1@sheffield.ac.uk
+password:123
