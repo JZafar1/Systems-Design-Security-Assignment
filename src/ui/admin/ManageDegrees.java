@@ -87,8 +87,11 @@ public class ManageDegrees extends Menu {
         if (degreeName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Degree name is empty!");
         } else {
-            controller.addDegree(degreeName, leadDepartment, levelOfStudy);
-            getAdminUI().getDatabaseView().showDegrees();
+            if (controller.addDegree(degreeName, leadDepartment, levelOfStudy)) {
+                getAdminUI().getDatabaseView().showDegrees();
+            } else {
+                JOptionPane.showMessageDialog(this, "Degree name is taken!");
+            }
         }
     }
 

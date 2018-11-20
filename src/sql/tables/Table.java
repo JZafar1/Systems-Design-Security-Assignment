@@ -30,7 +30,7 @@ public abstract class Table {
     /**
      * Method returns bool reflecting if a string occurs in a given column.
      * @param String targetValue - value we testing to see if it occurs in a given column
-     * @param int columnNum - index of column we are searching
+     * @param int columnNum - index of column we are searching. Index starts at 0.
      */
     public Boolean occursInTable(String targetValue, int columnNum) {
         for (String s: (String[]) getColumn(columnNum)) {

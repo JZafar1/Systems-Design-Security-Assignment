@@ -90,21 +90,27 @@ public class AdminController {
         String values = "(NULL, '" + departmentCode + "','" + degreeCode + "')";
         databaseModel.insertIntoDatabase("`Department degree (linking)`", values);
     }
-    public void addDegree(String name, String leadDepartment, String levelOfStudy) {
+    public Boolean addDegree(String name, String leadDepartment, String levelOfStudy) {
 
-        String departmentCode = leadDepartment.substring(0, 3).toUpperCase();
-        String degreeCodeChars;
-        if (levelOfStudy.charAt(0)=='1') {
-            degreeCodeChars = departmentCode + "U";
+        Degrees degrees = databaseModel.getDegrees("*","");
+        if (degrees.occursInTable(name,1)) {
+            return false;
         } else {
-            degreeCodeChars = departmentCode + "P";
-        }
-        Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode LIKE '" + degreeCodeChars + "%'");
-        String degreeCode = generateUniqueCode(degreeCodeChars, degree.getTableList(), "2");
-        String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "')";
+            String departmentCode = leadDepartment.substring(0, 3).toUpperCase();
+            String degreeCodeChars;
+            if (levelOfStudy.charAt(0)=='1') {
+                degreeCodeChars = departmentCode + "U";
+            } else {
+                degreeCodeChars = departmentCode + "P";
+            }
+            Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode LIKE '" + degreeCodeChars + "%'");
+            String degreeCode = generateUniqueCode(degreeCodeChars, degree.getTableList(), "2");
+            String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "')";
 
-        databaseModel.insertIntoDatabase("Degree", values);
-        addDegreeLink(departmentCode, degreeCode);
+            databaseModel.insertIntoDatabase("Degree", values);
+            addDegreeLink(departmentCode, degreeCode);
+            return true;
+        }
     }
     public void addModule(String name, String teachingDepartment) {
         //generates new unique module code
