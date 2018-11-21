@@ -171,7 +171,9 @@ public class AdminController {
         databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
     }
     public void removeDegreeLink(String degreeCode, String departmentCode) {
+        //Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode='" + degreeCode + "'");
+        //Object degreesLeadDepartment = degree.getColumn()
         databaseModel.removeFromDatabase("`Department degree (linking)`", "Degree_DegreeCode='" + degreeCode + "' AND " + 
-                                                                           "Department_DepartmentCode='" + departmentCode + "';");
+                                            "Department_DepartmentCode='" + departmentCode + "';");
     }
 }

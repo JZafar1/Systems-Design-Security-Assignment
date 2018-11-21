@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import src.ui.admin.AdminUI;
+import src.ui.registrar.RegistrarUI;;
 import src.ui.teacher.TeacherGUI;
 import src.ui.login.Login;
 
@@ -65,7 +66,9 @@ public class MainWindow extends JFrame {
         pack();
     }
     public void showRegistrarWindow() {
-        System.out.println("showRegistrarWindow method is called");
+        getContentPane().removeAll();
+        getContentPane().add(new RegistrarUI(this));
+        pack();
     }
 
 }

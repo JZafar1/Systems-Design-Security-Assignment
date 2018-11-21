@@ -60,7 +60,6 @@ public class ManageDegrees extends Menu {
             }
         });
 
-
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                         "Manage Degrees", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 12)));
@@ -79,7 +78,6 @@ public class ManageDegrees extends Menu {
         });
 
     }
-
     private void addDegree() {
         String degreeName = degreeNameField.getText();
         String leadDepartment = (String) leadDepartmentDropDown.getSelectedItem();
@@ -95,7 +93,6 @@ public class ManageDegrees extends Menu {
             }
         }
     }
-
     private void removeDegree() {
         String degreeCode = getAdminUI().getDatabaseView().getSelectedRow(0);
         if (degreeCode == null) {
