@@ -8,12 +8,17 @@ import src.sql.tables.UserCredentials;
 public class LoginController {
 
     private LoginDatabaseModel databaseModel;
+    private SQLValidation validation;
 
     public LoginController() {
         databaseModel = new LoginDatabaseModel();
+        validation = new SQLValidation();
     }
 
     public String checkUser(String email, char[] passwordArray) {
+        
+        email = validation.generalValidation(email);
+        
         String password = String.valueOf(passwordArray);
 
         UserCredentials userCredentials = databaseModel.getUserCredentials(email);
