@@ -31,7 +31,7 @@ public class DatabaseViewController {
         return students.getTable();
     }
     public Object[][] getDegreeLinks() {
-        DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*");
+        DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","");
         return degreeLinks.getTable();
     }
 }

@@ -1,6 +1,9 @@
 package src.ui.admin;
 
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionEvent;
 import src.sql.controller.AdminController;
 
@@ -17,11 +20,21 @@ public class ManageDegreeLinks extends LinkingMenu {
         setAddLinkButtonText("Add Degree Link");
         setRemoveLinkButtonText("Remove Degree Link");
         setSelectParentLabelText("Select Degree: ");
-        setChildTableLabelText("Select Departments(s) to add from table: ");
+        setChildTableLabelText("Select Department to add from table: ");
         setMenuTitle("Manage Degrees Links");
-        setParentSelectorText(controller.getDegreeNames());
         
         refreshDatabaseView();
+
+        getAddLinkButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addDegreeLink();
+            }
+        });
+        getRemoveLinkButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                removeDegreeLink();
+            }
+        });
 
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -33,8 +46,33 @@ public class ManageDegreeLinks extends LinkingMenu {
 
         placeComponents();
     }
+    private void addDegreeLink() {
+        String degreeName = (String) getParentSelector().getSelectedItem();
+        String departmentCode = getChildSelectorTable().getSelectedRow(0);
+        if (departmentCode == null) {
+            JOptionPane.showMessageDialog(this, "No Department Selected!");
+        } else {
+            Boolean successfullyAdded = controller.addDegreeLink(degreeName, departmentCode, "no degree code");
+            if (successfullyAdded) {
+                getAdminUI().getDatabaseView().showDegreeLinks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Degree Link already exists");
+            }
+        }
+    }
+    private void removeDegreeLink() {
+        String degreeCode = getAdminUI().getDatabaseView().getSelectedRow(0);
+        String departmentCode = getAdminUI().getDatabaseView().getSelectedRow(2);
+        if (degreeCode == null || departmentCode == null) {
+            JOptionPane.showMessageDialog(this, "No Degree Link selected!");
+        } else {
+            controller.removeDegreeLink(degreeCode, departmentCode);
+            getAdminUI().getDatabaseView().showDegreeLinks();
+        }
+    }
     public void refreshDatabaseView() {
-        getChildSelectorTable().showDegrees(); 
+        getChildSelectorTable().showDepartments(); 
+        setParentSelectorText(controller.getDegreeNames());
     }
     protected void placeComponents() {
         javax.swing.GroupLayout linkingMenuLayout = new javax.swing.GroupLayout(this);

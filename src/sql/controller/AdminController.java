@@ -8,6 +8,7 @@ import src.ui.admin.*;
 import src.sql.controller.PasswordHasher;
 import src.sql.model.*;
 import src.sql.tables.Departments;
+import src.sql.tables.DegreeLinks;
 import src.sql.tables.Degrees;
 import src.sql.tables.Modules;
 import src.sql.tables.Users;
@@ -59,6 +60,11 @@ public class AdminController {
         Degrees degrees = databaseModel.getDegrees("*", "");
         return degrees.getDegreeNames();
     }
+    public String getDegreeCode(String degreeName) {
+        Degrees degrees = databaseModel.getDegrees("*", "WHERE `Degree name`='" + degreeName + "';");
+        Object[] degreeCode = degrees.getColumn(0);
+        return (String) degreeCode[0];
+    }
     public String[] getModuleNames() {
         Modules modules = databaseModel.getModules("*","");
         return modules.getModuleNames();
@@ -103,6 +109,18 @@ public class AdminController {
     
         String values = "(NULL, '" + departmentCode + "','" + degreeCode + "')";
         databaseModel.insertIntoDatabase("`Department degree (linking)`", values);
+    }
+    public Boolean addDegreeLink(String degreeName, String departmentCode, String degreeNamePassed) {
+        
+        String degreeCode = getDegreeCode(degreeName);
+        DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","Degree_DegreeCode='" + degreeCode + 
+                                                                   "' AND Department_DepartmentCode='" + departmentCode + "'");
+        if (degreeLinks.occursInTable(degreeCode, departmentCode)) {
+            return false;
+        } else {
+            addDegreeLink(departmentCode, degreeCode);
+            return true;
+        }
     }
     public Boolean addDegree(String name, String leadDepartment, String levelOfStudy) {
 
@@ -149,7 +167,11 @@ public class AdminController {
         databaseModel.removeFromDatabase("Users",conditions);
     }
     public void removeDegree(String degreeCode){
-        databaseModel.removeFromDatabase("`Department degree (linking)`","(Degree_DegreeCode='" + degreeCode + "');");
+        databaseModel.removeFromDatabase("`Department degree (linking)`", "(Degree_DegreeCode='" + degreeCode + "');");
         databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
+    }
+    public void removeDegreeLink(String degreeCode, String departmentCode) {
+        databaseModel.removeFromDatabase("`Department degree (linking)`", "Degree_DegreeCode='" + degreeCode + "' AND " + 
+                                                                           "Department_DepartmentCode='" + departmentCode + "';");
     }
 }
