@@ -181,7 +181,7 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return students;
     }
-    public DegreeLinks getDegreeLinks(String values, String condition) {
+    public DegreeLinks getDegreeLinks(String values) {
         initConnection();
         initStatement();
         DegreeLinks degreeLinks = new DegreeLinks();
@@ -189,12 +189,16 @@ public class AdminDatabaseModel extends DatabaseModel {
             try{
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM `Department degree (linking)` " + condition + ";");
+                openResultQuery("SELECT dll.Degree_DegreeCode, deg.`Degree name`, dll.Department_DepartmentCode, dept.`Full name` " + 
+                                "FROM Department dept, Degree deg, `Department degree (linking)` dll " + 
+                                "WHERE dept.DepartmentCode = dll.Department_DepartmentCode AND deg.DegreeCode = dll.Degree_DegreeCode " +
+                                "ORDER BY dll.Department_DepartmentCode;");
                 while (getResult().next()) {
-                    int id = getResult().getInt(1);
-                    String departmentCode = getResult().getString(2);
-                    String degreeCode = getResult().getString(3);
-                    degreeLinks.addRow(id, departmentCode, degreeCode);
+                    String degreeCode = getResult().getString(1);
+                    String degreeName = getResult().getString(2);
+                    String departmentCode = getResult().getString(3);
+                    String departmentName = getResult().getString(4);
+                    degreeLinks.addRow(degreeCode, degreeName, departmentCode, departmentName);
                 }
             }
             finally {

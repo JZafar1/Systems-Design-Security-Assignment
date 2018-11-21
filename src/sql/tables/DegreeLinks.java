@@ -5,7 +5,7 @@ public class DegreeLinks extends Table {
     public DegreeLinks() {
         super();
     }
-    public void addRow(int paringId, String departmentCode, String degreeCode) {
-        super.addRow(new Object[] {paringId, departmentCode, degreeCode});
+    public void addRow(String degreeCode, String degreeName, String departmentCode, String departmentName) {
+        super.addRow(new Object[] { degreeCode, degreeName, departmentCode, departmentName});
     }
 }

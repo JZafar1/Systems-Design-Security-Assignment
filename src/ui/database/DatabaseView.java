@@ -81,7 +81,7 @@ public class DatabaseView extends JScrollPane{
 
     public void showDegreeLinks() {
         databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getDegreeLinks(),
-                new String[] {"Paring ID", "Department Code", "Degree Code",}));
+                new String[] {"Degree Code", "Degree Name", "Department Code", "Department Name"}));
         setViewportView(databaseTable);
     }
 

@@ -54,7 +54,8 @@ public class ManageDepartments extends Menu {
         if (departmentName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Department Name Field Empty!");
         } else {
-            if (controller.addDepartment(departmentName)) {
+            Boolean successfullyAdded = controller.addDepartment(departmentName);
+            if (successfullyAdded) {
                 getAdminUI().getDatabaseView().showDepartments();
             } else {
                 JOptionPane.showMessageDialog(this, "Department name already exists!");
