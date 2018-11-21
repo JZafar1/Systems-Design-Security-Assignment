@@ -8,7 +8,7 @@ username:jdalrymple1@sheffield.ac.uk
 password:123
 
 Teacher login details
-username:jsmith2@sheffield.ac.uk
+username:jsmith2@sheffield.ac.uk    
 password:123
 
 Registrar login details
