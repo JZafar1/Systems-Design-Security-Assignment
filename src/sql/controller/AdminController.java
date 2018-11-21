@@ -16,9 +16,11 @@ import src.sql.tables.Users;
 public class AdminController {
 
     private AdminDatabaseModel databaseModel;
+    private SQLValidation validation;
 
     public AdminController() {
         databaseModel = new AdminDatabaseModel();
+        validation = new SQLValidation();
     }
     
     /**
@@ -61,6 +63,7 @@ public class AdminController {
         return degrees.getDegreeNames();
     }
     public String getDegreeCode(String degreeName) {
+        degreeName = validation.generalValidation(degreeName);
         Degrees degrees = databaseModel.getDegrees("*", "WHERE `Degree name`='" + degreeName + "';");
         Object[] degreeCode = degrees.getColumn(0);
         return (String) degreeCode[0];
@@ -75,7 +78,8 @@ public class AdminController {
      * @return success - Boolean indicating if Department name was already in the database
      */
     public Boolean addDepartment(String name){
-
+        
+        name = validation.generalValidation(name);
         String departmentCode = name.substring(0, 3).toUpperCase();
 
         Departments departments = databaseModel.getDepartments("*","");
@@ -88,7 +92,11 @@ public class AdminController {
         }        
     }
     public void addUser(String name, String surname, String password, String role) {
-
+        
+        name = validation.generalValidation(name);
+        surname = validation.generalValidation(surname);
+        role = validation.generalValidation(role);
+        
         byte[] salt = PasswordHasher.generateSalt();
         byte[] hashedPassword = PasswordHasher.generateHashPassword(password, salt);
 
@@ -107,10 +115,17 @@ public class AdminController {
     }
     public void addDegreeLink(String departmentCode, String degreeCode) {
     
+        departmentCode = validation.generalValidation(departmentCode);
+        degreeCode = validation.generalValidation(degreeCode);
+        
         String values = "(NULL, '" + departmentCode + "','" + degreeCode + "')";
         databaseModel.insertIntoDatabase("`Department degree (linking)`", values);
     }
     public Boolean addDegreeLink(String degreeName, String departmentCode, String degreeNamePassed) {
+        
+        degreeName = validation.generalValidation(degreeName);
+        departmentCode = validation.generalValidation(departmentCode);
+        degreeNamePassed = validation.generalValidation(degreeNamePassed);
         
         String degreeCode = getDegreeCode(degreeName);
         DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","Degree_DegreeCode='" + degreeCode + 
@@ -124,6 +139,10 @@ public class AdminController {
     }
     public Boolean addDegree(String name, String leadDepartment, String levelOfStudy) {
 
+        name = validation.generalValidation(name);
+        leadDepartment = validation.generalValidation(leadDepartment);
+        levelOfStudy = validation.generalValidation(levelOfStudy);
+        
         Degrees degrees = databaseModel.getDegrees("*","");
         if (degrees.occursInTable(name,1)) {
             return false;
@@ -145,32 +164,51 @@ public class AdminController {
         }
     }
     public void addModule(String name, String teachingDepartment) {
-        //generates new unique module code
+        
+        name = validation.generalValidation(name);
+        teachingDepartment = validation.generalValidation(teachingDepartment);
+        
         String departmentCode = teachingDepartment.substring(0, 3).toUpperCase();
         Modules modules = databaseModel.getModules("*", "WHERE ModuleCode LIKE '" + departmentCode + "%'");
-        
+        //generates new unique module code
         String moduleCode = generateUniqueCode(departmentCode, modules.getTableList(), "4");
 
         String values = "('"+ moduleCode + "','" + name + "','" + teachingDepartment + "')";
         databaseModel.insertIntoDatabase("Module", values);
     }
     public void removeModule(String moduleCode) {
+        
+        moduleCode = validation.generalValidation(moduleCode);
+        
         String conditions = "(ModuleCode = '" + moduleCode + "');";
         databaseModel.removeFromDatabase("Module", conditions);
     }
     public void removeDepartment(String departmentCode){
+        
+        departmentCode = validation.generalValidation(departmentCode);
+        
         String conditions = "(DepartmentCode = '" + departmentCode + "');";
         databaseModel.removeFromDatabase("Department",conditions);
     }
     public void removeUser(String username){
+        
+        username = validation.generalValidation(username);
+        
         String conditions = "(Username = '" + username + "');";
         databaseModel.removeFromDatabase("Users",conditions);
     }
     public void removeDegree(String degreeCode){
+        
+        degreeCode = validation.generalValidation(degreeCode);
+        
         databaseModel.removeFromDatabase("`Department degree (linking)`", "(Degree_DegreeCode='" + degreeCode + "');");
         databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
     }
     public void removeDegreeLink(String degreeCode, String departmentCode) {
+        
+        degreeCode = validation.generalValidation(degreeCode);
+        departmentCode = validation.generalValidation(departmentCode);
+        
         databaseModel.removeFromDatabase("`Department degree (linking)`", "Degree_DegreeCode='" + degreeCode + "' AND " + 
                                                                            "Department_DepartmentCode='" + departmentCode + "';");
     }
