@@ -6,6 +6,7 @@ public class ManageModules extends JPanel {
     private javax.swing.JButton addModuleButton;
     private javax.swing.JButton backButton;
     private javax.swing.JTable displayTable;
+    private javax.swing.JButton logOffButton;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField moduleCode;
@@ -37,6 +38,7 @@ public class ManageModules extends JPanel {
         resultsArea = new javax.swing.JPanel();
         scrollTable = new javax.swing.JScrollPane();
         displayTable = new javax.swing.JTable();
+        logOffButton = new javax.swing.JButton();
         mainLabel = new javax.swing.JLabel();
 
         mainPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -66,6 +68,8 @@ public class ManageModules extends JPanel {
                 moduleCodeActionPerformed(evt);
             }
         });
+
+        logOffButton.setText("Sign Out");
 
         regNoLabel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         regNoLabel.setText("Student registration number");
@@ -160,14 +164,20 @@ public class ManageModules extends JPanel {
 
         javax.swing.GroupLayout resultsAreaLayout = new javax.swing.GroupLayout(resultsArea);
         resultsArea.setLayout(resultsAreaLayout);
-        resultsAreaLayout
-                .setHorizontalGroup(resultsAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(resultsAreaLayout.createSequentialGroup().addComponent(scrollTable,
-                                javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)));
+        resultsAreaLayout.
+            setHorizontalGroup(
+                resultsAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(resultsAreaLayout.createSequentialGroup()
+                    .addGroup(resultsAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(logOffButton))
+                    .addGap(0, 0, Short.MAX_VALUE))
+            );
+
         resultsAreaLayout.setVerticalGroup(resultsAreaLayout
                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(scrollTable,
-                        javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE));
+                        javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(logOffButton));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         setLayout(layout);
