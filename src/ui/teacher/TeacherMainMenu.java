@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import src.sql.controller.TeacherController;
-import java.util.ArrayList;
 
 public class TeacherMainMenu extends Menu {
     private javax.swing.JLabel searchLabel;
