@@ -112,8 +112,8 @@ public class Registrar extends JPanel {
     private RegistrarUI getRegistrarUI() { return registrarUI; }
 
     private void placeComponents() {
-        javax.swing.GroupLayout userAreaLayout = new javax.swing.GroupLayout(this);
-        setLayout(userAreaLayout);
+        javax.swing.GroupLayout userAreaLayout = new javax.swing.GroupLayout(userArea);
+        userArea.setLayout(userAreaLayout);
         userAreaLayout.setHorizontalGroup(
             userAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userAreaLayout.createSequentialGroup()
@@ -141,8 +141,8 @@ public class Registrar extends JPanel {
                 .addComponent(infoField2))
         );
         displayArea.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        javax.swing.GroupLayout displayAreaLayout = new javax.swing.GroupLayout(userArea);
-        userArea.setLayout(displayAreaLayout);
+        javax.swing.GroupLayout displayAreaLayout = new javax.swing.GroupLayout(displayArea);
+        displayArea.setLayout(displayAreaLayout);
         displayAreaLayout.setHorizontalGroup(
             displayAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrollTable)
@@ -157,8 +157,6 @@ public class Registrar extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logOffButton))
         );
-
-
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -182,6 +180,7 @@ public class Registrar extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(displayArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
