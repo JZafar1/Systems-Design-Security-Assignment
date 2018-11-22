@@ -5,6 +5,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
@@ -34,7 +35,6 @@ public class ManageModuleLinks extends LinkingMenu {
         setSelectParentLabelText("Select Module: ");
         setChildTableLabelText("Select Degree(s) to add from table: ");
         setMenuTitle("Manage Module Links");
-        setParentSelectorText(controller.getModuleNames());
 
         degreeLevelLabel = new JLabel();
         seasonLabel = new JLabel();
@@ -54,17 +54,63 @@ public class ManageModuleLinks extends LinkingMenu {
         seasonDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Autumn", "Spring"}));
         coreDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Core", "Not Core"}));
 
+        getAddLinkButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addModuleLink();
+            }
+        });
+        getRemoveLinkButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                removeModuleLink();
+            }
+        });   
         setBackButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 setVisible(false);
                 getAdminUI().getModuleMenu().setVisible(true);
+                getAdminUI().getDatabaseView().showModules();
             }
         });
 
         placeComponents();
     }
+    private void addModuleLink() {
+        String moduleCode = ((String) getParentSelector().getSelectedItem()).substring(0, 7);
+        String degreeCode = (String) getChildSelectorTable().getSelectedRow(0);
+        String level = ((String) degreeLevelDropDown.getSelectedItem()).substring(6);
+        String semester = (String) seasonDropDown.getSelectedItem();
+        String coreOrNot = (String) coreDropDown.getSelectedItem();
+        String credits = (String) creditsField.getText();
+
+        if (credits.isEmpty() || degreeCode == null) {
+            JOptionPane.showMessageDialog(this, "One or more input fields are empty!");
+        } else {
+            Boolean successfullyAdded = controller.addModuleLink(moduleCode, degreeCode, level, semester, coreOrNot, credits);
+            if (successfullyAdded) {
+                getAdminUI().getDatabaseView().showModuleLinks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid infomation added. Wrong infomation could be added" + 
+                                                    " or module link could already exist");
+            }
+        }
+    }
+    private void removeModuleLink() {
+        String degreeCode = getAdminUI().getDatabaseView().getSelectedRow(0);
+        String moduleCode = getAdminUI().getDatabaseView().getSelectedRow(2);
+        if (degreeCode == null || moduleCode == null) {
+            JOptionPane.showMessageDialog(this, "No Module Link selected!");
+        } else {
+            if (controller.removeModuleLink(degreeCode, moduleCode)) {
+                getAdminUI().getDatabaseView().showModuleLinks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid choice! Can't delete Module Link");
+            }
+
+        }
+    }
     public void refreshDatabaseView() {
         getChildSelectorTable().showDegrees(); 
+        setParentSelectorText(controller.getModuleNames());
     }
     protected void placeComponents() {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

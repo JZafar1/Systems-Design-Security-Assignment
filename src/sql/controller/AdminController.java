@@ -12,6 +12,7 @@ import src.sql.tables.DegreeLinks;
 import src.sql.tables.Degrees;
 import src.sql.tables.Modules;
 import src.sql.tables.Users;
+import src.sql.tables.ModuleLinks;
 
 public class AdminController {
 
@@ -128,9 +129,9 @@ public class AdminController {
         degreeNamePassed = validation.generalValidation(degreeNamePassed);
         
         String degreeCode = getDegreeCode(degreeName);
-        DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","Degree_DegreeCode='" + degreeCode + 
-                                                                   "' AND Department_DepartmentCode='" + departmentCode + "'");
-        if (degreeLinks.occursInTable(degreeCode, departmentCode)) {
+        DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","dll.Degree_DegreeCode='" + degreeCode + 
+                                                                   "' AND dll.Department_DepartmentCode='" + departmentCode + "'");
+        if (degreeLinks.getNumOfRows() != 0) {
             return false;
         } else {
             addDegreeLink(departmentCode, degreeCode);
@@ -175,6 +176,17 @@ public class AdminController {
 
         String values = "('"+ moduleCode + "','" + name + "','" + teachingDepartment + "')";
         databaseModel.insertIntoDatabase("Module", values);
+    }
+    public Boolean addModuleLink(String moduleCode, String degreeCode, String level, String semester, String coreOrNot, String credits) {
+
+        ModuleLinks moduleLinks = databaseModel.getModuleLinks("*","mdl.Module_ModuleCode='" + moduleCode + 
+                                                                    "' AND mdl.Degree_DegreeCode='" + degreeCode + "'");
+        if (credits.matches("(0|[1-9]\\d*)") && moduleLinks.getNumOfRows() == 0) {
+            String values = "(NULL, '" + moduleCode + "','" + degreeCode + "','" + level + "','" + semester + "','" + credits + "','" + coreOrNot + "')";
+            databaseModel.insertIntoDatabase("`Module degree (linking)`", values);
+            return true;
+        }
+        return false;
     }
     public void removeModule(String moduleCode) {
         
@@ -223,6 +235,20 @@ public class AdminController {
             }
         }
 
+        return false;
+    }
+    
+    public Boolean removeModuleLink(String degreeCode, String moduleCode) {
+
+        degreeCode = validation.generalValidation(degreeCode);
+        moduleCode = validation.generalValidation(moduleCode);
+
+        if (!degreeCode.equals("") && !moduleCode.equals("")) {
+
+            databaseModel.removeFromDatabase("`Module degree (linking)`", "Degree_DegreeCode='" + degreeCode
+                        + "' AND " + "Module_ModuleCode='" + moduleCode + "';");
+            return true;
+        }
         return false;
     }
 }

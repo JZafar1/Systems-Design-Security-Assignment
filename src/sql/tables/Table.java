@@ -40,4 +40,5 @@ public abstract class Table {
         return false;
     }
     public ArrayList<Object[]> getTableList() { return tableList; }
+    public int getNumOfRows() { return tableList.size(); }
 }

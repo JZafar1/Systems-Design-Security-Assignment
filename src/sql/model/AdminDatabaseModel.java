@@ -215,4 +215,42 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return degreeLinks;
     }
+    
+    public ModuleLinks getModuleLinks(String values, String condition) {
+        if (condition.length() == 0)
+            condition = "true";
+        initConnection();
+        initStatement();
+        ModuleLinks moduleLinks = new ModuleLinks();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT mdl.Degree_DegreeCode, deg.`Degree name`, mdl.Module_ModuleCode, " + 
+                                            "mdule.`Full name`, mdl.`Level`, mdl.season, mdl.credits, mdl.CoreOrNot " +
+                                "FROM Module mdule, Degree deg, `Module degree (linking)` mdl " + 
+                                "WHERE mdl.Module_ModuleCode = mdule.ModuleCode AND mdl.Degree_DegreeCode = deg.DegreeCode AND " + 
+                                condition +
+                                " ORDER BY mdl.Degree_DegreeCode;");
+                while (getResult().next()) {
+                    String degreeCode = getResult().getString(1);
+                    String degreeName = getResult().getString(2);
+                    String moduleCode = getResult().getString(3);
+                    String moduleName = getResult().getString(4);
+                    String level = getResult().getString(5);
+                    String semester = getResult().getString(6);
+                    String credits = getResult().getString(7);
+                    String coreOrNot = getResult().getString(8);
+                    moduleLinks.addRow(degreeCode, degreeName, moduleCode, moduleName, level, semester, credits, coreOrNot);
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return moduleLinks;
+    }
 }

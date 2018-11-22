@@ -34,4 +34,8 @@ public class DatabaseViewController {
         DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","");
         return degreeLinks.getTable();
     }
+    public Object[][] getModuleLinks() {
+        ModuleLinks moduleLinks = databaseModel.getModuleLinks("*", "");
+        return moduleLinks.getTable();
+    }
 }

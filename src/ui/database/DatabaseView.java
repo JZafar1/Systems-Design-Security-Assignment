@@ -85,6 +85,12 @@ public class DatabaseView extends JScrollPane{
         setViewportView(databaseTable);
     }
 
+    public void showModuleLinks() {
+        databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getModuleLinks(),
+                new String[] { "Degree Code", "Degree Name", "Module Code", "Module Name", "Level", "Semester", "Credits", "Core or Not"}));
+        setViewportView(databaseTable);
+    }
+
     /**
      * Returns selected field in the selected row
      * @param col - col index of selected row you want to return
