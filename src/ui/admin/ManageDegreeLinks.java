@@ -66,8 +66,12 @@ public class ManageDegreeLinks extends LinkingMenu {
         if (degreeCode == null || departmentCode == null) {
             JOptionPane.showMessageDialog(this, "No Degree Link selected!");
         } else {
-            controller.removeDegreeLink(degreeCode, departmentCode);
-            getAdminUI().getDatabaseView().showDegreeLinks();
+            if(controller.removeDegreeLink(degreeCode, departmentCode)) {
+                getAdminUI().getDatabaseView().showDegreeLinks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid choice! Can't delete Lead Department Link");
+            }
+            
         }
     }
     public void refreshDatabaseView() {

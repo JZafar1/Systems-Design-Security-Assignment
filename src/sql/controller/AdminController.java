@@ -204,12 +204,25 @@ public class AdminController {
         databaseModel.removeFromDatabase("`Department degree (linking)`", "(Degree_DegreeCode='" + degreeCode + "');");
         databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
     }
-    public void removeDegreeLink(String degreeCode, String departmentCode) {
+    public Boolean removeDegreeLink(String degreeCode, String departmentCode) {
         
         degreeCode = validation.generalValidation(degreeCode);
         departmentCode = validation.generalValidation(departmentCode);
-        
-        databaseModel.removeFromDatabase("`Department degree (linking)`", "Degree_DegreeCode='" + degreeCode + "' AND " + 
+
+        if (!degreeCode.equals("") && !departmentCode.equals("")) {
+
+            Departments departments = databaseModel.getDepartments("*", "WHERE DepartmentCode='" + departmentCode + "'");
+            String departmentName = (String) departments.getDepartmentNames()[0];
+            Degrees degrees = databaseModel.getDegrees("*", "WHERE DegreeCode='" + degreeCode + "'");
+            String leadDepartment = (String) degrees.getColumn(3)[0];
+
+            if (!departmentName.equals(leadDepartment)) {
+                databaseModel.removeFromDatabase("`Department degree (linking)`", "Degree_DegreeCode='" + degreeCode + "' AND " + 
                                                 "Department_DepartmentCode='" + departmentCode + "';");
+                return true;
+            }
+        }
+
+        return false;
     }
 }
