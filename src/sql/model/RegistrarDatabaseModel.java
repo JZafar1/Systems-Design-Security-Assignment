@@ -6,6 +6,7 @@
 package src.sql.model;
 
 import java.sql.SQLException;
+import src.sql.tables.*;
 
 /**
  *
@@ -39,6 +40,39 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         return recordId;
         
     }
-     
+    
+    public ModuleLinks getModuleLinks (String values, String condition) {
+        
+        initConnection();
+        initStatement();
+        ModuleLinks availableModules = new ModuleLinks();
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT " + values + " FROM Department " + condition + ";");
+                while (getResult().next()) {
+                    int pairingId = Integer.parseInt(getResult().getString(1));
+                    String moduleCode = getResult().getString(2);
+                    String degreeCode = getResult().getString(3);
+                    String degreeLevel = getResult().getString(4);
+                    String season = getResult().getString(5);
+                    String credits = getResult().getString(6);
+                    availableModules.addRow(pairingId,moduleCode,degreeCode,degreeLevel,season,credits);
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return availableModules;
+        
+    }
     
 }
