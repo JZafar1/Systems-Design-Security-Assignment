@@ -15,22 +15,21 @@ public class AdminDatabaseModel extends DatabaseModel {
             String surname, byte[] salt) {
         try {
             openConnection();
-            openStatement();
+            //openStatement();
+            PreparedStatement prepStatement = getConnection().prepareStatement("INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             try {
-                PreparedStatement ps = getConnection()
-                        .prepareStatement("INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                ps.setString(1, username);
-                ps.setBytes(2, password);
-                ps.setString(3, role);
-                ps.setString(4, email);
-                ps.setString(5, name);
-                ps.setString(6, title);
-                ps.setString(7, surname);
-                ps.setBytes(8, salt);
-                ps.executeUpdate();
-                ps.close();
+                prepStatement.setString(1, username);
+                prepStatement.setBytes(2, password);
+                prepStatement.setString(3, role);
+                prepStatement.setString(4, email);
+                prepStatement.setString(5, name);
+                prepStatement.setString(6, title);
+                prepStatement.setString(7, surname);
+                prepStatement.setBytes(8, salt);
+                prepStatement.executeUpdate();
             } finally {
-                closeStatement();
+                prepStatement.close();
+                //scloseStatement();
                 closeConnection();
             }
         } catch (SQLException ex) {
@@ -76,7 +75,8 @@ public class AdminDatabaseModel extends DatabaseModel {
                     String code = getResult().getString(1);
                     String name = getResult().getString(2);
                     String levelOfStudy = getResult().getString(3);
-                    degrees.addRow(code, name, levelOfStudy);
+                    String leadDepartment = getResult().getString(4);
+                    degrees.addRow(code, name, levelOfStudy, leadDepartment);
                 }
             }
             finally {

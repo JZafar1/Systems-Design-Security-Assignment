@@ -156,7 +156,7 @@ public class AdminController {
             }
             Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode LIKE '" + degreeCodeChars + "%'");
             String degreeCode = generateUniqueCode(degreeCodeChars, degree.getTableList(), "2");
-            String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "')";
+            String values = "('" + degreeCode + "','" + name +  "','" + levelOfStudy + "','" + leadDepartment + "')";
 
             databaseModel.insertIntoDatabase("Degree", values);
             addDegreeLink(departmentCode, degreeCode);
@@ -205,13 +205,11 @@ public class AdminController {
         databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
     }
     public void removeDegreeLink(String degreeCode, String departmentCode) {
-        //Degrees degree = databaseModel.getDegrees("*", "WHERE DegreeCode='" + degreeCode + "'");
-        //Object degreesLeadDepartment = degree.getColumn()
         
         degreeCode = validation.generalValidation(degreeCode);
         departmentCode = validation.generalValidation(departmentCode);
         
         databaseModel.removeFromDatabase("`Department degree (linking)`", "Degree_DegreeCode='" + degreeCode + "' AND " + 
-                                            "Department_DepartmentCode='" + departmentCode + "';");
+                                                "Department_DepartmentCode='" + departmentCode + "';");
     }
 }
