@@ -50,6 +50,22 @@ public class RegistrarController {
        
     }
     
+    public void removeStudent (String firstname, String secondname){
+       
+       firstname = validation.generalValidation(firstname);
+       secondname = validation.generalValidation(secondname); 
+       
+       String baseUsername = (firstname.substring(0, 1) + secondname).toLowerCase();
+       Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%';");
+       String username = generateUsername(baseUsername, users.getTableList());
+       
+       String conditionsStudent = "(Username = '" + username + "');";
+       String conditionsUser = "(Username = '" + username + "');";
+       
+       databaseModel.removeFromDatabase("Student", conditionsStudent);
+       databaseModel.removeFromDatabase("Users",conditionsUser);
+    }
+    
     private String generateRegistrationNumber() {
         
         return "12345678";
