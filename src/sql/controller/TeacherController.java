@@ -30,4 +30,9 @@ public class TeacherController {
         Students students = databaseModel.getStudents("*", "");
         return students.getStudentNames();
     }
+
+    public String[] getStudentInfo(String cond) {
+        Students theStudent = databaseModel.getStudents("*", cond);
+        return theStudent.getStudentInformation();
+    }
 }

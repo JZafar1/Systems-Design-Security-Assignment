@@ -81,6 +81,15 @@ public class ViewStudentInfo extends Menu{
             }
         });
 
+        studentList.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    displayInformation(String.valueOf(studentList.getSelectedItem()));
+                }
+            }
+        });
+
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Student Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
@@ -90,6 +99,11 @@ public class ViewStudentInfo extends Menu{
     private void displayStudents() {
         String[] stuList = controller.getStudents();
         studentList.setModel(new DefaultComboBoxModel(stuList));
+    }
+
+    private void displayInformation(String name) {
+        String cond = "WHERE First Name = '" + name.substring(0, name.indexOf(' '))  + "'";
+        String [] theResults = controller.getStudentInfo(cond);
     }
 
     protected void placeComponents() {
