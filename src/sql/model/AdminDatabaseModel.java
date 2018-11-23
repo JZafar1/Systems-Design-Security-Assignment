@@ -10,6 +10,32 @@ import java.util.logging.Logger;
 public class AdminDatabaseModel extends DatabaseModel {
 
     public AdminDatabaseModel() {}
+    
+    public boolean executeBoolQuery(String query){
+        
+        initConnection();
+        initStatement();
+        boolean bool = false;
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery(query);
+                bool = getResult().next();
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return bool;
+    }
 
     public void insertUsers(String username, byte[] password, String role, String email, String name, String title,
             String surname, byte[] salt) {

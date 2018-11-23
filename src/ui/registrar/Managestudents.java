@@ -1,6 +1,7 @@
 package src.ui.registrar;
 
 import javax.swing.JPanel;
+import src.sql.controller.RegistrarController;
 
 public class ManageStudents extends JPanel {
 
@@ -25,14 +26,17 @@ public class ManageStudents extends JPanel {
     private javax.swing.JPanel mainPanel;
     private RegistrarUI registrarUI;
     private javax.swing.JButton logOffButton;
+    private RegistrarController controller;
 
     public ManageStudents(RegistrarUI registrarUI) {
         this.registrarUI = registrarUI;
         initComponents();
+        
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        controller = new RegistrarController();
         userPanel = new javax.swing.JPanel();
         mainPanel = new javax.swing.JPanel();
         addStudentButton = new javax.swing.JButton();
@@ -57,7 +61,12 @@ public class ManageStudents extends JPanel {
 
         addStudentButton.setFont(new java.awt.Font("Arial", 0, 14));
         addStudentButton.setText("Add Student");
-
+        addStudentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStudentButtonActionPerformed(evt);
+            }
+        });
+        
         backButton.setFont(new java.awt.Font("Arial", 0, 14));
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -123,9 +132,15 @@ public class ManageStudents extends JPanel {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         getRegistrarUI().showRegistrarMenu();
     }
-
+    
+    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        controller.addStudent(levelOfStudy.getText(),firstName.getText(),lastName.getText(),degreeName.getText(),"some tutor");
+    }
+    
     private void removeStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        controller.removeStudent(firstName.getText(),lastName.getText());
     }
 
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {

@@ -59,7 +59,8 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                     String degreeLevel = getResult().getString(4);
                     String season = getResult().getString(5);
                     String credits = getResult().getString(6);
-                    availableModules.addRow(pairingId,moduleCode,degreeCode,degreeLevel,season,credits);
+                    String coreOrNot = getResult().getString(7); 
+                    availableModules.addRow(moduleCode,degreeCode,degreeLevel,season,credits,coreOrNot);
                 }
             }
             finally {
