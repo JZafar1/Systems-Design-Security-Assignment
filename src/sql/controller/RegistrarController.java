@@ -51,13 +51,7 @@ public class RegistrarController {
        
     }
     
-    public void removeStudent (String firstname, String secondname){
-       
-       firstname = validation.generalValidation(firstname);
-       secondname = validation.generalValidation(secondname); 
-       
-       String username = (firstname.substring(0, 1) + secondname).toLowerCase();
-       System.out.println(username);
+    public void removeStudent (String username){
        
        String conditionsStudent = "(Username = '" + username + "');";
        String conditionsUser = "(Username = '" + username + "');";

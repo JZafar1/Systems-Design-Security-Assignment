@@ -1,7 +1,9 @@
 package src.ui.registrar;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
+import src.ui.database.DatabaseView;
 
 public class ManageStudents extends JPanel {
 
@@ -21,7 +23,7 @@ public class ManageStudents extends JPanel {
     private javax.swing.JLabel levelLabel;
     private javax.swing.JTextField levelOfStudy;
     private javax.swing.JButton removeStudentButton;
-    private javax.swing.JScrollPane scrollTable;
+    private DatabaseView scrollTable;
     private javax.swing.JPanel userPanel;
     private javax.swing.JPanel mainPanel;
     private RegistrarUI registrarUI;
@@ -51,7 +53,7 @@ public class ManageStudents extends JPanel {
         degreeName = new javax.swing.JTextField();
         degreeNameLabel = new javax.swing.JLabel();
         displayArea = new javax.swing.JPanel();
-        scrollTable = new javax.swing.JScrollPane();
+        scrollTable = new DatabaseView(this);
         displayTable = new javax.swing.JTable();
         mainLabel = new javax.swing.JLabel();
         logOffButton = new javax.swing.JButton();
@@ -108,16 +110,17 @@ public class ManageStudents extends JPanel {
         levelLabel.setFont(new java.awt.Font("Arial", 0, 18));
         levelLabel.setText("Level of study");
 
-        displayTable.setFont(new java.awt.Font("Arial", 0, 18));
-        displayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        scrollTable.setViewportView(displayTable);
+//        displayTable.setFont(new java.awt.Font("Arial", 0, 18));
+//        displayTable.setModel(new javax.swing.table.DefaultTableModel(
+//            new Object [][] {
+//
+//            },
+//            new String [] {
+//                "Title 1", "Title 2", "Title 3", "Title 4"
+//            }
+//        ));
+//        scrollTable.setViewportView(displayTable);
+        scrollTable.showStudents(); 
 
         mainLabel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         mainLabel.setText("Registrar");
@@ -136,11 +139,25 @@ public class ManageStudents extends JPanel {
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         controller.addStudent(levelOfStudy.getText(),firstName.getText(),lastName.getText(),degreeName.getText(),"some tutor");
+        
     }
     
     private void removeStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        controller.removeStudent(firstName.getText(),lastName.getText());
+        //controller.removeStudent(firstName.getText(),lastName.getText());
+        removeStudent();
+    }
+    
+    private void removeStudent (){
+        String username = scrollTable.getSelectedRow(4);
+        
+        if (username == null) {
+            JOptionPane.showMessageDialog(this, "No user selected!");
+        }
+        else{
+            controller.removeStudent(username);
+            scrollTable.showStudents();
+        }
     }
 
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {

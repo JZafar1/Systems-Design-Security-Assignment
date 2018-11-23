@@ -12,11 +12,11 @@ import src.ui.admin.AdminUI;
 
 public class DatabaseView extends JScrollPane{
 
-    private AdminUI adminUI;
+    private JPanel adminUI;
     private JTable databaseTable;
     private DatabaseViewController controller;
 
-    public DatabaseView(AdminUI adminUI) {
+    public DatabaseView(JPanel adminUI) {
 
         this.adminUI = adminUI;
         controller = new DatabaseViewController();
