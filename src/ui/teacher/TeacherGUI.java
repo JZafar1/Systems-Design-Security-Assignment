@@ -9,7 +9,7 @@ public class TeacherGUI extends JPanel {
     private JPanel editGrades;
     private JPanel teacherMainMenu;
     private JPanel registerStudent;
-    //private JPanel viewStudentInfo;
+    private JPanel viewStudentInfo;
     private MainWindow mainWindow;
     private JButton logOffButton;
 
@@ -23,6 +23,7 @@ public class TeacherGUI extends JPanel {
         editGrades = new EditGrades(this);
         teacherMainMenu = new TeacherMainMenu(this);
         registerStudent = new RegisterStudent(this);
+        viewStudentInfo = new ViewStudentInfo(this);
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
         logOffButton.addActionListener(new ActionListener() {
@@ -32,6 +33,7 @@ public class TeacherGUI extends JPanel {
         });
         editGrades.setVisible(false);
         registerStudent.setVisible(false);
+        viewStudentInfo.setVisible(false);
         placeComponents();
 
     }
@@ -49,8 +51,7 @@ public class TeacherGUI extends JPanel {
     }
 
     public JPanel getStudentInfo() {
-        //return getStudentInfo;
-        return null;
+        return viewStudentInfo;
     }
 
 
@@ -64,7 +65,7 @@ public class TeacherGUI extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(logOffButton)
                     .addComponent(teacherMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    //.addComponent(viewStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(registerStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(editGrades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -79,7 +80,7 @@ public class TeacherGUI extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registerStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                //.addComponent(viewStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(viewStudentInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(logOffButton))
         );
