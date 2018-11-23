@@ -4,20 +4,23 @@ import javax.swing.JTable;
 import javax.swing.JPanel;
 import src.sql.controller.*;
 import src.sql.model.AdminDatabaseModel;
+import src.sql.model.TeacherDatabaseModel;
 import src.sql.tables.*;
 import java.util.ArrayList;
 import java.sql.*;
 
 public class TeacherController {
 
-    private AdminDatabaseModel databaseModel;
+    private AdminDatabaseModel mainDatabaseModel;
+    private TeacherDatabaseModel teacherDatabaseModel;
 
     public TeacherController() {
-        databaseModel = new AdminDatabaseModel();
+        mainDatabaseModel = new AdminDatabaseModel();
+        teacherDatabaseModel = new TeacherDatabaseModel();
     }
 
     public String[] getModuleNames() {
-        Modules modules = databaseModel.getModules("*", "");
+        Modules modules = mainDatabaseModel.getModules("*", "");
         String[] moduleNames = modules.getModuleNames();
         if (moduleNames == null || moduleNames.length == 0) {
             return new String[] {"No modules found"};
@@ -27,12 +30,20 @@ public class TeacherController {
     }
 
     public String[] getStudents() {
-        Students students = databaseModel.getStudents("*", "");
+        Students students = mainDatabaseModel.getStudents("*", "");
         return students.getStudentNames();
     }
 
-    public String[] getStudentInfo(String cond) {
-        Students theStudent = databaseModel.getStudents("*", cond);
+    public String [] studentInfo(String cond) {
+        Students theStudent = mainDatabaseModel.getStudents("*", cond);
         return theStudent.getStudentInformation();
+    }
+
+    public String getStudentTutor(String cond) {
+        return teacherDatabaseModel.getTutor(cond);
+    }
+
+    public String getDegree(String cond) {
+        return teacherDatabaseModel.getDegreeName(cond);
     }
 }

@@ -56,21 +56,13 @@ public class ViewStudentInfo extends Menu{
         tutor = new javax.swing.JTextField();
         selStu.setText("Select student to view");
         foreNameLabel.setText("Forename");
-        forename.setText("(Text)");
         surnameLabel.setText("Surname");
-        surname.setText("(Text)");
         regNoLabel.setText("Registration Number");
-        resgistrationNumber.setText("(Text)");
         emailLabel.setText("E-Mail Addressl");
-        email.setText("(Text)");
         userNameLabel.setText("User Name");
-        userName.setText("(Text)");
         studyLabel.setText("Study Level");
-        studyLevel.setText("(Text)");
         degreeLabel.setText("Degree Title");
-        degree.setText("(Text)");
         tutorLabel.setText("Tutor");
-        tutor.setText("(Text)");
 
         backButton = new javax.swing.JButton();
         backButton.setText("Back");
@@ -99,11 +91,26 @@ public class ViewStudentInfo extends Menu{
     private void displayStudents() {
         String[] stuList = controller.getStudents();
         studentList.setModel(new DefaultComboBoxModel(stuList));
+        displayInformation(String.valueOf(studentList.getSelectedItem()));
     }
 
     private void displayInformation(String name) {
-        String cond = "WHERE First Name = '" + name.substring(0, name.indexOf(' '))  + "'";
-        String [] theResults = controller.getStudentInfo(cond);
+        String cond = "WHERE `Registration number` = '" + name  + "'";
+        String [] theResults = controller.studentInfo(cond);
+        forename.setText(theResults[2]);
+        surname.setText(theResults[3]);
+        resgistrationNumber.setText(theResults[0]);
+        email.setText(theResults[5]);
+        userName.setText(theResults[4]);
+        studyLevel.setText(theResults[6]);
+        degree.setText("(Text)");
+        setTutorText(name);
+    }
+
+    private void setTutorText(String name) {
+        String cond = "WHERE `Registration number` = '" + name  + "'";
+        String result = controller.getStudentTutor(cond);
+        tutor.setText(result);
     }
 
     protected void placeComponents() {
