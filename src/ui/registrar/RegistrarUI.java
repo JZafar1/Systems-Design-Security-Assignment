@@ -1,7 +1,9 @@
 package src.ui.registrar;
 
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import src.ui.MainWindow;
+import java.awt.event.*;
 import src.ui.registrar.ManageStudents;
 
 /**
@@ -11,10 +13,19 @@ import src.ui.registrar.ManageStudents;
 public class RegistrarUI extends JPanel {
 
     private MainWindow mainWindow;
+    private JButton logOffButton;
 
     public RegistrarUI(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         setVisible(true);
+        logOffButton = new JButton();
+        logOffButton.setText("Log Off");
+        logOffButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mainWindow.showLogInWindow();
+            }
+        });
+
         showRegistrarMenu();
         //showManageStudents();
         //showManageModules();
@@ -41,11 +52,15 @@ public class RegistrarUI extends JPanel {
                 .addGroup(layout.createSequentialGroup().addContainerGap()
                         .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE,
                                 javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(logOffButton)
                         .addContainerGap()));
         layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup().addContainerGap()
                         .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE,
                                 javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(logOffButton)
                         .addContainerGap()));
     }
 }

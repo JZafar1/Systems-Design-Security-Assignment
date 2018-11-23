@@ -13,13 +13,7 @@ public class Students extends Table {
     }
 
     public String[] getStudentNames() {
-        int rowNum = getTableList().size();
-        String[] studentNameList = new String[rowNum];
-        for (int c = 0; c < rowNum; c++) {
-            Object[] row = getTableList().get(c);
-            studentNameList[c] = ((String) row[0]) + " " + ((String) row[1]);
-        }
-        return studentNameList;
+        return (String[]) getColumn(0);
     }
 
     public String[] getStudentInformation() {

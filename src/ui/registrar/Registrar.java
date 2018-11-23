@@ -2,18 +2,15 @@ package src.ui.registrar;
 
 import javax.swing.JPanel;
 public class Registrar extends JPanel {
-
-    private javax.swing.JPanel displayArea;
-    private javax.swing.JTable displayTable;
-    private javax.swing.JTextField infoField1;
-    private javax.swing.JTextField infoField2;
-    private javax.swing.JButton logOffButton;
-    private javax.swing.JLabel mainLabel;
+    private javax.swing.JComboBox<String> dataSelect;
+    private javax.swing.JTable finishedRegistration;
+    private javax.swing.JTable inRegistration;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton manageModules;
-    private javax.swing.JButton manageStudent;
-    private javax.swing.JScrollPane scrollTable;
-    private javax.swing.JPanel userArea;
+    private javax.swing.JScrollPane registerScroll;
+    private javax.swing.JButton registerStudent;
+    private javax.swing.JLabel studentLabel;
+    private javax.swing.JScrollPane studentViewScroll;
+    private javax.swing.JButton registerButton;
     private RegistrarUI registrarUI;
 
     public Registrar(RegistrarUI registrarUI) {
@@ -25,59 +22,21 @@ public class Registrar extends JPanel {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        userArea = new javax.swing.JPanel();
-        manageStudent = new javax.swing.JButton();
-        manageModules = new javax.swing.JButton();
-        infoField1 = new javax.swing.JTextField();
-        infoField2 = new javax.swing.JTextField();
-        displayArea = new javax.swing.JPanel();
-        scrollTable = new javax.swing.JScrollPane();
-        displayTable = new javax.swing.JTable();
-        mainLabel = new javax.swing.JLabel();
-        logOffButton = new javax.swing.JButton();
-        mainPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mainPanel.setName("Registrar"); // NOI18N
+        registerStudent = new javax.swing.JButton();
+        registerButton = new javax.swing.JButton();
+        registerScroll = new javax.swing.JScrollPane();
+        inRegistration = new javax.swing.JTable();
+        studentViewScroll = new javax.swing.JScrollPane();
+        finishedRegistration = new javax.swing.JTable();
+        studentLabel = new javax.swing.JLabel();
+        dataSelect = new javax.swing.JComboBox<String>();
+        studentLabel.setText("Select a student");
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
+                                      "Registrar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                                        new java.awt.Font("Trebuchet MS", 0, 24)));
 
-        userArea.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        manageStudent.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        manageStudent.setText("Add or remove students");
-        manageStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manageStudentActionPerformed();
-            }
-        });
-
-        manageModules.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        manageModules.setText("Manage optional modules");
-        manageModules.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manageModulesActionPerformed();
-            }
-        });
-
-        infoField1.setFont(infoField1.getFont().deriveFont(infoField1.getFont().getSize()+1f));
-        infoField1.setText("See a list of all students below to check the registration status of the student.");
-        infoField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                infoField1ActionPerformed();
-            }
-        });
-
-        logOffButton.setText("Sign Out");
-        logOffButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //toDo
-            }
-        });
-
-        infoField2.setFont(infoField2.getFont().deriveFont(infoField2.getFont().getSize()+1f));
-        infoField2.setText("Click a students name to modify their chosen modules.");
-
-        displayArea.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        displayTable.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        displayTable.setModel(new javax.swing.table.DefaultTableModel(
+        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        inRegistration.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -85,11 +44,31 @@ public class Registrar extends JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        scrollTable.setViewportView(displayTable);
+        registerScroll.setViewportView(inRegistration);
 
-        mainLabel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        mainLabel.setText("Registrar");
+        finishedRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        finishedRegistration.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        studentViewScroll.setViewportView(finishedRegistration);
+
+        registerStudent.setText("Register Student");
+        registerStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageModulesActionPerformed();
+            }
+        });
+        registerButton.setText("Register a new student");
+            registerButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    manageStudentActionPerformed();
+                }
+        });
         placeComponents();
     }
 
@@ -101,100 +80,46 @@ public class Registrar extends JPanel {
         getRegistrarUI().showManageModules();
     }
 
-    private void infoField1ActionPerformed() {
-        // TODO add your handling code here:
-    }
-
-    private void logOffButtonActionPerformed() {
-        // TODO add your handling code here:
-    }
-
     private RegistrarUI getRegistrarUI() { return registrarUI; }
 
     private void placeComponents() {
-        javax.swing.GroupLayout userAreaLayout = new javax.swing.GroupLayout(userArea);
-        userArea.setLayout(userAreaLayout);
-        userAreaLayout.setHorizontalGroup(
-            userAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userAreaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(infoField2)
-                    .addComponent(infoField1)
-                    .addGroup(userAreaLayout.createSequentialGroup()
-                        .addComponent(manageStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(manageModules, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                        .addGap(103, 103, 103)))
-                .addContainerGap())
-        );
-        userAreaLayout.setVerticalGroup(
-            userAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userAreaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(userAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(manageStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(manageModules, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoField1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(infoField2))
-        );
-        displayArea.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        javax.swing.GroupLayout displayAreaLayout = new javax.swing.GroupLayout(displayArea);
-        displayArea.setLayout(displayAreaLayout);
-        displayAreaLayout.setHorizontalGroup(
-            displayAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollTable)
-            .addGroup(displayAreaLayout.createSequentialGroup()
-                .addComponent(logOffButton)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        displayAreaLayout.setVerticalGroup(
-            displayAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(displayAreaLayout.createSequentialGroup()
-                .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logOffButton))
-        );
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(this);
+        setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(mainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(376, 376, 376))
-                    .addComponent(displayArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(registerScroll)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(registerStudent)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(registerButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(studentViewScroll)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addComponent(studentLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(dataSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
+                .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(mainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(registerScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(displayArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(registerStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(registerButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataSelect)
+                    .addComponent(studentLabel))
+                .addGap(18, 18, 18)
+                .addComponent(studentViewScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }
