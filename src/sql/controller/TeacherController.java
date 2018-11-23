@@ -43,7 +43,7 @@ public class TeacherController {
         return teacherDatabaseModel.getTutor(cond);
     }
 
-    public String getDegree(String cond) {
-        return teacherDatabaseModel.getDegreeName(cond);
+    public String getDegree(String cond, String module) {
+        return teacherDatabaseModel.getDegreeName(cond, module);
     }
 }

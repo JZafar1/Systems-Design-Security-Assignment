@@ -35,7 +35,6 @@ public class EditGrades extends Menu {
         currentGradeLabel = new JLabel();
         currentGradeLabel.setText("Current Grade");
         currentGrade = new JTextField();
-        currentGrade.setText("null");
         currentGrade.setEditable(false);
         newGradeLabel = new JLabel();
         newGradeLabel.setText("Enter new grade");
@@ -71,12 +70,13 @@ public class EditGrades extends Menu {
         });
         displayModule();
         displayStudents();
+        getCurrentGrade();
 
         studentList.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED) {
-                    //Do Something
+                    getCurrentGrade();
                 }
             }
         });
@@ -98,10 +98,16 @@ public class EditGrades extends Menu {
     private void displayStudents() {
         String[] stuList = controller.getStudents();
         studentList.setModel(new DefaultComboBoxModel(stuList));
+        getCurrentGrade();
     }
 
     private void getCurrentGrade() {
-
+        String module = String.valueOf(moduleList.getSelectedItem());
+        String theModule = module.substring(0, 7);
+        String name = String.valueOf(studentList.getSelectedItem());
+        String query = "Student_Registration number = '" + name + "';"
+        String result = controller.getDegree(query, theModule);
+        currentGrade.setText(result);
     }
 
     public boolean commitChange() {

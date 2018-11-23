@@ -55,4 +55,72 @@ public class TeacherDatabaseModel extends DatabaseModel {
         }
         return results;
     }
+
+    public String getDegreeName(String regNo, String moduleCode) {
+        initConnection();
+        initStatement();
+        String results = "";
+        try {
+            try {
+                openConnection();
+                openStatement();
+                String record = getRecordId(regNo);
+                String query = "`Record_Record ID` = '" + results +
+                "' AND Module_ModuleCode = '" + moduleCode + "';";
+                openResultQuery("SELECT `The mark` FROM Mark WHERE" + query + ";");
+                results = getResult().getString(0);
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return results;
+    }
+
+    public String getRecordId(String cond) {
+        initConnection();
+        initStatement();
+        String result = "";
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Record ID` FROM  Record WHERE" + cond);
+                result = getResult().getString(0);
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public void insertGrade(String cond, String grade, String module) {
+        initConnection();
+        initStatement();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                String record = getRecordId(cond);
+                String tables = "Mark (`The mark`)";
+                String values = "('" + grade + "') WHERE"
+                    + "`Record_Record ID` = '" + record + "' AND"
+                    + "Module_ModuleCode = '" + module + "'";
+                insertIntoDatabase(tables, values);
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
