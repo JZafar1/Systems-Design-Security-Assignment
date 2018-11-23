@@ -6,14 +6,9 @@ import java.awt.event.*;
 import src.sql.controller.TeacherController;
 
 public class TeacherMainMenu extends Menu {
-    private javax.swing.JLabel searchLabel;
-    private javax.swing.JLabel currentlySelectedLabel;
-    private javax.swing.JTextField searchQuery;
-    private javax.swing.JTextField currentlySelected;
     private javax.swing.JButton editGrades;
     private javax.swing.JButton registerStudent;
     private javax.swing.JButton viewResults;
-    private javax.swing.JComboBox studentList;
     private TeacherController controller;
 
     public TeacherMainMenu (TeacherGUI teacherui) {
@@ -25,26 +20,13 @@ public class TeacherMainMenu extends Menu {
     }
 
     private void initComponents() {
-        searchLabel = new JLabel();
-        searchLabel.setText("Select Student");
-        studentList = new javax.swing.JComboBox<>();
-        studentList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        currentlySelectedLabel = new JLabel();
-        currentlySelectedLabel.setText("Current Student");
-        currentlySelected = new JTextField();
-        currentlySelected.setEditable(false);
         editGrades = new JButton();
         registerStudent = new JButton();
         viewResults = new JButton();
 
-        studentList.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange() == ItemEvent.SELECTED) {
-                    currentlySelected.setText(String.valueOf(studentList.getSelectedItem()));
-                }
-            }
-        });
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
+                                      "Teacher Main Menu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                                        new java.awt.Font("Trebuchet MS", 0, 24)));
 
         editGrades.setText("Add or Update Grades");
         editGrades.addActionListener(new ActionListener() {
@@ -64,13 +46,6 @@ public class TeacherMainMenu extends Menu {
                 viewStudentInfo();
             }
         });
-        displayStudents();
-    }
-
-    private void displayStudents() {
-        String[] stuList = controller.getStudents();
-        studentList.setModel(new DefaultComboBoxModel(stuList));
-
     }
 
     private void editGradesMenu() {
@@ -95,39 +70,22 @@ public class TeacherMainMenu extends Menu {
             mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainMenuLayout.createSequentialGroup()
-                        .addComponent(searchLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(studentList, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(currentlySelectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(currentlySelected, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(mainMenuLayout.createSequentialGroup()
-                        .addComponent(editGrades)
-                        .addGap(18, 18, 18)
-                        .addComponent(registerStudent)
-                        .addGap(18, 18, 18)
-                        .addComponent(viewResults)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addComponent(editGrades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(registerStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(viewResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(81, 81, 81))
         );
         mainMenuLayout.setVerticalGroup(
             mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(studentList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(currentlySelectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(currentlySelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(60, 60, 60)
-                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editGrades)
-                    .addComponent(registerStudent)
-                    .addComponent(viewResults))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(editGrades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(registerStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(73, 73, 73))
         );
     }
 }

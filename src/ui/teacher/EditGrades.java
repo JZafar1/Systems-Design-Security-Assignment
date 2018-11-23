@@ -6,15 +6,18 @@ import src.sql.controller.TeacherController;
 import java.util.ArrayList;
 
 public class EditGrades extends Menu {
-    private javax.swing.JLabel title;
     private javax.swing.JLabel select;
     private javax.swing.JLabel currentGradeLabel;
+    private javax.swing.JLabel selectLabel;
     private javax.swing.JLabel newGradeLabel;
+    private javax.swing.JLabel currentStudentLabel;
     private javax.swing.JTextField currentGrade;
     private javax.swing.JTextField newGrade;
+    private javax.swing.JTextField currentStudent;
     private javax.swing.JButton submit;
-    private javax.swing.JButton exitButton1;
+    private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> moduleList;
+    private javax.swing.JComboBox<String> studentList;
     private TeacherController controller;
 
     public EditGrades (TeacherGUI teacherui) {
@@ -26,20 +29,31 @@ public class EditGrades extends Menu {
     }
 
     public void initComponents() {
-        title = new JLabel();
-        title.setText("Add or update grades");
         select = new JLabel();
         select.setText("Select Module");
         moduleList = new JComboBox<String>();
         currentGradeLabel = new JLabel();
         currentGradeLabel.setText("Current Grade");
         currentGrade = new JTextField();
+        currentGrade.setText("null");
         currentGrade.setEditable(false);
         newGradeLabel = new JLabel();
         newGradeLabel.setText("Enter new grade");
         newGrade = new JTextField();
         submit = new JButton();
-        exitButton1 = new JButton();
+        currentStudentLabel = new JLabel();
+        currentStudentLabel.setText("Student Name");
+        currentStudent = new JTextField();
+        currentStudent.setText("Student Name");
+        currentStudent.setEditable(false);
+        selectLabel = new JLabel();
+        selectLabel.setText("Select Student");
+        studentList = new JComboBox<String>();
+        backButton = new JButton();
+
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
+                                      "Add or Update Grades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                                        new java.awt.Font("Trebuchet MS", 0, 24)));
 
         submit.setText("Save Changes");
         submit.addActionListener(new ActionListener() {
@@ -48,21 +62,48 @@ public class EditGrades extends Menu {
             }
         });
 
-        exitButton1.setText("Back");
-        exitButton1.addActionListener(new ActionListener() {
+        backButton.setText("Back");
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 getTeacherUI().getMainMenu().setVisible(true);
             }
         });
         displayModule();
+        displayStudents();
+
+        studentList.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    //Do Something
+                }
+            }
+        });
+
+        moduleList.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    getCurrentGrade();
+                }
+            }
+        });
     }
 
     private void displayModule() {
         moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleNames()));
     }
-    /* Method to take parameters representing changes to be made to DB and return true
-    if the DB is successfully updated, flase otherwise*/
+
+    private void displayStudents() {
+        String[] stuList = controller.getStudents();
+        studentList.setModel(new DefaultComboBoxModel(stuList));
+    }
+
+    private void getCurrentGrade() {
+
+    }
+
     public boolean commitChange() {
         return false;
     }
@@ -72,51 +113,63 @@ public class EditGrades extends Menu {
         setLayout(editGradeLayout);
         editGradeLayout.setHorizontalGroup(
             editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editGradeLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(exitButton1)
-                .addGap(18, 18, 18)
-                .addComponent(submit))
             .addGroup(editGradeLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(currentGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newGradeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, editGradeLayout.createSequentialGroup()
+                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(selectLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(select, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(19, 19, 19)))
+                .addGap(18, 18, 18)
                 .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editGradeLayout.createSequentialGroup()
-                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(newGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(currentGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                            .addComponent(select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(currentGrade)
-                            .addComponent(newGrade)
-                            .addComponent(moduleList, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(202, Short.MAX_VALUE))
+                        .addComponent(studentList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
+                    .addComponent(currentGrade)
+                    .addComponent(newGrade)
+                    .addComponent(moduleList, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(67, 67, 67))
+            .addGroup(editGradeLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         editGradeLayout.setVerticalGroup(
             editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editGradeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(editGradeLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(studentList))
+                    .addComponent(selectLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
                 .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(editGradeLayout.createSequentialGroup()
-                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(select, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(moduleList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(currentGrade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(currentGradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(newGrade, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(editGradeLayout.createSequentialGroup()
-                        .addComponent(newGradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(2, 2, 2)
+                        .addComponent(moduleList))
+                    .addComponent(select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submit)
-                    .addComponent(exitButton1)))
+                    .addComponent(currentGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(editGradeLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(currentGrade)))
+                .addGap(18, 18, 18)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newGrade)
+                    .addGroup(editGradeLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(newGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }
 }
