@@ -19,7 +19,10 @@ public class TeacherDatabaseModel extends DatabaseModel {
                 openConnection();
                 openStatement();
                 openResultQuery("SELECT Tutor FROM Student " + condition + ";");
-                results = getResult().getString(0);
+                while (getResult().next()) {
+                    results = getResult().getString(1);
+                }
+                
             } finally {
                 closeResultQuery();
                 closeStatement();
