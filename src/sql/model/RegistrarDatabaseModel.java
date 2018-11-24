@@ -41,7 +41,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    public ModuleLinks getModuleLinks (String values, String condition) {
+    public ModuleLinks getValidModules (String degreeCode, String degreeName) {
         
         initConnection();
         initStatement();
@@ -51,16 +51,54 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT " + values + " FROM Department " + condition + ";");
+                openResultQuery("SELECT * FROM `Module degree (linking)` INNER JOIN `Module`  ON `Module degree (linking)`.Module_ModuleCode = `Module`.ModuleCode WHERE Degree_DegreeCode = '" + degreeCode + "';");
                 while (getResult().next()) {
                     int pairingId = Integer.parseInt(getResult().getString(1));
                     String moduleCode = getResult().getString(2);
-                    String degreeCode = getResult().getString(3);
+                    String moduleName = getResult().getString(9);
                     String degreeLevel = getResult().getString(4);
                     String season = getResult().getString(5);
                     String credits = getResult().getString(6);
                     String coreOrNot = getResult().getString(7); 
-                    availableModules.addRow(moduleCode,degreeCode,degreeLevel,season,credits,coreOrNot);
+                    availableModules.addRow(degreeCode,degreeName,moduleCode,moduleName,degreeLevel,season,credits,coreOrNot);
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return availableModules;
+        
+    }
+    
+    public ModuleLinks getValidOptionalCoreModules (String degreeCode, String degreeName, boolean isCore) {
+        
+        initConnection();
+        initStatement();
+        ModuleLinks availableModules = new ModuleLinks();
+        String core;
+        if(isCore)core = "'Core'";
+        else core = "'Not Core'";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT * FROM `Module degree (linking)` INNER JOIN `Module`  ON `Module degree (linking)`.Module_ModuleCode = `Module`.ModuleCode WHERE Degree_DegreeCode = '" + degreeCode + "' AND CoreOrNot = " + core + ";");
+                while (getResult().next()) {
+                    int pairingId = Integer.parseInt(getResult().getString(1));
+                    String moduleCode = getResult().getString(2);
+                    String moduleName = getResult().getString(9);
+                    String degreeLevel = getResult().getString(4);
+                    String season = getResult().getString(5);
+                    String credits = getResult().getString(6);
+                    String coreOrNot = getResult().getString(7); 
+                    availableModules.addRow(degreeCode,degreeName,moduleCode,moduleName,degreeLevel,season,credits,coreOrNot);
                 }
             }
             finally {
