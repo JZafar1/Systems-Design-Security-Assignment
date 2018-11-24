@@ -21,7 +21,7 @@ public class RegistrarController {
 
     public RegistrarController() {
         this.databaseModel = new RegistrarDatabaseModel();
-        this.validation = new SQLValidation();;
+        this.validation = new SQLValidation();
     }
     
     public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor) {
@@ -51,13 +51,50 @@ public class RegistrarController {
        
     }
     
+    public void createRecord (String periodOfStudy, String registrationNumber){
+        
+        periodOfStudy = validation.generalValidation(periodOfStudy);
+        registrationNumber = validation.generalValidation(registrationNumber);
+        
+        int recordId = generateRecordId(0);
+        int average = 0;
+        String honour = "none";
+        
+        String values = "('" + recordId + "','" + average  + "','" + honour + "','" + registrationNumber  + "','" + periodOfStudy + "')";
+        
+        databaseModel.insertIntoDatabase("Record", values);
+        
+    }
+    
+    public void addMark (String recordId, String moduleCode){
+        
+        recordId = validation.generalValidation(recordId);
+        moduleCode = validation.generalValidation(moduleCode);
+        
+        int markId = generateMarkId(0);
+        
+        String values = "('" + markId + "','" + moduleCode  + "','" + recordId + "')";
+        
+        databaseModel.insertIntoDatabase("Mark", values);
+    }
+    
     public void removeStudent (String username){
        
+       username = validation.generalValidation(username);
+        
        String conditionsStudent = "(Username = '" + username + "');";
        String conditionsUser = "(Username = '" + username + "');";
        
        databaseModel.removeFromDatabase("Student", conditionsStudent);
        databaseModel.removeFromDatabase("Users",conditionsUser);
+    }
+    
+    private int generateMarkId(int i){
+        return i;
+    }
+    
+    private int generateRecordId(int i){
+        return i;
     }
     
     private String generateRegistrationNumber(int i) {
