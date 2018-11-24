@@ -12,19 +12,32 @@ import src.ui.admin.AdminUI;
 
 public class DatabaseView extends JScrollPane{
 
+    public class NonEditableTable extends JTable{
+
+        public NonEditableTable() {
+            super();
+        }
+
+        public boolean isCellEditable(int row, int column) {
+            // all cells false
+            return false;
+        }
+    }
+
     private JPanel adminUI;
-    private JTable databaseTable;
+    private NonEditableTable databaseTable;
     private DatabaseViewController controller;
 
     public DatabaseView(JPanel adminUI) {
 
         this.adminUI = adminUI;
         controller = new DatabaseViewController();
-        databaseTable = new JTable();
+        databaseTable = new NonEditableTable();
 
         databaseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         showDepartments();
+
     }
 
     public void switchDatabase(String tableName) {
