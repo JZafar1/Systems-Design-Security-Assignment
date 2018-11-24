@@ -171,6 +171,35 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    
+    public Record getRecordsByRegStatus(String registeredYesNo, String periodOfStudy){
+        
+        initConnection();
+        initStatement();
+        Record records = new Record();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT * FROM Record WHERE registered = '" + registeredYesNo + "' AND `Period of study_Label` = '" + periodOfStudy + "';");
+                while (getResult().next()) {
+                    int recordId = Integer.parseInt(getResult().getString(1));
+                    int average = Integer.parseInt(getResult().getString(2));
+                    String honour = getResult().getString(3);
+                    int registrationNumber = Integer.parseInt(getResult().getString(4));
+                    records.addRow(recordId, average, honour, registrationNumber, periodOfStudy, registeredYesNo);
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return records;
+        
+    }
     
 }

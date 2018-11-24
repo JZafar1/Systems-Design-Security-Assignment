@@ -83,7 +83,7 @@ public class RegistrarController {
         int average = 0;
         String honour = "none";
         
-        String values = "('" + recordId + "','" + average  + "','" + honour + "','" + registrationNumber  + "','" + periodOfStudy + "')";
+        String values = "('" + recordId + "','" + average  + "','" + honour + "','" + registrationNumber  + "','" + periodOfStudy + "','no')";
         
         databaseModel.insertIntoDatabase("Record", values);
         
