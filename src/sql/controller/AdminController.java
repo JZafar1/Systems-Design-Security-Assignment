@@ -135,12 +135,11 @@ public class AdminController {
         String degreeCode = getDegreeCode(degreeName);
         DegreeLinks degreeLinks = databaseModel.getDegreeLinks("*","dll.Degree_DegreeCode='" + degreeCode + 
                                                                    "' AND dll.Department_DepartmentCode='" + departmentCode + "'");
-        if (degreeLinks.getNumOfRows() != 0) {
+        if (degreeLinks.getNumOfRows() != 0)
             return false;
-        } else {
-            addDegreeLink(departmentCode, degreeCode);
-            return true;
-        }
+            
+        addDegreeLink(departmentCode, degreeCode);
+        return true;
     }
     public Boolean addDegree(String name, String leadDepartment, String levelOfStudy) {
 
@@ -171,7 +170,7 @@ public class AdminController {
             return true;
         }
     }
-    public void addModule(String name, String teachingDepartment) {
+    public Boolean addModule(String name, String teachingDepartment) {
         
         name = validation.generalValidation(name);
         teachingDepartment = validation.generalValidation(teachingDepartment);
@@ -181,33 +180,37 @@ public class AdminController {
         //generates new unique module code
         String moduleCode = generateUniqueCode(departmentCode, modules.getTableList(), "4");
 
+        Modules duplicateModules = databaseModel.getModules("*", "WHERE `Full name`='" + name + "'");
+        if (duplicateModules.getNumOfRows() != 0)
+            return false;
+
         String values = "('"+ moduleCode + "','" + name + "','" + teachingDepartment + "')";
         databaseModel.insertIntoDatabase("Module", values);
+        return true;
     }
     public Boolean addModuleLink(String moduleCode, String degreeCode, String level, String semester, String coreOrNot, String dissertation) {
 
         ModuleLinks moduleLinks = databaseModel.getModuleLinks("*","mdl.Module_ModuleCode='" + moduleCode + 
                                                                     "' AND mdl.Degree_DegreeCode='" + degreeCode + "'");
-        if (moduleLinks.getNumOfRows() == 0) {
+        if (moduleLinks.getNumOfRows() != 0)
+            return false;
 
-            String credits;
-            if (level.equals("4")) {
-                if (dissertation.equals("Dissertation"))
-                    credits = "60";
-                else
-                    credits = "15";
-            } else {
-                if (dissertation.equals("Dissertation"))
-                    credits = "40";
-                else
-                    credits = "20";
-            }
-
-            String values = "(NULL, '" + moduleCode + "','" + degreeCode + "','" + level + "','" + semester + "','" + credits + "','" + coreOrNot + "')";
-            databaseModel.insertIntoDatabase("`Module degree (linking)`", values);
-            return true;
+        String credits;
+        if (level.equals("4")) {
+            if (dissertation.equals("Dissertation"))
+                credits = "60";
+            else
+                credits = "15";
+        } else {
+            if (dissertation.equals("Dissertation"))
+                credits = "40";
+            else
+                credits = "20";
         }
-        return false;
+
+        String values = "(NULL, '" + moduleCode + "','" + degreeCode + "','" + level + "','" + semester + "','" + credits + "','" + coreOrNot + "')";
+        databaseModel.insertIntoDatabase("`Module degree (linking)`", values);
+        return true;
     }
     public void removeModule(String moduleCode) {
         

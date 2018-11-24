@@ -74,8 +74,14 @@ public class ManageModules extends Menu {
         if (moduleName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Module name field empty!");
         } else {
-            controller.addModule(moduleName, teachingDepartment);
-            getAdminUI().getDatabaseView().showModules();
+            Boolean successfullyAdded = controller.addModule(moduleName, teachingDepartment);
+            if (successfullyAdded) {
+                getAdminUI().getDatabaseView().showModules();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Module could not be added to database! Could already be in database or Module name was invalid.");
+            }
+
         }
     }
 
