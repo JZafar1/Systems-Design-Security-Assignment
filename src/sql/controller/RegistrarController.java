@@ -8,6 +8,7 @@ package src.sql.controller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import src.sql.model.RegistrarDatabaseModel;
+import src.sql.tables.ModuleLinks;
 import src.sql.tables.Users;
 
 /**
@@ -51,6 +52,24 @@ public class RegistrarController {
        
     }
     
+    public void registerStudent(String periodOfStudy, String registrationNumber){
+        
+        periodOfStudy = validation.generalValidation(periodOfStudy);
+        registrationNumber = validation.generalValidation(registrationNumber);
+        
+        createRecord(periodOfStudy, registrationNumber);
+        int recordId = databaseModel.getRecordId(registrationNumber,periodOfStudy);
+        
+        String degreeCode = databaseModel.getStudentDegree(registrationNumber);
+        String degreeName = databaseModel.getDegreeName(degreeCode);
+        
+        ModuleLinks coreModules = databaseModel.getValidOptionalCoreModules (degreeCode,degreeName,true);
+        
+        String [] codes = coreModules.getModuleCodes();
+        
+        for(int i = 0; i<codes.length; i++) addMark(recordId,codes[i]);
+    }
+    
     public void createRecord (String periodOfStudy, String registrationNumber){
         
         periodOfStudy = validation.generalValidation(periodOfStudy);
@@ -66,9 +85,8 @@ public class RegistrarController {
         
     }
     
-    public void addMark (String recordId, String moduleCode){
+    public void addMark (int recordId, String moduleCode){
         
-        recordId = validation.generalValidation(recordId);
         moduleCode = validation.generalValidation(moduleCode);
         
         int markId = generateMarkId(0);
@@ -76,6 +94,14 @@ public class RegistrarController {
         String values = "('" + markId + "','" + moduleCode  + "','" + recordId + "')";
         
         databaseModel.insertIntoDatabase("Mark", values);
+    }
+    
+    public void removeMark (String markId){
+        
+        markId = validation.generalValidation(markId);
+        String conditions = "(`Mark ID` = '" + markId + "')" ;
+        databaseModel.removeFromDatabase("Mark",conditions);
+        
     }
     
     public void removeStudent (String username){

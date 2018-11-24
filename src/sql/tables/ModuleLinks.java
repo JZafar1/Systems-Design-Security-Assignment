@@ -11,4 +11,13 @@ public class ModuleLinks extends Table {
     public Boolean occursInTable(String moduleCode, String degreeCode) {
         return super.occursInTable(moduleCode, 2) && super.occursInTable(degreeCode, 0);
     }
+    public String[] getModuleCodes() {
+        int rowNum = getTableList().size();
+        String[] moduleCodeList = new String[rowNum];
+        for (int c = 0; c < rowNum; c++) {
+            Object[] row = getTableList().get(c);
+            moduleCodeList[c] = ((String) row[2]);
+        }
+        return moduleCodeList;
+    }
 }

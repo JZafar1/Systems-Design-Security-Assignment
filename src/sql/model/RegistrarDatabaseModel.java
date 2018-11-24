@@ -24,7 +24,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT 'Record ID' FROM Department WHERE 'Student_Registration number' = '" + studentRegistrationNumber + "' AND 'Period of study_Label' = '" + periodOfStudy +  "' ;");
+                openResultQuery("SELECT `Record ID` FROM Department WHERE `Student_Registration number` = '" + studentRegistrationNumber + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
                 recordId = Integer.parseInt(getResult().getString(1));
             }
             finally {
@@ -38,6 +38,60 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         }
         
         return recordId;
+        
+    }
+    
+    public String getStudentDegree(String studentRegistrationNumber){
+        
+        initConnection();
+        initStatement();
+        String degreeCode = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Degree_DegreeCode` FROM Student WHERE `Registration number` = '" + studentRegistrationNumber +  "' ;");
+                degreeCode = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return degreeCode;
+        
+    }
+    
+    public String getDegreeName(String degreeCode){
+        
+        initConnection();
+        initStatement();
+        String degreeName = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Degree name` FROM Degree WHERE `DegreeCode` = '" + degreeCode +  "' ;");
+                degreeName = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return degreeName;
         
     }
     
@@ -113,5 +167,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         return availableModules;
         
     }
+    
+    
     
 }
