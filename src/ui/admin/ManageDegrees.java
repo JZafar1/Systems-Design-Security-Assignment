@@ -89,7 +89,8 @@ public class ManageDegrees extends Menu {
             if (successfullyAdded) {
                 getAdminUI().getDatabaseView().showDegrees();
             } else {
-                JOptionPane.showMessageDialog(this, "Degree name is taken!");
+                JOptionPane.showMessageDialog(this, "Error with Degree name: Either name is too short or " +
+                                                    "name already exists.");
             }
         }
     }

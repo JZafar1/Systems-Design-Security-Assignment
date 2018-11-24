@@ -56,11 +56,17 @@ public class DatabaseView extends JScrollPane{
     }
     
     public void showDegrees() {
-        databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getDegrees(),
+        databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getDegrees(""),
                 new String[] { "Degree Code", "Degree Name", "Level of Study", "Lead Department"}));
         setViewportView(databaseTable);
     }
-    
+    public void showDegrees(String level) {
+        databaseTable.setModel(
+                new javax.swing.table.DefaultTableModel(
+                        controller.getDegrees("WHERE `Level of Study` LIKE '%" + level + "%'"),
+                        new String[] { "Degree Code", "Degree Name", "Level of Study", "Lead Department" }));
+        setViewportView(databaseTable);
+    }
     public void showModules() {
         databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getModules(),
                 new String[] { "Module Code", "Module Name", "Teaching Department"}));

@@ -58,7 +58,8 @@ public class ManageDepartments extends Menu {
             if (successfullyAdded) {
                 getAdminUI().getDatabaseView().showDepartments();
             } else {
-                JOptionPane.showMessageDialog(this, "Department name already exists!");
+                JOptionPane.showMessageDialog(this, 
+                        "Error with Degree name: Either name is too short or " + "name already exists.");
             }
         }
     }

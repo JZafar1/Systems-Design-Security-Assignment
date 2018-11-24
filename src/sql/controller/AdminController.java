@@ -79,7 +79,10 @@ public class AdminController {
      * @return success - Boolean indicating if Department name was already in the database
      */
     public Boolean addDepartment(String name){
-        
+  
+        if (name.length() < 3)
+            return false;
+
         name = validation.generalValidation(name);
         String departmentCode = name.substring(0, 3).toUpperCase();
 
@@ -141,6 +144,9 @@ public class AdminController {
     }
     public Boolean addDegree(String name, String leadDepartment, String levelOfStudy) {
 
+        if (name.length() < 3)
+            return false;
+
         name = validation.generalValidation(name);
         leadDepartment = validation.generalValidation(leadDepartment);
         levelOfStudy = validation.generalValidation(levelOfStudy);
@@ -178,11 +184,25 @@ public class AdminController {
         String values = "('"+ moduleCode + "','" + name + "','" + teachingDepartment + "')";
         databaseModel.insertIntoDatabase("Module", values);
     }
-    public Boolean addModuleLink(String moduleCode, String degreeCode, String level, String semester, String coreOrNot, String credits) {
+    public Boolean addModuleLink(String moduleCode, String degreeCode, String level, String semester, String coreOrNot, String dissertation) {
 
         ModuleLinks moduleLinks = databaseModel.getModuleLinks("*","mdl.Module_ModuleCode='" + moduleCode + 
                                                                     "' AND mdl.Degree_DegreeCode='" + degreeCode + "'");
-        if (credits.matches("(0|[1-9]\\d*)") && moduleLinks.getNumOfRows() == 0) {
+        if (moduleLinks.getNumOfRows() == 0) {
+
+            String credits;
+            if (level.equals("4")) {
+                if (dissertation.equals("Dissertation"))
+                    credits = "60";
+                else
+                    credits = "15";
+            } else {
+                if (dissertation.equals("Dissertation"))
+                    credits = "40";
+                else
+                    credits = "20";
+            }
+
             String values = "(NULL, '" + moduleCode + "','" + degreeCode + "','" + level + "','" + semester + "','" + credits + "','" + coreOrNot + "')";
             databaseModel.insertIntoDatabase("`Module degree (linking)`", values);
             return true;
