@@ -49,6 +49,7 @@ public class RegistrarController {
        
        databaseModel.insertUsers(username, hashedPassword, role, email, firstname, title, secondname, salt);
        databaseModel.insertIntoDatabase("Student", values);
+       registerStudent("2017",registrationNumber);
        
     }
     
@@ -67,7 +68,10 @@ public class RegistrarController {
         
         String [] codes = coreModules.getModuleCodes();
         
-        for(int i = 0; i<codes.length; i++) addMark(recordId,codes[i]);
+        for(int i = 0; i<codes.length; i++){
+            System.out.println(codes[i]);
+            addMark(recordId,codes[i]);
+        }
     }
     
     public void createRecord (String periodOfStudy, String registrationNumber){
@@ -91,7 +95,7 @@ public class RegistrarController {
         
         int markId = generateMarkId(0);
         
-        String values = "('" + markId + "','" + moduleCode  + "','" + recordId + "')";
+        String values = "('" + markId + "','" + moduleCode  + "','" + recordId + "','-1','-1' )";
         
         databaseModel.insertIntoDatabase("Mark", values);
     }
@@ -116,11 +120,19 @@ public class RegistrarController {
     }
     
     private int generateMarkId(int i){
-        return i;
+        
+        boolean bool = databaseModel.executeBoolQuery("SELECT * FROM Mark WHERE (`Mark ID` = '" + i + "')");
+        if(bool) return generateRecordId(i+1);
+        else return i;
+        
     }
     
     private int generateRecordId(int i){
-        return i;
+        
+        boolean bool = databaseModel.executeBoolQuery("SELECT * FROM Record WHERE (`Record ID` = '" + i + "')");
+        if(bool) return generateRecordId(i+1);
+        else return i;
+        
     }
     
     private String generateRegistrationNumber(int i) {

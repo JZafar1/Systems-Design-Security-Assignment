@@ -24,7 +24,8 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT `Record ID` FROM Department WHERE `Student_Registration number` = '" + studentRegistrationNumber + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
+                openResultQuery("SELECT `Record ID` FROM Record WHERE `Student_Registration number` = '" + studentRegistrationNumber + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
+                getResult().next();
                 recordId = Integer.parseInt(getResult().getString(1));
             }
             finally {
@@ -52,6 +53,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 openConnection();
                 openStatement();
                 openResultQuery("SELECT `Degree_DegreeCode` FROM Student WHERE `Registration number` = '" + studentRegistrationNumber +  "' ;");
+                getResult().next();
                 degreeCode = getResult().getString(1);
             }
             finally {
@@ -79,6 +81,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 openConnection();
                 openStatement();
                 openResultQuery("SELECT `Degree name` FROM Degree WHERE `DegreeCode` = '" + degreeCode +  "' ;");
+                getResult().next();
                 degreeName = getResult().getString(1);
             }
             finally {
