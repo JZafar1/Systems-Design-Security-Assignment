@@ -102,7 +102,8 @@ public class AdminController {
         byte[] hashedPassword = PasswordHasher.generateHashPassword(password, salt);
 
         String baseUsername = (name.substring(0, 1) + surname).toLowerCase();
-        Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%';");
+        Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%' " +
+                                                  "ORDER BY CHAR_LENGTH(Username);");
         String username = generateUsername(baseUsername, users.getTableList());
 
         String email = username + "@sheffield.ac.uk";
