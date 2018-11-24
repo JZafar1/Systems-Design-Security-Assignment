@@ -14,6 +14,7 @@ public class ManageModules extends JPanel {
 
 
     private RegistrarUI registrarUI;
+    private String registartionNumber;
 
     public ManageModules(RegistrarUI registrarUI) {
         this.registrarUI = registrarUI;

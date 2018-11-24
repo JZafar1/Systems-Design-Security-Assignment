@@ -1,15 +1,17 @@
 package src.ui.registrar;
 
 import javax.swing.JPanel;
+import src.ui.database.DatabaseView;
+
 public class Registrar extends JPanel {
     private javax.swing.JComboBox<String> dataSelect;
     private javax.swing.JTable finishedRegistration;
     private javax.swing.JTable inRegistration;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JScrollPane registerScroll;
+    private DatabaseView registerScroll;
     private javax.swing.JButton registerStudent;
     private javax.swing.JLabel studentLabel;
-    private javax.swing.JScrollPane studentViewScroll;
+    private DatabaseView studentViewScroll;
     private javax.swing.JButton registerButton;
     private RegistrarUI registrarUI;
 
@@ -24,9 +26,9 @@ public class Registrar extends JPanel {
         mainPanel = new javax.swing.JPanel();
         registerStudent = new javax.swing.JButton();
         registerButton = new javax.swing.JButton();
-        registerScroll = new javax.swing.JScrollPane();
+        registerScroll = new DatabaseView(this);
         inRegistration = new javax.swing.JTable();
-        studentViewScroll = new javax.swing.JScrollPane();
+        studentViewScroll = new DatabaseView(this);
         finishedRegistration = new javax.swing.JTable();
         studentLabel = new javax.swing.JLabel();
         dataSelect = new javax.swing.JComboBox<String>();
@@ -35,27 +37,30 @@ public class Registrar extends JPanel {
                                       "Registrar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
 
-        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        inRegistration.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+//        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+//        inRegistration.setModel(new javax.swing.table.DefaultTableModel(
+//            new Object [][] {
+//
+//            },
+//            new String [] {
+//                "Title 1", "Title 2", "Title 3", "Title 4"
+//            }
+//        ));
+//        registerScroll.setViewportView(inRegistration);
+//
+//        finishedRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+//        finishedRegistration.setModel(new javax.swing.table.DefaultTableModel(
+//            new Object [][] {
+//
+//            },
+//            new String [] {
+//                "Title 1", "Title 2", "Title 3", "Title 4"
+//            }
+//        ));
+//        studentViewScroll.setViewportView(finishedRegistration);
 
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        registerScroll.setViewportView(inRegistration);
-
-        finishedRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        finishedRegistration.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        studentViewScroll.setViewportView(finishedRegistration);
+        registerScroll.showUnRegisterdStudents("2017");
+        studentViewScroll.showRegisterdStudents("2017");
 
         registerStudent.setText("Register Student");
         registerStudent.addActionListener(new java.awt.event.ActionListener() {

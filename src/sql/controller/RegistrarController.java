@@ -122,7 +122,7 @@ public class RegistrarController {
     private int generateMarkId(int i){
         
         boolean bool = databaseModel.executeBoolQuery("SELECT * FROM Mark WHERE (`Mark ID` = '" + i + "')");
-        if(bool) return generateRecordId(i+1);
+        if(bool) return generateMarkId(i+1);
         else return i;
         
     }
