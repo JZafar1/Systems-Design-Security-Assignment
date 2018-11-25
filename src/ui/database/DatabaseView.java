@@ -119,6 +119,11 @@ public class DatabaseView extends JScrollPane{
                 new String[] {"Record ID", "Average", "Honour", "Registration Number","Period of study","Registered status"}));
         setViewportView(databaseTable);
     }
+    public void showStudentsModules(int recordId){
+         databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getStudentsModules(recordId),
+                new String[] {"Mark Id", "Module Code", "Record ID", "Mark","Resit Mark"}));
+         setViewportView(databaseTable);
+    }
 
     /**
      * Returns selected field in the selected row

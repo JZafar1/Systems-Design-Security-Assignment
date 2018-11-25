@@ -1,6 +1,7 @@
 package src.ui.registrar;
 
 import javax.swing.JPanel;
+import src.ui.database.DatabaseView;
 public class ManageModules extends JPanel {
 
     private javax.swing.JPanel addRemoveModule;
@@ -9,15 +10,17 @@ public class ManageModules extends JPanel {
     private javax.swing.JButton complete;
     private javax.swing.JButton backButton;
     private javax.swing.JTable currentModuleTable;
-    private javax.swing.JScrollPane moduleScroll;
+    private DatabaseView moduleScroll;
     private javax.swing.JComboBox<String> optionalModuleList;
+    private int recordId;
 
 
     private RegistrarUI registrarUI;
     private String registartionNumber;
 
-    public ManageModules(RegistrarUI registrarUI) {
+    public ManageModules(RegistrarUI registrarUI, int recordId) {
         this.registrarUI = registrarUI;
+        this.recordId = recordId;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -28,7 +31,7 @@ public class ManageModules extends JPanel {
         complete = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         currentModuleTable = new javax.swing.JTable();
-        moduleScroll = new javax.swing.JScrollPane();
+        moduleScroll = new DatabaseView(this);
         optionalModuleList = new javax.swing.JComboBox<String>();
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Manage Modules", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
@@ -51,6 +54,7 @@ public class ManageModules extends JPanel {
         addModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //do Something
+                moduleScroll.showStudentsModules(recordId);
             }
         });
 
@@ -58,6 +62,7 @@ public class ManageModules extends JPanel {
         removeModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //TO DO
+                moduleScroll.showStudentsModules(recordId);
             }
         });
 
@@ -74,6 +79,9 @@ public class ManageModules extends JPanel {
                 backButtonActionPerformed(evt);
             }
         });
+        
+        moduleScroll.showStudentsModules(recordId);
+        
         placeComponents();
     }
 

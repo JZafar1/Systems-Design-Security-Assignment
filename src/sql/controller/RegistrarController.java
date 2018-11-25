@@ -20,7 +20,11 @@ public class RegistrarController {
     
     private RegistrarDatabaseModel databaseModel;
     private SQLValidation validation;
-
+    
+    public int getRecordId(String studentRegistrationNumber,String periodOfStudy) {
+        return databaseModel.getRecordId(studentRegistrationNumber,periodOfStudy);
+    }
+    
     public RegistrarController() {
         this.databaseModel = new RegistrarDatabaseModel();
         this.validation = new SQLValidation();

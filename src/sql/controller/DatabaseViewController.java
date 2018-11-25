@@ -49,5 +49,9 @@ public class DatabaseViewController {
         Record registeredRecords = registrarDatabaseModel.getRecordsByRegStatus("no", period);
         return registeredRecords.getTable();
     }
+    public Object[][] getStudentsModules(int recordId) {
+        Mark studentsModules = registrarDatabaseModel.getStudentsModules(recordId);
+        return studentsModules.getTable();
+    }
     
 }

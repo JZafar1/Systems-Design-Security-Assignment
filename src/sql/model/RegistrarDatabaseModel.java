@@ -202,4 +202,36 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public Mark getStudentsModules(int recordId){
+        
+        initConnection();
+        initStatement();
+        Mark modules = new Mark();
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT * FROM Mark WHERE `Record_Record ID` = '" + recordId +"' ;" );
+                while (getResult().next()) {
+                    int markId = Integer.parseInt(getResult().getString(1));
+                    String moduleCode = getResult().getString(2);
+                    int mark = Integer.parseInt(getResult().getString(4));
+                    int resitMark = Integer.parseInt(getResult().getString(5));
+                    modules.addRow(markId,moduleCode,recordId,mark,resitMark);
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return modules;
+        
+    }
+    
 }

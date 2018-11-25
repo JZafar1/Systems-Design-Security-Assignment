@@ -40,9 +40,9 @@ public class RegistrarUI extends JPanel {
         placeMenuComponent(new ManageStudents(this));
         repaint();
     }
-    public void showManageModules() {
+    public void showManageModules(int recordId) {
         removeAll();
-        placeMenuComponent(new ManageModules(this));
+        placeMenuComponent(new ManageModules(this,recordId));
         repaint();
     }
     private void placeMenuComponent(JPanel menu) {

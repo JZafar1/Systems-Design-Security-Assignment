@@ -87,7 +87,8 @@ public class Registrar extends JPanel {
     }
 
     private void manageModulesActionPerformed() {
-        getRegistrarUI().showManageModules();
+        int recordId = controller.getRecordId(dataSelect.getSelectedItem().toString(),"2017");
+        getRegistrarUI().showManageModules(recordId);
     }
 
     private RegistrarUI getRegistrarUI() { return registrarUI; }
