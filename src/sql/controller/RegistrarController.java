@@ -35,6 +35,14 @@ public class RegistrarController {
         return unregisteredRecords.getRegistrationNumbers();
     }
     
+    public String[] getOptionalModulesCodes(int recordId,String periodOfStudy){
+        String registrationNumber = databaseModel.getRegistrationNumber(recordId,periodOfStudy);
+        String degreeCode = databaseModel.getStudentDegree(registrationNumber);
+        String degreeName = databaseModel.getDegreeName(degreeCode);
+        ModuleLinks validModules = databaseModel.getValidOptionalCoreModules(degreeCode,degreeName,false);
+        return  validModules.getModuleCodes();
+    }
+    
     public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor) {
         
        levelOfStudy = validation.generalValidation(levelOfStudy);

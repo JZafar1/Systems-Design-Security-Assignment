@@ -42,6 +42,34 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public String getRegistrationNumber(int recordId, String periodOfStudy){
+        
+        initConnection();
+        initStatement();
+        String registrationNumber = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Student_Registration number` FROM Record WHERE `Record ID` = '" + recordId + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
+                getResult().next();
+                registrationNumber = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return registrationNumber;
+        
+    }
+    
     public String getStudentDegree(String studentRegistrationNumber){
         
         initConnection();

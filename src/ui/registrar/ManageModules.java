@@ -1,6 +1,8 @@
 package src.ui.registrar;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
 public class ManageModules extends JPanel {
 
@@ -13,6 +15,7 @@ public class ManageModules extends JPanel {
     private DatabaseView moduleScroll;
     private javax.swing.JComboBox<String> optionalModuleList;
     private int recordId;
+    private RegistrarController controller;
 
 
     private RegistrarUI registrarUI;
@@ -21,6 +24,7 @@ public class ManageModules extends JPanel {
     public ManageModules(RegistrarUI registrarUI, int recordId) {
         this.registrarUI = registrarUI;
         this.recordId = recordId;
+        this.controller = new RegistrarController();
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -32,7 +36,7 @@ public class ManageModules extends JPanel {
         backButton = new javax.swing.JButton();
         currentModuleTable = new javax.swing.JTable();
         moduleScroll = new DatabaseView(this);
-        optionalModuleList = new javax.swing.JComboBox<String>();
+        optionalModuleList = new JComboBox<>();
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Manage Modules", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
@@ -49,7 +53,7 @@ public class ManageModules extends JPanel {
             }
         ));
         moduleScroll.setViewportView(currentModuleTable);
-        optionalModuleList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        optionalModuleList.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getOptionalModulesCodes(recordId,"2017")));
         addModule.setText("Add Module");
         addModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
