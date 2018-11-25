@@ -58,6 +58,7 @@ public class ManageModules extends JPanel {
         addModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //do Something
+                controller.addMark(recordId,optionalModuleList.getSelectedItem().toString());
                 moduleScroll.showStudentsModules(recordId);
             }
         });
@@ -66,6 +67,7 @@ public class ManageModules extends JPanel {
         removeModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //TO DO
+                controller.removeMark(moduleScroll.getSelectedRow(0));
                 moduleScroll.showStudentsModules(recordId);
             }
         });
