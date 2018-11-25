@@ -14,8 +14,11 @@ public class Record extends Table {
     public Record() {
         super();
     }
-    public void addRow (int recordId, int average, String honour, int registrationNumber, String periodOfSuty, String registered) {
+    public void addRow (int recordId, int average, String honour, String registrationNumber, String periodOfSuty, String registered) {
         super.addRow(new Object[] {recordId,average,honour,registrationNumber,periodOfSuty,registered});
+    }
+    public String[] getRegistrationNumbers(){
+        return (String[]) super.getColumn(3);
     }
     
 }

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import src.sql.model.RegistrarDatabaseModel;
 import src.sql.tables.ModuleLinks;
+import src.sql.tables.Record;
 import src.sql.tables.Users;
 
 /**
@@ -23,6 +24,11 @@ public class RegistrarController {
     public RegistrarController() {
         this.databaseModel = new RegistrarDatabaseModel();
         this.validation = new SQLValidation();
+    }
+    
+    public String[] getUnregisteredRegistrationNumbers(String periodOfStudy){
+        Record unregisteredRecords = databaseModel.getRecordsByRegStatus("no",periodOfStudy);
+        return unregisteredRecords.getRegistrationNumbers();
     }
     
     public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor) {

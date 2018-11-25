@@ -185,7 +185,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                     int recordId = Integer.parseInt(getResult().getString(1));
                     int average = Integer.parseInt(getResult().getString(2));
                     String honour = getResult().getString(3);
-                    int registrationNumber = Integer.parseInt(getResult().getString(4));
+                    String registrationNumber = getResult().getString(4);
                     records.addRow(recordId, average, honour, registrationNumber, periodOfStudy, registeredYesNo);
                 }
             }

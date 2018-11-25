@@ -1,6 +1,8 @@
 package src.ui.registrar;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
 
 public class Registrar extends JPanel {
@@ -14,9 +16,11 @@ public class Registrar extends JPanel {
     private DatabaseView studentViewScroll;
     private javax.swing.JButton registerButton;
     private RegistrarUI registrarUI;
+    private RegistrarController controller;
 
     public Registrar(RegistrarUI registrarUI) {
         this.registrarUI = registrarUI;
+        this.controller = new RegistrarController();
         initComponents();
     }
 
@@ -31,7 +35,7 @@ public class Registrar extends JPanel {
         studentViewScroll = new DatabaseView(this);
         finishedRegistration = new javax.swing.JTable();
         studentLabel = new javax.swing.JLabel();
-        dataSelect = new javax.swing.JComboBox<String>();
+        dataSelect = new JComboBox<>();
         studentLabel.setText("Select a student");
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Registrar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
@@ -61,6 +65,7 @@ public class Registrar extends JPanel {
 
         registerScroll.showUnRegisterdStudents("2017");
         studentViewScroll.showRegisterdStudents("2017");
+        dataSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getUnregisteredRegistrationNumbers("2017")));
 
         registerStudent.setText("Register Student");
         registerStudent.addActionListener(new java.awt.event.ActionListener() {
