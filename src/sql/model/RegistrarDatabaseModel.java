@@ -24,9 +24,11 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT `Record ID` FROM Record WHERE `Student_Registration number` = '" + studentRegistrationNumber + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
-                getResult().next();
-                recordId = Integer.parseInt(getResult().getString(1));
+                openResultQuery("SELECT `Record ID` FROM Record WHERE `Student_Registration number` = '" 
+                                    + studentRegistrationNumber + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
+                while (getResult().next()) {
+                    recordId = Integer.parseInt(getResult().getString(1));
+                }
             }
             finally {
                 closeResultQuery();
