@@ -63,7 +63,7 @@ public class TeacherDatabaseModel extends DatabaseModel {
         return results;
     }
 
-    public String getDegreeName(String regNo, String moduleCode) {
+    public String getCurrentGrade(String regNo, String moduleCode) {
         initConnection();
         initStatement();
         String results = "";
@@ -75,7 +75,7 @@ public class TeacherDatabaseModel extends DatabaseModel {
                 String record = getRecordId(query);
                 openConnection();
                 openStatement();
-                query = "WHERE `Record_Record ID` = '" + results +
+                query = "WHERE `Record_Record ID` = '" + record +
                 "' AND Module_ModuleCode = '" + moduleCode + "';";
                 openResultQuery("SELECT `The mark` FROM Mark " + query);
                 while (getResult().next()) {
@@ -115,7 +115,7 @@ public class TeacherDatabaseModel extends DatabaseModel {
         return result;
     }
 
-    public void insertGrade(String name, String module, String grade) {
+    public void insertGrade(String name, String module, String grade, boolean resit) {
         initConnection();
         initStatement();
         String theModule = module.substring(0, 7);
@@ -125,11 +125,18 @@ public class TeacherDatabaseModel extends DatabaseModel {
                 openStatement();
                 String query = "WHERE `Student_Registration number` = '" + name + "';";
                 String record = getRecordId(query);
-                String tables = "Mark (`The mark`) ";
-                String values = "('" + grade + "') WHERE "
-                    + "`Record_Record ID` = '" + record + "' AND "
-                    + "Module_ModuleCode = '" + theModule + "'";
-                insertIntoDatabase(tables, values);
+                if(resit) {
+                    query = "UPDATE Mark SET `The mark` = " + grade +
+                        " WHERE `Record_Record ID` = " + record + " AND "
+                        + "Module_ModuleCode = '" + theModule + "';";
+                }else {
+                    query = "UPDATE Mark SET `Resit mark` = " + grade +
+                        " WHERE `Record_Record ID` = " + record + " AND "
+                        + "Module_ModuleCode = '" + theModule + "';";
+                }
+                openConnection();
+                openStatement();
+                int count = getStatement().executeUpdate(query);
             } finally {
                 closeResultQuery();
                 closeStatement();
@@ -179,6 +186,40 @@ public class TeacherDatabaseModel extends DatabaseModel {
                     " WHERE `Registration number` = '" + student + "';");
                 while (getResult().next()) {
                     result = Integer.parseInt(getResult().getString(1));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public int getDegreeType(String student) {
+        initConnection();
+        initStatement();
+        int result = 0;
+        try {
+            try {
+                openConnection();
+                openStatement();
+                String query = "SELECT Degree_DegreeCode FROM  Student " +
+                    "WHERE `Registration number` = '" + student + "';";
+                String degreeCode = "";
+                openResultQuery(query);
+                while (getResult().next()) {
+                    degreeCode = getResult().getString(1);
+                }
+                query = "SELECT `Level of study` FROM Degree" +
+                    "WHERE DegreeCode = '" + degreeCode + "';";
+                openConnection();
+                openStatement();
+                openResultQuery(query);
+                while (getResult().next()) {
+                    result = getResult().getString(1).length();
                 }
             } finally {
                 closeResultQuery();

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class EditGrades extends Menu {
     private javax.swing.JLabel select;
+    private javax.swing.JLabel resitLabel;
     private javax.swing.JLabel currentGradeLabel;
     private javax.swing.JLabel selectLabel;
     private javax.swing.JLabel newGradeLabel;
@@ -18,6 +19,7 @@ public class EditGrades extends Menu {
     private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> moduleList;
     private javax.swing.JComboBox<String> studentList;
+    private javax.swing.JComboBox<String> resit;
     private TeacherController controller;
 
     public EditGrades (TeacherGUI teacherui) {
@@ -31,6 +33,8 @@ public class EditGrades extends Menu {
     public void initComponents() {
         select = new JLabel();
         select.setText("Select Module");
+        resitLabel = new JLabel();
+        resitLabel.setText("Resit?");
         moduleList = new JComboBox<String>();
         currentGradeLabel = new JLabel();
         currentGradeLabel.setText("Current Grade");
@@ -49,7 +53,10 @@ public class EditGrades extends Menu {
         selectLabel.setText("Select Student");
         studentList = new JComboBox<String>();
         backButton = new JButton();
-
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        resit = new JComboBox(model);
+        model.addElement("false");
+        model.addElement("true");
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Add or Update Grades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
@@ -105,8 +112,7 @@ public class EditGrades extends Menu {
         String module = String.valueOf(moduleList.getSelectedItem());
         String theModule = module.substring(0, 7);
         String name = String.valueOf(studentList.getSelectedItem());
-        //String query = "WHERE Student_Registration number = '" + name + "';";
-        String result = controller.getDegree(module, theModule);
+        String result = controller.getGrade(name, theModule);
         currentGrade.setText(result);
     }
 
@@ -114,7 +120,8 @@ public class EditGrades extends Menu {
         String grade = newGrade.getText();
         String module = String.valueOf(moduleList.getSelectedItem());
         String student = String.valueOf(studentList.getSelectedItem());
-        controller.updateGrade(student, module, grade);
+        boolean resitGrade = (boolean) resit.getSelectedItem();
+        controller.updateGrade(student, module, grade, resitGrade);
         javax.swing.JOptionPane.showMessageDialog(this, "Grade Updated.");
         getCurrentGrade();
         newGrade.setText("");
@@ -126,39 +133,39 @@ public class EditGrades extends Menu {
         editGradeLayout.setHorizontalGroup(
             editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editGradeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(currentGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(newGradeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, editGradeLayout.createSequentialGroup()
-                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(selectLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(select, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(19, 19, 19)))
-                .addGap(18, 18, 18)
-                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(editGradeLayout.createSequentialGroup()
-                        .addComponent(studentList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(6, 6, 6))
-                    .addComponent(currentGrade)
-                    .addComponent(newGrade)
-                    .addComponent(moduleList, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(67, 67, 67))
-            .addGroup(editGradeLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editGradeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(currentGradeLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(editGradeLayout.createSequentialGroup()
+                        .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(selectLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(select, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(19, 19, 19))
+                    .addComponent(resitLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(resit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(currentGrade, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newGrade, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(moduleList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(studentList, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(67, 67, 67))
         );
         editGradeLayout.setVerticalGroup(
             editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editGradeLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editGradeLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(studentList))
-                    .addComponent(selectLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(selectLabel))
                 .addGap(25, 25, 25)
                 .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(editGradeLayout.createSequentialGroup()
@@ -166,13 +173,19 @@ public class EditGrades extends Menu {
                         .addComponent(moduleList))
                     .addComponent(select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(currentGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(editGradeLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(currentGrade)))
+                        .addComponent(resit))
+                    .addComponent(resitLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(editGradeLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(currentGrade))
+                    .addComponent(currentGradeLabel))
+                .addGap(18, 18, 18)
+                .addGroup(editGradeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(newGrade)
                     .addGroup(editGradeLayout.createSequentialGroup()
                         .addGap(3, 3, 3)

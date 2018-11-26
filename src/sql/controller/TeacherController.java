@@ -47,12 +47,12 @@ public class TeacherController {
         return teacherDatabaseModel.getDegreeName(cond);
     }
 
-    public String getDegree(String cond, String module) {
-        return teacherDatabaseModel.getDegreeName(cond, module);
+    public String getGrade(String cond, String module) {
+        return teacherDatabaseModel.getCurrentGrade(cond, module);
     }
 
-    public void updateGrade(String student, String module, String grade) {
-        teacherDatabaseModel.insertGrade(student, module, grade);
+    public void updateGrade(String student, String module, String grade, boolean resit) {
+        teacherDatabaseModel.insertGrade(student, module, grade, resit);
     }
 
     public int getWeightedMean(String student) {
@@ -77,7 +77,14 @@ public class TeacherController {
     }
 
     public String getDegreeType(String student) {
-        return "Bsc";
+        int theLength = teacherDatabaseModel.getDegreeType(student);
+        if(theLength == 3) {
+            return "Bsc";
+        }else if(theLength == 4) {
+            return "Msc";
+        }else {
+            return "One Year Msc";
+        }
     }
 
     public String getBachelorResult(final int theGrade) {
