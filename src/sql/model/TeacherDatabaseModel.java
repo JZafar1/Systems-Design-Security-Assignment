@@ -18,11 +18,11 @@ public class TeacherDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT Tutor FROM Student " + condition + ";");
+                openResultQuery("SELECT Tutor FROM Student " + condition);
                 while (getResult().next()) {
                     results = getResult().getString(1);
                 }
-                
+
             } finally {
                 closeResultQuery();
                 closeStatement();
@@ -44,10 +44,14 @@ public class TeacherDatabaseModel extends DatabaseModel {
                 openStatement();
                 openResultQuery("SELECT Degree_DegreeCode FROM  Student WHERE `Registration number` = '"
                     + condition + "';");
-                results = getResult().getString(0);
-                openResultQuery("SELECT `Degree name` FROM Degree WHERE DegreeCode = '"
-                    + results + "';");
-                results = getResult().getString(0);
+                while (getResult().next()) {
+                    results = getResult().getString(1);
+                }
+                String query = "WHERE DegreeCode = '" + results + "';";
+                openResultQuery("SELECT `Degree name` FROM Degree " + query);
+                while (getResult().next()) {
+                    results = getResult().getString(1);
+                }
             } finally {
                 closeResultQuery();
                 closeStatement();
@@ -67,11 +71,16 @@ public class TeacherDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                String record = getRecordId(regNo);
-                String query = "`Record_Record ID` = '" + results +
+                String query = "WHERE `Student_Registration number` = '" + regNo + "';";
+                String record = getRecordId(query);
+                openConnection();
+                openStatement();
+                query = "WHERE `Record_Record ID` = '" + results +
                 "' AND Module_ModuleCode = '" + moduleCode + "';";
-                openResultQuery("SELECT `The mark` FROM Mark WHERE" + query + ";");
-                results = getResult().getString(0);
+                openResultQuery("SELECT `The mark` FROM Mark " + query);
+                while (getResult().next()) {
+                    results = getResult().getString(1);
+                }
             } finally {
                 closeResultQuery();
                 closeStatement();
@@ -91,8 +100,10 @@ public class TeacherDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT `Record ID` FROM  Record WHERE" + cond);
-                result = getResult().getString(0);
+                openResultQuery("SELECT `Record ID` FROM  Record " + cond);
+                while (getResult().next()) {
+                    result = getResult().getString(1);
+                }
             } finally {
                 closeResultQuery();
                 closeStatement();
@@ -104,18 +115,20 @@ public class TeacherDatabaseModel extends DatabaseModel {
         return result;
     }
 
-    public void insertGrade(String cond, String grade, String module) {
+    public void insertGrade(String name, String module, String grade) {
         initConnection();
         initStatement();
+        String theModule = module.substring(0, 7);
         try {
             try {
                 openConnection();
                 openStatement();
-                String record = getRecordId(cond);
-                String tables = "Mark (`The mark`)";
-                String values = "('" + grade + "') WHERE"
-                    + "`Record_Record ID` = '" + record + "' AND"
-                    + "Module_ModuleCode = '" + module + "'";
+                String query = "WHERE `Student_Registration number` = '" + name + "';";
+                String record = getRecordId(query);
+                String tables = "Mark (`The mark`) ";
+                String values = "('" + grade + "') WHERE "
+                    + "`Record_Record ID` = '" + record + "' AND "
+                    + "Module_ModuleCode = '" + theModule + "'";
                 insertIntoDatabase(tables, values);
             } finally {
                 closeResultQuery();

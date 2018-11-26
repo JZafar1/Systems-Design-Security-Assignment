@@ -43,7 +43,15 @@ public class TeacherController {
         return teacherDatabaseModel.getTutor(cond);
     }
 
+    public String getDegreeName(String cond) {
+        return teacherDatabaseModel.getDegreeName(cond);
+    }
+
     public String getDegree(String cond, String module) {
         return teacherDatabaseModel.getDegreeName(cond, module);
+    }
+
+    public void updateGrade(String student, String module, String grade) {
+        teacherDatabaseModel.insertGrade(student, module, grade);
     }
 }

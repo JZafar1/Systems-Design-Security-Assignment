@@ -103,14 +103,20 @@ public class ViewStudentInfo extends Menu{
         email.setText(theResults[5]);
         userName.setText(theResults[4]);
         studyLevel.setText(theResults[6]);
-        degree.setText("(Text)");
         setTutorText(name);
+        setDegreeText(name);
     }
 
     private void setTutorText(String name) {
         String cond = "WHERE `Registration number` = '" + name  + "'";
         String result = controller.getStudentTutor(cond);
         tutor.setText(result);
+    }
+
+    private void setDegreeText(String regNo) {
+        String query = " WHERE `Registration number` = '" + regNo + "';";
+        String res = controller.getDegreeName(regNo);
+        degree.setText(res);
     }
 
     protected void placeComponents() {

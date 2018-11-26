@@ -105,13 +105,19 @@ public class EditGrades extends Menu {
         String module = String.valueOf(moduleList.getSelectedItem());
         String theModule = module.substring(0, 7);
         String name = String.valueOf(studentList.getSelectedItem());
-        String query = "Student_Registration number = '" + name + "';"
-        String result = controller.getDegree(query, theModule);
+        //String query = "WHERE Student_Registration number = '" + name + "';";
+        String result = controller.getDegree(module, theModule);
         currentGrade.setText(result);
     }
 
-    public boolean commitChange() {
-        return false;
+    private void commitChange() {
+        String grade = newGrade.getText();
+        String module = String.valueOf(moduleList.getSelectedItem());
+        String student = String.valueOf(studentList.getSelectedItem());
+        controller.updateGrade(student, module, grade);
+        javax.swing.JOptionPane.showMessageDialog(this, "Grade Updated.");
+        getCurrentGrade();
+        newGrade.setText("");
     }
 
     protected void placeComponents() {
