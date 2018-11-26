@@ -55,10 +55,22 @@ public class RegisterStudent extends Menu{
             }
         });
 
+        students.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    setMeanText();
+                    setResultText();
+                }
+            }
+        });
+
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Register student", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
         displayStudents();
+        setMeanText();
+        setResultText();
     }
 
     private void displayStudents() {
@@ -66,8 +78,20 @@ public class RegisterStudent extends Menu{
         students.setModel(new DefaultComboBoxModel(stuList));
     }
 
-    public void registerNewStudent() {
+    private void setMeanText() {
+        int value = controller.getWeightedMean(String.valueOf(students.getSelectedItem()));
+        weightedMean.setText(Integer.toString(value));
+    }
 
+    private void setResultText() {
+        String result = controller.getDegreeResult(String.valueOf(students.getSelectedItem()));
+        finalResult.setText(result);
+    }
+
+    private void registerNewStudent() {
+        String theResult = finalResult.getText();
+        String studentName = String.valueOf(students.getSelectedItem());
+        controller.registerStudent(theResult, studentName);
     }
 
     protected void placeComponents() {

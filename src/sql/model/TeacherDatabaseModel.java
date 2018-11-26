@@ -139,4 +139,55 @@ public class TeacherDatabaseModel extends DatabaseModel {
             ex.printStackTrace();
         }
     }
+
+    public int getWeightedMean(String student) {
+        initConnection();
+        initStatement();
+        String query = "WHERE `Student_Registration number` = '" + student + "';";
+        int total = 0;
+        int count = 0;
+        try {
+            try {
+                String record = getRecordId(query);
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `The mark` FROM Mark WHERE `Record_Record ID` = '" + record + "';");
+                while (getResult().next()) {
+                    total += Integer.parseInt(getResult().getString(1));
+                    count++;
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return (int) (total/count);
+    }
+
+    public int getLevelOfStudy(String student) {
+        initConnection();
+        initStatement();
+        int result = 0;
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Level of study` FROM Student" +
+                    " WHERE `Registration number` = '" + student + "';");
+                while (getResult().next()) {
+                    result = Integer.parseInt(getResult().getString(1));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
 }
