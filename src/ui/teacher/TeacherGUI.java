@@ -12,9 +12,11 @@ public class TeacherGUI extends JPanel {
     private JPanel viewStudentInfo;
     private MainWindow mainWindow;
     private JButton logOffButton;
+    private String username;
 
-    public TeacherGUI(MainWindow mainWindow) {
+    public TeacherGUI(MainWindow mainWindow, String username) {
         this.mainWindow = mainWindow;
+        this.username = username;
         setVisible(true);
         initComponents();
     }
@@ -25,6 +27,11 @@ public class TeacherGUI extends JPanel {
         registerStudent = new RegisterStudent(this);
         viewStudentInfo = new ViewStudentInfo(this);
         logOffButton = new JButton();
+
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
+                "Teacher Page : Welcome user " + username, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 24)));
+
         logOffButton.setText("Log Off");
         logOffButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

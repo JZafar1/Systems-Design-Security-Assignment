@@ -1,126 +1,109 @@
-package src.ui.Student;
+package src.ui.student;
 
-import javax.swing.*;
+import src.sql.controller.StudentController;
+import src.ui.MainWindow;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.ResultSet;
-//import src.ui.MainWindow;
-import java.sql.*;
 
-public class studentUI extends JFrame 
-		implements ActionListener {
-	
-	//private MainWindow mainWindow;
-	
-	public studentUI (String title) throws HeadlessException{
-		super(title);
-		
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
-		
-		setSize(screenSize.width/2, screenSize.height/2);
-		setLocation(screenSize.width/4, screenSize.height/4);
-		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
-		
-		String userName = "something to be determined";
-		
-				
-		String [] studentGrades = {};
-		String [] studentTeachers = {};
-		
-		Connection con = null;
-		Statement stmt = null;
-		
-		
-		try {
-		con = DriverManager.getConnection(
-				"jdbc:mysql://stusql.dcs.shef.ac.uk/team046", "team046", "cbe569aa");
-		
-		
-		stmt = con.createStatement();
-		
-		ResultSet modules = stmt.executeQuery(
-				"SELECT Module.ModuleCode,Module.Teaching Department,Mark.The mark FROM Student,Degree,Module degree (linking), Module, Mark WHERE Student.Registration number ="+userName+
-				" AND student.Degree_DegreeCode = Degree.DegreeCode AND Module degree (linking).Degree_DegreeCode = Degree.DegreeCode AND "
-				+ "Module degree (linking).Module_ModuleCode = Module.ModuleCode AND Module.ModuleCode = Mark.Module_ModuleCode);");
-		int count = 0 ;
-		while (modules.next()) {
-			   count ++;
-				}
-		modules.first();
-		String[] studentModules = new String[count];
-		count=0;
-		while (modules.next()) {
-			studentModules[count]=modules.getString("module name");
-			count++;
-		}
-		}
-		catch (SQLException ex) {
-			 ex.printStackTrace();
-		}
-		finally {}
-	
-		
-		
-		
-		String[][] data = {
-            { "Kundan Kumar Jha", "4031", "CSE" }, 
-            { "Anand Jha", "6014", "IT" } 
-        }; 
-		
-				
-		String[] columnNames = {"Module code","Teacher", "Grade"};
-		Container contentPane = getContentPane();
-		contentPane.setLayout(new BorderLayout());
-		
-		JButton logOffBtn = new JButton("Log off");
-		logOffBtn.setActionCommand("logOff");
-		logOffBtn.addActionListener(this);
-		add(logOffBtn,BorderLayout.SOUTH);
-		
-		contentPane.add(new JTable(data, columnNames),BorderLayout.NORTH);		
-	}
-	
-	public void actionPerformed (ActionEvent event) {
-	 String command = event.getActionCommand();
-	 if (command.equals("logOff")) {
-	//	 mainWindow.showLogInWindow();
-		 
-	 }
-	}
-	
-	public static void main(String[] args) {
-		
-		
-		String userName = "something to be determined";
-				
-				String [] studentModules = {};		
-				String [] studentGrades = {};
-				String [] studentTeachers = {};
-				
-				Connection con = null;
-				Statement stmt = null;
-				try {
-				con = DriverManager.getConnection(
-						"jdbc:mysql://stusql.dcs.shef.ac.uk/team046", "team046", "cbe569aa");
-				
-				
-				stmt = con.createStatement();
-				
-				ResultSet modules = stmt.executeQuery(
-						"SELECT Module.ModuleCode,Module.Teaching Department,Mark.The mark FROM Student,Degree,Module degree (linking), Module, Mark WHERE Student.Registration number ="+userName+
-						" AND student.Degree_DegreeCode = Degree.DegreeCode AND Module degree (linking).Degree_DegreeCode = Degree.DegreeCode AND "
-						+ "Module degree (linking).Module_ModuleCode = Module.ModuleCode AND Module.ModuleCode = Mark.Module_ModuleCode);");
-				}
-				catch (SQLException ex) {
-					 ex.printStackTrace();
-				}
-				finally {}
-		
-	}
-	
+public class StudentUI extends javax.swing.JPanel {
 
-	
+    private javax.swing.JPanel StudentUI;
+    private javax.swing.JLabel gradeLabel;
+    private javax.swing.JLabel gradeOutput;
+    private javax.swing.JScrollPane databaseView;
+    private javax.swing.JTable databaseTable;
+    private javax.swing.JButton logOffButton;
+    private javax.swing.JLabel yearLabel;
+    private javax.swing.JComboBox<String> yearSelector;
+    private StudentController controller;
+    private String username;
+    private String periodOfStudy;
+    private MainWindow mainWindow;
+
+    public StudentUI(MainWindow mainWindow, String username) {
+        this.mainWindow = mainWindow;
+        this.username = username;
+        controller = new StudentController();
+        initComponents();
+    }
+
+    private void initComponents() {
+
+        periodOfStudy = controller.getPeriodsOfStudy(username)[0];
+
+        StudentUI = new javax.swing.JPanel();
+        databaseView = new javax.swing.JScrollPane();
+        databaseTable = new javax.swing.JTable();
+        yearSelector = new javax.swing.JComboBox<>();
+        yearLabel = new javax.swing.JLabel();
+        logOffButton = new javax.swing.JButton();
+        gradeLabel = new javax.swing.JLabel();
+        gradeOutput = new javax.swing.JLabel();
+
+        StudentUI.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                        javax.swing.BorderFactory.createEtchedBorder(), "Student Page: Welcome user " + username,
+                        javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                        javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                        new java.awt.Font("Trebuchet MS", 0, 24))); // NOI18N
+
+        yearSelector.setModel(new javax.swing.DefaultComboBoxModel<>(
+                        controller.getPeriodsOfStudy(username)));
+
+        yearLabel.setText("Select Year: ");
+
+        logOffButton.setText("Log Off");
+        logOffButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                    mainWindow.showLogInWindow();
+            }
+        });
+
+        gradeLabel.setText("Grade for that Year: ");
+
+        gradeOutput.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        gradeOutput.setText(controller.getYearsGrade(username, periodOfStudy));
+        refreshDatabase();
+        placeComponenets();
+    }
+    private void refreshDatabase() {
+        databaseTable.setModel(new javax.swing.table.DefaultTableModel(
+                controller.getYearsModules(username, periodOfStudy),
+                new String[] { "Mark Id", "Module Code", "Record ID", "Mark", "Resit Mark" }));
+        databaseView.setViewportView(databaseTable);
+    }
+
+    private void placeComponenets() {
+        javax.swing.GroupLayout StudentUILayout = new javax.swing.GroupLayout(this);
+        setLayout(StudentUILayout);
+        StudentUILayout.setHorizontalGroup(StudentUILayout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(StudentUILayout.createSequentialGroup().addContainerGap().addGroup(StudentUILayout
+                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(databaseView, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                        .addGroup(StudentUILayout.createSequentialGroup()
+                                .addGroup(StudentUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(logOffButton)
+                                        .addGroup(StudentUILayout.createSequentialGroup().addComponent(yearLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(yearSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 215,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18).addComponent(gradeLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(gradeOutput)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap()));
+        StudentUILayout.setVerticalGroup(StudentUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StudentUILayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(StudentUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(yearLabel)
+                                .addComponent(yearSelector, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gradeLabel).addComponent(gradeOutput))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(databaseView, javax.swing.GroupLayout.PREFERRED_SIZE, 357,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(logOffButton)
+                        .addContainerGap()));
+    }
 }

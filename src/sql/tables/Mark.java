@@ -17,5 +17,4 @@ public class Mark extends Table {
     public void addRow (int markId, String moduleCode, int recordId, int mark, int resitMark) {
         super.addRow(new Object[] {markId,moduleCode,recordId,mark,resitMark});
     }
-    
 }

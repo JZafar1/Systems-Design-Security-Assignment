@@ -14,9 +14,11 @@ public class RegistrarUI extends JPanel {
 
     private MainWindow mainWindow;
     private JButton logOffButton;
+    private String username;
 
-    public RegistrarUI(MainWindow mainWindow) {
+    public RegistrarUI(MainWindow mainWindow, String username) {
         this.mainWindow = mainWindow;
+        this.username = username;
         setVisible(true);
         logOffButton = new JButton();
         logOffButton.setText("Log Off");
@@ -25,7 +27,9 @@ public class RegistrarUI extends JPanel {
                 mainWindow.showLogInWindow();
             }
         });
-
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
+                "Registrar : Welcome user " + username, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 24)));
         showRegistrarMenu();
         //showManageStudents();
         //showManageModules();

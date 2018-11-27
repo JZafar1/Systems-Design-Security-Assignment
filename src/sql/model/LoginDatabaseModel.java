@@ -16,12 +16,13 @@ public class LoginDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT password, Role, Salt FROM Users WHERE Email='" + email + "';");
+                openResultQuery("SELECT password, Role, Salt, Username FROM Users WHERE Email='" + email + "';");
                 while (getResult().next()) {
                     byte[] password = getResult().getBytes(1);
                     String role = getResult().getString(2);
                     byte[] salt = getResult().getBytes(3);
-                    userCredentials.setCredentials(password, salt, role);
+                    String username = getResult().getString(4);
+                    userCredentials.setCredentials(password, salt, role, username);
                 }
             } finally {
                 closeResultQuery();

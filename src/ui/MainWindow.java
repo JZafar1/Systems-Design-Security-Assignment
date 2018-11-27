@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import src.ui.admin.AdminUI;
 import src.ui.registrar.RegistrarUI;;
 import src.ui.teacher.TeacherGUI;
+import src.ui.student.StudentUI;
 import src.ui.login.Login;
 
 public class MainWindow extends JFrame {
@@ -22,27 +23,32 @@ public class MainWindow extends JFrame {
         screenSize = toolkit.getScreenSize();
         showLogInWindow();
         setLocation(screenSize.width / 9, screenSize.height / 9);
+        setSize(screenSize.width, screenSize.height);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         pack();
     }
-    public void setUser(String role) {
+    public void setUser(String[] userInfo) {
+        String role = userInfo[0];
+        String username = userInfo[1];
         if (role != null) {
             switch(role) {
                 case "Adminstrator":
-                    showAdminWindow();
+                    showAdminWindow(username);
                     System.out.println("Connected to database");
                     break;
                 case "Teacher":
-                    showTeacherWindow();
+                    showTeacherWindow(username);
                     System.out.println("Connected to database");
                     break;
                 case "Registrar":
-                    showRegistrarWindow();
+                    showRegistrarWindow(username);
                     System.out.println("Connected to database");
                     break;
-                default:
+                case "Student":
+                    showStudentWindow(username);
+                    System.out.println("Connected to database");
                     break;
             }
         } else {
@@ -55,20 +61,24 @@ public class MainWindow extends JFrame {
         getContentPane().add(new Login(this));
         pack();
     }
-    public void showTeacherWindow() {
+    public void showTeacherWindow(String username) {
         getContentPane().removeAll();
-        getContentPane().add(new TeacherGUI(this));
+        getContentPane().add(new TeacherGUI(this, username));
         pack();
     }
-    public void showAdminWindow() {
+    public void showAdminWindow(String username) {
         getContentPane().removeAll();
-        getContentPane().add(new AdminUI(this));
+        getContentPane().add(new AdminUI(this, username));
         pack();
     }
-    public void showRegistrarWindow() {
+    public void showRegistrarWindow(String username) {
         getContentPane().removeAll();
-        getContentPane().add(new RegistrarUI(this));
+        getContentPane().add(new RegistrarUI(this, username));
         pack();
     }
-
+    public void showStudentWindow(String username) {
+        getContentPane().removeAll();
+        getContentPane().add(new StudentUI(this, username));
+        pack();
+    }
 }
