@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
         screenSize = toolkit.getScreenSize();
         showLogInWindow();
         setLocation(screenSize.width / 9, screenSize.height / 9);
-        setSize(screenSize.width, screenSize.height);
+        setPreferredSize(new Dimension( (int) (screenSize.width / 1.5), (int) (screenSize.height/ 1.5)));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
