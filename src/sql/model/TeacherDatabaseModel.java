@@ -350,4 +350,22 @@ public class TeacherDatabaseModel extends DatabaseModel {
         }
         return result;
     }
+
+    public void updateQuery(String query) {
+        initConnection();
+        initStatement();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                int count = getStatement().executeUpdate(query);
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
