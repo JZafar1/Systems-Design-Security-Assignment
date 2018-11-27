@@ -134,8 +134,8 @@ public class Login extends javax.swing.JPanel {
         if (emailString.isEmpty() || passwordArray.length == 0) {
             JOptionPane.showMessageDialog(this, "One or more fields are empty!");
         } else {
-            String role = controller.checkUser(emailString, passwordArray);
-            getMainWindow().setUser(role);
+            String[] userInfo = controller.checkUser(emailString, passwordArray);
+            getMainWindow().setUser(userInfo);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

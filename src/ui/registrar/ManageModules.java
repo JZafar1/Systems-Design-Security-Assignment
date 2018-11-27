@@ -39,7 +39,7 @@ public class ManageModules extends JPanel {
         optionalModuleList = new JComboBox<>();
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
                                       "Manage Modules", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
-                                        new java.awt.Font("Trebuchet MS", 0, 24)));
+                                        new java.awt.Font("Trebuchet MS", 0, 17)));
 
         currentModuleTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

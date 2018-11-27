@@ -37,9 +37,7 @@ public class Registrar extends JPanel {
         studentLabel = new javax.swing.JLabel();
         dataSelect = new JComboBox<>();
         studentLabel.setText("Select a student");
-        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
-                                      "Registrar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
-                                        new java.awt.Font("Trebuchet MS", 0, 24)));
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
 //        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 //        inRegistration.setModel(new javax.swing.table.DefaultTableModel(

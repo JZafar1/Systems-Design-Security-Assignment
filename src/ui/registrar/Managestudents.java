@@ -59,7 +59,9 @@ public class ManageStudents extends JPanel {
         logOffButton = new javax.swing.JButton();
         levelLabel = new javax.swing.JLabel();
         levelOfStudy = new javax.swing.JTextField();
-        userPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
+                "Manage Students", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 0, 17)));
 
         addStudentButton.setFont(new java.awt.Font("Arial", 0, 14));
         addStudentButton.setText("Add Student");

@@ -18,9 +18,11 @@ public class AdminUI extends JPanel {
     private DatabaseView databaseView;
     private JButton logOffButton;
     private MainWindow mainWindow;
+    private String username;
 
-    public AdminUI(MainWindow mainWindow) {
+    public AdminUI(MainWindow mainWindow, String username) {
         this.mainWindow = mainWindow;
+        this.username = username;
         setVisible(true);
         initComponents();
     }
@@ -50,7 +52,7 @@ public class AdminUI extends JPanel {
         });
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(),
-                                      "Administrator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                                      "Administrator Page : Welcome user " + username, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
         setFont(new java.awt.Font("Trebuchet MS", 0, 11));
 

@@ -15,7 +15,7 @@ public class LoginController {
         validation = new SQLValidation();
     }
 
-    public String checkUser(String email, char[] passwordArray) {
+    public String[] checkUser(String email, char[] passwordArray) {
         
         email = validation.generalValidation(email);
         
@@ -25,7 +25,7 @@ public class LoginController {
         byte[] inputPassword = PasswordHasher.generateHashPassword(password, userCredentials.getSalt());
 
         if (Arrays.equals(inputPassword, userCredentials.getPasswordHash())) {
-            return userCredentials.getRole();
+            return userCredentials.getUserInfo();
         }
         return null;
     }

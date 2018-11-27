@@ -5,16 +5,18 @@ public class UserCredentials {
     private byte[] passwordHash;
     private byte[] salt;
     private String role;
+    private String username;
 
     public UserCredentials() {}
 
-    public void setCredentials(byte[] password, byte[] salt, String role) {
+    public void setCredentials(byte[] password, byte[] salt, String role, String username) {
         this.passwordHash = password;
         this.salt = salt;
         this.role = role;
+        this.username = username;
     }
     public byte[] getPasswordHash() { return passwordHash; }
     public byte[] getSalt() { return salt; }
-    public String getRole() { return role; }
+    public String[] getUserInfo() { return new String[] {role, username}; }
     public Boolean isNull() { return role==null; }
 }
