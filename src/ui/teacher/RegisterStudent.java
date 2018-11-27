@@ -12,7 +12,9 @@ public class RegisterStudent extends Menu{
     private javax.swing.JLabel selectStuLabel;
     private javax.swing.JTextField weightedMean;
     private javax.swing.JTextField finalResult;
-    private javax.swing.JButton register;
+    private javax.swing.JButton passButton;
+    private javax.swing.JButton failButton;
+    private javax.swing.JButton resitButton;
     private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> students;
     private TeacherController controller;
@@ -38,11 +40,27 @@ public class RegisterStudent extends Menu{
         finalResult.setEditable(false);
         students = new JComboBox<String>();
 
-        register = new javax.swing.JButton();
-        register.setText("Register Student");
-        register.addActionListener(new ActionListener() {
+        failButton = new javax.swing.JButton();
+        failButton.setText("Fail Student");
+        failButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                registerNewStudent();
+                failStudent();
+            }
+        });
+
+        passButton = new javax.swing.JButton();
+        passButton.setText("Pass Student");
+        passButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                passStudent();
+            }
+        });
+
+        resitButton = new javax.swing.JButton();
+        resitButton.setText("Resit Student");
+        resitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                resitStudent();
             }
         });
 
@@ -84,14 +102,41 @@ public class RegisterStudent extends Menu{
     }
 
     private void setResultText() {
-        String result = controller.getDegreeResult(String.valueOf(students.getSelectedItem()));
+        String result = controller.theDegreeResult(String.valueOf(students.getSelectedItem()));
         finalResult.setText(result);
     }
 
-    private void registerNewStudent() {
+    private void failStudent() {
         String theResult = finalResult.getText();
-        String studentName = String.valueOf(students.getSelectedItem());
-        controller.registerStudent(theResult, studentName);
+        if(theResult.equalsIgnoreCase("fail")) {
+            String student = String.valueOf(students.getSelectedItem());
+            controller.createFailStudent(student);
+        }else {
+            JOptionPane.showMessageDialog(this, "The selected student has not failed!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void passStudent() {
+        String theResult = finalResult.getText();
+        if(theResult.equalsIgnoreCase("pass") || theResult.equalsIgnoreCase("Conceded pass")) {
+            String student = String.valueOf(students.getSelectedItem());
+            controller.createPassStudent(student);
+        }else {
+            JOptionPane.showMessageDialog(this, "The selected student has not passed!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void resitStudent() {
+        String theResult = finalResult.getText();
+        if(theResult.equalsIgnoreCase("Resit year")) {
+            String student = String.valueOf(students.getSelectedItem());
+            controller.createResitStudent(student);
+        }else {
+            JOptionPane.showMessageDialog(this, "The selected student can not resit!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     protected void placeComponents() {
@@ -103,30 +148,38 @@ public class RegisterStudent extends Menu{
                 .addContainerGap()
                 .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerStudentLayout.createSequentialGroup()
-                        .addComponent(finalResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                        .addGap(96, 96, 96))
+                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(registerStudentLayout.createSequentialGroup()
+                                .addComponent(finalResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(96, 96, 96))
+                            .addGroup(registerStudentLayout.createSequentialGroup()
+                                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(weightedMeanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(selectStuLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(34, 34, 34)
+                                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(weightedMean, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(finalResult, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(39, 39, 39))
                     .addGroup(registerStudentLayout.createSequentialGroup()
-                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(weightedMeanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(selectStuLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(34, 34, 34)
-                        .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(weightedMean, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                            .addComponent(finalResult)
-                            .addComponent(students, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(39, 39, 39))
-            .addGroup(registerStudentLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(register, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(failButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(passButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
+
+        registerStudentLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {finalResult, students, weightedMean});
+
         registerStudentLayout.setVerticalGroup(
             registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(registerStudentLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerStudentLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(selectStuLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -138,14 +191,16 @@ public class RegisterStudent extends Menu{
                         .addComponent(weightedMeanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(6, 6, 6)))
                 .addGap(18, 18, 18)
-                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(finalResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(registerStudentLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(finalResult)))
+                        .addComponent(finalResult))
+                    .addComponent(finalResultLabel))
                 .addGap(18, 18, 18)
-                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(register, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(passButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(failButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
