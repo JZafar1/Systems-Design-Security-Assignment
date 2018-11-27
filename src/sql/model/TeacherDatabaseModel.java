@@ -147,12 +147,11 @@ public class TeacherDatabaseModel extends DatabaseModel {
         }
     }
 
-    public int getWeightedMean(String student) {
+    public ArrayList<Integer> getGradeList(String student) {
         initConnection();
         initStatement();
         String query = "WHERE `Student_Registration number` = '" + student + "';";
-        int total = 0;
-        int count = 0;
+        ArrayList<Integer> results = new ArrayList<Integer>();
         try {
             try {
                 String record = getRecordId(query);
@@ -160,8 +159,7 @@ public class TeacherDatabaseModel extends DatabaseModel {
                 openStatement();
                 openResultQuery("SELECT `The mark` FROM Mark WHERE `Record_Record ID` = '" + record + "';");
                 while (getResult().next()) {
-                    total += Integer.parseInt(getResult().getString(1));
-                    count++;
+                    results.add(Integer.parseInt(getResult().getString(1)));
                 }
             } finally {
                 closeResultQuery();
@@ -171,7 +169,7 @@ public class TeacherDatabaseModel extends DatabaseModel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return (int) (total/count);
+        return results;
     }
 
     public int getLevelOfStudy(String student) {
@@ -220,6 +218,127 @@ public class TeacherDatabaseModel extends DatabaseModel {
                 openResultQuery(query);
                 while (getResult().next()) {
                     result = getResult().getString(1).length();
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public ArrayList<String> getStudentModuleCode(String record) {
+        initConnection();
+        initStatement();
+        ArrayList<String> theResults = new ArrayList<String>();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                String query = "SELECT Module_ModuleCode FROM Mark " +
+                    "WHERE `Record_Record ID` = " + record + ";";
+                openResultQuery(query);
+                while (getResult().next()) {
+                    theResults.add(getResult().getString(1));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return theResults;
+    }
+
+    public int getCredits(String moduleCode) {
+        initConnection();
+        initStatement();
+        int result = 0;
+        try {
+            try {
+                openConnection();
+                openStatement();
+                String query = "SELECT credits FROM `Module degree (linking)` "
+                    + "WHERE `Degree_DegreeCode` = '" + moduleCode + "';";
+                openResultQuery(query);
+                while (getResult().next()) {
+                    result = Integer.parseInt(getResult().getString(1));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public ArrayList<String> getDissertationModules() {
+        initConnection();
+        initStatement();
+        ArrayList<String> modules = new ArrayList<String>();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                String query = "SELECT Module_ModuleCode FROM `Module degree (linking)` "
+                    + "WHERE `credits` = '" + 60 + "';";
+                openResultQuery(query);
+                while (getResult().next()) {
+                    modules.add(getResult().getString(1));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return modules;
+    }
+
+    public ArrayList<String> getPeriodOfStudy(String query) {
+        initConnection();
+        initStatement();
+        ArrayList<String> study = new ArrayList<String>();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery(query);
+                while (getResult().next()) {
+                    study.add(getResult().getString(1));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return study;
+    }
+
+    public int getWeightedMean(String query) {
+        initConnection();
+        initStatement();
+        int result = 0;
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery(query);
+                while (getResult().next()) {
+                    result = Integer.parseInt(getResult().getString(1));
                 }
             } finally {
                 closeResultQuery();
