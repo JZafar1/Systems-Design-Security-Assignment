@@ -26,21 +26,28 @@ public class RegistrarController {
     }
     
     public RegistrarController() {
+        
         this.databaseModel = new RegistrarDatabaseModel();
         this.validation = new SQLValidation();
+        
     }
     
     public String[] getUnregisteredRegistrationNumbers(String periodOfStudy){
+        
         Record unregisteredRecords = databaseModel.getRecordsByRegStatus("no",periodOfStudy);
         return unregisteredRecords.getRegistrationNumbers();
+        
     }
     
     public String[] getOptionalModulesCodes(int recordId){
+        
         String registrationNumber = databaseModel.getRegistrationNumber(recordId);
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
-        ModuleLinks validModules = databaseModel.getValidOptionalCoreModules(degreeCode,degreeName,false);
+        int level = databaseModel.getStudentsLevel(registrationNumber);
+        ModuleLinks validModules = databaseModel.getValidOptionalCoreModules(degreeCode,degreeName,false,level);
         return  validModules.getModuleCodes();
+        
     }
     
     public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor, String periodOfStudy) {
@@ -89,9 +96,10 @@ public class RegistrarController {
         int recordId = databaseModel.getRecordId(registrationNumber,periodOfStudy);
         
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
+        int level = databaseModel.getStudentsLevel(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
         
-        ModuleLinks coreModules = databaseModel.getValidOptionalCoreModules (degreeCode,degreeName,true);
+        ModuleLinks coreModules = databaseModel.getValidOptionalCoreModules (degreeCode,degreeName,true,level);
         
         String [] codes = coreModules.getModuleCodes();
         
