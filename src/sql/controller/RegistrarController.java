@@ -219,4 +219,9 @@ public class RegistrarController {
         return degrees.getDegreeCodes();
     }
     
+    public String[] getPeriods(){
+        Period periods = databaseModel.getPeriods("*", "");
+        return periods.getPeriodLabels();
+    }
+    
 }
