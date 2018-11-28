@@ -121,7 +121,7 @@ public class DatabaseView extends JScrollPane{
     }
     public void showStudentsModules(int recordId){
          databaseTable.setModel(new javax.swing.table.DefaultTableModel(controller.getStudentsModules(recordId),
-                new String[] {"Mark Id", "Module Code", "Record ID", "Mark","Resit Mark"}));
+                new String[] {"Mark Id", "Module Code", "Record ID", "Mark","Resit Mark","Credits","Core"}));
          setViewportView(databaseTable);
     }
 

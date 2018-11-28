@@ -7,6 +7,7 @@ import src.ui.database.DatabaseView;
 
 public class Registrar extends JPanel {
     private javax.swing.JComboBox<String> dataSelect;
+    private javax.swing.JComboBox<String> periodSelect;
     private javax.swing.JTable finishedRegistration;
     private javax.swing.JTable inRegistration;
     private javax.swing.JPanel mainPanel;
@@ -36,6 +37,7 @@ public class Registrar extends JPanel {
         finishedRegistration = new javax.swing.JTable();
         studentLabel = new javax.swing.JLabel();
         dataSelect = new JComboBox<>();
+        periodSelect = new JComboBox<>();
         studentLabel.setText("Select a student");
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -61,9 +63,18 @@ public class Registrar extends JPanel {
 //        ));
 //        studentViewScroll.setViewportView(finishedRegistration);
 
-        registerScroll.showUnRegisterdStudents("2017");
-        studentViewScroll.showRegisterdStudents("2017");
-        dataSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getUnregisteredRegistrationNumbers("2017")));
+        periodSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getPeriods()));
+        periodSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerScroll.showUnRegisterdStudents(periodSelect.getSelectedItem().toString());
+                studentViewScroll.showRegisterdStudents(periodSelect.getSelectedItem().toString());
+                dataSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getUnregisteredRegistrationNumbers(periodSelect.getSelectedItem().toString())));
+            }
+        });
+
+        registerScroll.showUnRegisterdStudents(periodSelect.getSelectedItem().toString());
+        studentViewScroll.showRegisterdStudents(periodSelect.getSelectedItem().toString());
+        dataSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getUnregisteredRegistrationNumbers(periodSelect.getSelectedItem().toString())));
 
         registerStudent.setText("Register Student");
         registerStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -77,6 +88,7 @@ public class Registrar extends JPanel {
                     manageStudentActionPerformed();
                 }
         });
+        
         placeComponents();
     }
 
@@ -85,7 +97,7 @@ public class Registrar extends JPanel {
     }
 
     private void manageModulesActionPerformed() {
-        int recordId = controller.getRecordId(dataSelect.getSelectedItem().toString(),"2017");
+        int recordId = controller.getRecordId(dataSelect.getSelectedItem().toString(),periodSelect.getSelectedItem().toString());
         getRegistrarUI().showManageModules(recordId);
     }
 
@@ -111,6 +123,8 @@ public class Registrar extends JPanel {
                         .addComponent(studentLabel)
                         .addGap(18, 18, 18)
                         .addComponent(dataSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(periodSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)))
                 .addContainerGap())
         );
@@ -126,6 +140,7 @@ public class Registrar extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataSelect)
+                    .addComponent(periodSelect)
                     .addComponent(studentLabel))
                 .addGap(18, 18, 18)
                 .addComponent(studentViewScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)

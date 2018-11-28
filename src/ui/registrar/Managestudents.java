@@ -1,5 +1,8 @@
 package src.ui.registrar;
 
+import java.awt.List;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
@@ -9,7 +12,7 @@ public class ManageStudents extends JPanel {
 
     private javax.swing.JButton addStudentButton;
     private javax.swing.JButton backButton;
-    private javax.swing.JTextField degreeName;
+    private javax.swing.JComboBox<String> degreeName;
     private javax.swing.JLabel degreeNameLabel;
     private javax.swing.JPanel displayArea;
     private javax.swing.JTable displayTable;
@@ -18,7 +21,7 @@ public class ManageStudents extends JPanel {
     private javax.swing.JTextField lastName;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JLabel mainLabel;
-    private javax.swing.JTextField tutor;
+    private javax.swing.JComboBox<String> tutor;
     private javax.swing.JLabel tutorLabel;
     private javax.swing.JLabel levelLabel;
     private javax.swing.JTextField levelOfStudy;
@@ -49,8 +52,9 @@ public class ManageStudents extends JPanel {
         lastName = new javax.swing.JTextField();
         removeStudentButton = new javax.swing.JButton();
         tutorLabel = new javax.swing.JLabel();
-        tutor = new javax.swing.JTextField();
-        degreeName = new javax.swing.JTextField();
+        String[] array = {"1","4"};
+        tutor = new JComboBox<>(array);
+        degreeName = new JComboBox<>();
         degreeNameLabel = new javax.swing.JLabel();
         displayArea = new javax.swing.JPanel();
         scrollTable = new DatabaseView(this);
@@ -104,13 +108,13 @@ public class ManageStudents extends JPanel {
         });
 
         tutorLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        tutorLabel.setText("Other Names");
+        tutorLabel.setText("Level of Study");
 
         degreeNameLabel.setFont(new java.awt.Font("Arial", 0, 18));
         degreeNameLabel.setText("Degreee Name");
 
         levelLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        levelLabel.setText("Level of study");
+        levelLabel.setText("Period of study");
 
 //        displayTable.setFont(new java.awt.Font("Arial", 0, 18));
 //        displayTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -123,7 +127,9 @@ public class ManageStudents extends JPanel {
 //        ));
 //        scrollTable.setViewportView(displayTable);
         scrollTable.showStudents(); 
-
+        
+        degreeName.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getDegreeCodes()));
+        
         mainLabel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         mainLabel.setText("Registrar");
 
@@ -140,7 +146,7 @@ public class ManageStudents extends JPanel {
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        controller.addStudent(levelOfStudy.getText(),firstName.getText(),lastName.getText(),degreeName.getText(),"some tutor");
+        controller.addStudent(tutor.getSelectedItem().toString(),firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),"some tutor",levelOfStudy.getText());
         
     }
     

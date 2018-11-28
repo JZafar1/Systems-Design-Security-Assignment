@@ -142,6 +142,35 @@ public class AdminDatabaseModel extends DatabaseModel {
         }
         return modules;
     }
+    
+    public Period getPeriods(String values, String condition) {
+        initConnection();
+        initStatement();
+        Period periods = new Period();
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT " + values + " FROM `Period of study` " + condition + ";");
+                while (getResult().next()) {
+                    String label = getResult().getString(1);
+                    String start = getResult().getString(2);
+                    String end = getResult().getString(3);
+                    periods.addRow(label, start, end);
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        return periods;
+    }
+    
     public Users getUsers(String values, String conditon) {
         initConnection();
         initStatement();
