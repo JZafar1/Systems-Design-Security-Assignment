@@ -104,13 +104,13 @@ public class ManageStudents extends JPanel {
         });
 
         tutorLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        tutorLabel.setText("Other Names");
+        tutorLabel.setText("Level of Study");
 
         degreeNameLabel.setFont(new java.awt.Font("Arial", 0, 18));
         degreeNameLabel.setText("Degreee Name");
 
         levelLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        levelLabel.setText("Level of study");
+        levelLabel.setText("Period of study");
 
 //        displayTable.setFont(new java.awt.Font("Arial", 0, 18));
 //        displayTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -140,7 +140,7 @@ public class ManageStudents extends JPanel {
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        controller.addStudent(levelOfStudy.getText(),firstName.getText(),lastName.getText(),degreeName.getText(),"some tutor");
+        controller.addStudent(tutor.getText(),firstName.getText(),lastName.getText(),degreeName.getText(),"some tutor",levelOfStudy.getText());
         
     }
     

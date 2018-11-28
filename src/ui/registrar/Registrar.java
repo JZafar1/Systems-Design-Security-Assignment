@@ -61,9 +61,9 @@ public class Registrar extends JPanel {
 //        ));
 //        studentViewScroll.setViewportView(finishedRegistration);
 
-        registerScroll.showUnRegisterdStudents("2017");
-        studentViewScroll.showRegisterdStudents("2017");
-        dataSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getUnregisteredRegistrationNumbers("2017")));
+        registerScroll.showUnRegisterdStudents("2030");
+        studentViewScroll.showRegisterdStudents("2030");
+        dataSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getUnregisteredRegistrationNumbers("2030")));
 
         registerStudent.setText("Register Student");
         registerStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +85,8 @@ public class Registrar extends JPanel {
     }
 
     private void manageModulesActionPerformed() {
-        int recordId = controller.getRecordId(dataSelect.getSelectedItem().toString(),"2017");
+        int recordId = controller.getRecordId(dataSelect.getSelectedItem().toString(),"2030");
+        System.out.println(recordId);
         getRegistrarUI().showManageModules(recordId);
     }
 

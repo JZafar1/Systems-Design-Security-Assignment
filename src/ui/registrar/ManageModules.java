@@ -41,19 +41,20 @@ public class ManageModules extends JPanel {
                                       "Manage Modules", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 17)));
 
-        currentModuleTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        moduleScroll.setViewportView(currentModuleTable);
-        optionalModuleList.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getOptionalModulesCodes(recordId,"2017")));
+//        currentModuleTable.setModel(new javax.swing.table.DefaultTableModel(
+//            new Object [][] {
+//                {null, null, null, null},
+//                {null, null, null, null},
+//                {null, null, null, null},
+//                {null, null, null, null}
+//            },
+//            new String [] {
+//                "Title 1", "Title 2", "Title 3", "Title 4"
+//            }
+//        ));
+//        moduleScroll.setViewportView(currentModuleTable);
+        
+        optionalModuleList.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getOptionalModulesCodes(recordId)));
         addModule.setText("Add Module");
         addModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +87,7 @@ public class ManageModules extends JPanel {
             }
         });
         
+        System.out.println(recordId);
         moduleScroll.showStudentsModules(recordId);
         
         placeComponents();

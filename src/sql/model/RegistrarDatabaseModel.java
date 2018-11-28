@@ -44,7 +44,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    public String getRegistrationNumber(int recordId, String periodOfStudy){
+    public String getRegistrationNumber(int recordId){
         
         initConnection();
         initStatement();
@@ -54,7 +54,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT `Student_Registration number` FROM Record WHERE `Record ID` = '" + recordId + "' AND `Period of study_Label` = '" + periodOfStudy +  "' ;");
+                openResultQuery("SELECT `Student_Registration number` FROM Record WHERE `Record ID` = '" + recordId +  "' ;");
                 getResult().next();
                 registrationNumber = getResult().getString(1);
             }
@@ -213,7 +213,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 openResultQuery("SELECT * FROM Record WHERE registered = '" + registeredYesNo + "' AND `Period of study_Label` = '" + periodOfStudy + "';");
                 while (getResult().next()) {
                     int recordId = Integer.parseInt(getResult().getString(1));
-                    int average = Integer.parseInt(getResult().getString(2));
+                    double average = Double.parseDouble(getResult().getString(2));
                     String honour = getResult().getString(3);
                     String registrationNumber = getResult().getString(4);
                     records.addRow(recordId, average, honour, registrationNumber, periodOfStudy, registeredYesNo);
@@ -237,18 +237,23 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         initConnection();
         initStatement();
         Mark modules = new Mark();
+        String degreeCode = getStudentDegree(getRegistrationNumber(recordId));
         
         try {
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT * FROM Mark WHERE `Record_Record ID` = '" + recordId +"' ;" );
+                openResultQuery("SELECT `Mark ID`, Mark.Module_ModuleCode, `Record_Record ID`, `The mark`, `Resit mark`,credits,coreOrNot\n" +
+                                "FROM Mark INNER JOIN `Module degree (linking)` ON `Module degree (linking)`.Module_ModuleCode = Mark.Module_ModuleCode\n" +
+                                "WHERE `Record_Record ID` = '" + recordId + "' AND `Degree_DegreeCode` = '" + degreeCode + "' ;" );
                 while (getResult().next()) {
                     int markId = Integer.parseInt(getResult().getString(1));
                     String moduleCode = getResult().getString(2);
                     int mark = Integer.parseInt(getResult().getString(4));
                     int resitMark = Integer.parseInt(getResult().getString(5));
-                    modules.addRow(markId,moduleCode,recordId,mark,resitMark);
+                    int credits = Integer.parseInt(getResult().getString(6));
+                    String core = getResult().getString(7);
+                    modules.addRow(markId,moduleCode,recordId,mark,resitMark,credits,core);
                 }
             }
             finally {

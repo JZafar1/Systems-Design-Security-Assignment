@@ -35,25 +35,34 @@ public class RegistrarController {
         return unregisteredRecords.getRegistrationNumbers();
     }
     
-    public String[] getOptionalModulesCodes(int recordId,String periodOfStudy){
-        String registrationNumber = databaseModel.getRegistrationNumber(recordId,periodOfStudy);
+    public String[] getOptionalModulesCodes(int recordId){
+        String registrationNumber = databaseModel.getRegistrationNumber(recordId);
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
         ModuleLinks validModules = databaseModel.getValidOptionalCoreModules(degreeCode,degreeName,false);
         return  validModules.getModuleCodes();
     }
     
-    public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor) {
+    public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor, String periodOfStudy) {
         
        levelOfStudy = validation.generalValidation(levelOfStudy);
        firstname = validation.generalValidation(firstname);
        secondname = validation.generalValidation(secondname);
        degreeCode = validation.generalValidation(degreeCode);
        tutor = validation.generalValidation(tutor);
+       periodOfStudy = validation.generalValidation(periodOfStudy);
        
        String baseUsername = (firstname.substring(0, 1) + secondname).toLowerCase();
        Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%';");
        String username = generateUsername(baseUsername, users.getTableList());
+       
+       boolean bool = databaseModel.executeBoolQuery("SELECT * FROM `Period of study` WHERE (`Label` = '" + periodOfStudy + "')");
+       if(!bool){
+           String start = "01.09." + periodOfStudy;
+           String end = "01.07." + (Integer.parseInt(periodOfStudy) + 1);
+           String posValues = "('" + periodOfStudy + "','" + start  + "','" + end + "')";
+           databaseModel.insertIntoDatabase("`Period of study`",posValues);
+       }
 
        String email = username + "@sheffield.ac.uk";
        String title = "Mr.";
@@ -67,7 +76,7 @@ public class RegistrarController {
        
        databaseModel.insertUsers(username, hashedPassword, role, email, firstname, title, secondname, salt);
        databaseModel.insertIntoDatabase("Student", values);
-       registerStudent("2017",registrationNumber);
+       registerStudent(periodOfStudy,registrationNumber);
        
     }
     
