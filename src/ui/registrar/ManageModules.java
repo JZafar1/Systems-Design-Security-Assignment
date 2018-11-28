@@ -77,6 +77,7 @@ public class ManageModules extends JPanel {
         complete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //TO DO
+                if(controller.completeRegistration(recordId)) backButtonActionPerformed(evt);
             }
         });
 
@@ -87,8 +88,8 @@ public class ManageModules extends JPanel {
             }
         });
         
-        System.out.println(recordId);
         moduleScroll.showStudentsModules(recordId);
+        System.out.println(controller.getCreditsSum(recordId));
         
         placeComponents();
     }

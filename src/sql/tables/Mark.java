@@ -17,4 +17,14 @@ public class Mark extends Table {
     public void addRow (int markId, String moduleCode, int recordId, int mark, int resitMark, int credits, String coreOrNot) {
         super.addRow(new Object[] {markId,moduleCode,recordId,mark,resitMark,credits,coreOrNot});
     }
+    public int getSumOfCredits(){
+        
+        int rowNum = getTableList().size();
+        int sum = 0;
+        for (int c = 0; c < rowNum; c++) {
+            Object[] row = getTableList().get(c);
+            sum += (int)row[5];
+        }
+        return sum;
+    }
 }

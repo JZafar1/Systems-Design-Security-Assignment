@@ -297,4 +297,33 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public void updateRegistrationStatus(int recordId, String content){
+        
+        initConnection();
+        initStatement();
+        try {
+            
+            try {
+                
+                openConnection();
+                openStatement();
+                String query = "UPDATE Record SET `Registered` = '" + content + "' WHERE `Record ID` = '" + recordId + "';";
+                int count = getStatement().executeUpdate(query);
+                
+            }
+            
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+            
+        }
+        
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
 }

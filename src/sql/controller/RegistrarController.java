@@ -8,6 +8,7 @@ package src.sql.controller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import src.sql.model.RegistrarDatabaseModel;
+import src.sql.tables.Mark;
 import src.sql.tables.ModuleLinks;
 import src.sql.tables.Record;
 import src.sql.tables.Users;
@@ -192,8 +193,27 @@ public class RegistrarController {
         }
     }
     
+    public int getCreditsSum(int recordId){
+        Mark modules = databaseModel.getStudentsModules(recordId);
+        return modules.getSumOfCredits();
+    }
     
-    
-    
+    public boolean completeRegistration(int recordId){
+        
+        String registrationNumber = databaseModel.getRegistrationNumber(recordId);
+        int level = databaseModel.getStudentsLevel(registrationNumber);
+        int requiredCredits = 120;
+        if(level == 4) requiredCredits = 180;
+        
+        if(requiredCredits == getCreditsSum(recordId)){
+            databaseModel.updateRegistrationStatus(recordId,"yes");
+            return true;
+        }
+        else{
+            System.out.println("Invalid number of credits: " + requiredCredits + " required");
+            return false;
+        }
+        
+    }
     
 }
