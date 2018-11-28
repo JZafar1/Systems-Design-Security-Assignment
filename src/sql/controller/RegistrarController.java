@@ -8,10 +8,8 @@ package src.sql.controller;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import src.sql.model.RegistrarDatabaseModel;
-import src.sql.tables.Mark;
-import src.sql.tables.ModuleLinks;
-import src.sql.tables.Record;
-import src.sql.tables.Users;
+import src.sql.tables.*;
+
 
 /**
  *
@@ -214,6 +212,11 @@ public class RegistrarController {
             return false;
         }
         
+    }
+    
+    public String[] getDegreeCodes(){
+        Degrees degrees = databaseModel.getDegrees("*", "");
+        return degrees.getDegreeCodes();
     }
     
 }

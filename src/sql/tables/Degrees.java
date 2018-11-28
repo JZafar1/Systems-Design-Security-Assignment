@@ -11,4 +11,7 @@ public class Degrees extends Table{
     public String[] getDegreeNames() {
         return (String[]) super.getColumn(1);
     }
+    public String[] getDegreeCodes() {
+        return (String[]) super.getColumn(0);
+    }
 }
