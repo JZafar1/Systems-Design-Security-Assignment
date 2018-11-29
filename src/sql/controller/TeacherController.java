@@ -117,76 +117,78 @@ public class TeacherController {
         teacherDatabaseModel.insertGrade(student, module, grade, resit);
     }
 
-    public boolean createPassStudent(String student) {
+    public void createPassStudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-        if(getLevelOfStudy(student) >= getDegreeLevels(student)) {
-            graduateSudent(student);
-            return false;
-        }else {
-    //        String query = "UPDATE Record SET Registered = 'No' WHERE "
-    //            + "`Student_Registration number` = '" + student + "' AND "
-    //            + "`Period of study_Label` = '" + currentYear + "';";
-    //        teacherDatabaseModel.updateQuery(query);
-            updateLevelOfStudy(student);
-            registrarController.registerStudent("" + currentYear, student);
-            return true;
-        }
+//        String query = "UPDATE Record SET Registered = 'No' WHERE "
+//            + "`Student_Registration number` = '" + student + "' AND "
+//            + "`Period of study_Label` = '" + currentYear + "';";
+//        teacherDatabaseModel.updateQuery(query);
+        updateLevelOfStudy(student);
+        if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
+        registrarController.registerStudent("" + (currentYear+1), student);
     }
 
     public void createFailStudent(String student) {
+        
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
+        int currentLevel = getLevelOfStudy(student);
+//      String currentRecord = getRecordId(student);
+
         String query = "UPDATE Record SET Registered = 'Failed' WHERE "
+            + "`Student_Registration number` = '" + student + "' AND "
+            + "`Period of study_Label` = '" + currentYear + "';";
+        teacherDatabaseModel.updateQuery(query);
+
+        if(periods.size()>1){
+            
+            int previousRecord = regDatabaseModel.getRecordId(student, "" + (currentYear - 1));
+            String status = regDatabaseModel.getRecordRegStatus("" + previousRecord);
+            
+            if(!status.equals("Failed")) repeatYear(student,currentYear);
+            
+        }
+        else repeatYear(student,currentYear);
+        
+//        String query = "UPDATE Record SET Registered = 'Failed' WHERE "
+//            + "`Student_Registration number` = '" + student + "' AND "
+//            + "`Period of study_Label` = '" + currentYear + "';";
+//        teacherDatabaseModel.updateQuery(query);
+//        updatePeriodOfStudy(student);
+        
+    }
+    
+    private void repeatYear(String student, int currentYear){
+        
+        if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
+        Mark marksToClone = regDatabaseModel.getStudentsModules(Integer.parseInt(getRecordId(student)));
+        registrarController.createRecord("" + (currentYear+1),student);
+        
+        String[] codes = (String []) marksToClone.getColumn(1);
+        String[] marks = (String []) marksToClone.getColumn(3);
+        String[] resitMarks = (String []) marksToClone.getColumn(4);
+        for(int i=0;i<codes.length;i++) registrarController.pasteMark(Integer.parseInt(getRecordId(student)),codes[i],marks[i],resitMarks[i]);
+        
+    }
+
+    public void createResitStudent(String student) {
+        ArrayList<Integer> periods = getPeriodsofStudy(student);
+        int currentYear = Collections.max(periods);
+        String query = "UPDATE Record SET Registered = 'Resit' WHERE "
             + "`Student_Registration number` = '" + student + "' AND "
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
         updatePeriodOfStudy(student);
     }
 
-    public boolean createGraduate(String student) {
-        int theLength = teacherDatabaseModel.getDegreeType(student);
-        if(getLevelOfStudy(student) == getDegreeLevels(student)) {
-            graduateSudent(student);
-            return true;
-        }else {
-            return false;
-        }
-        /*String query = "UPDATE Record SET Registered = 'Resit' WHERE "
-            + "`Student_Registration number` = '" + student + "' AND "
-            + "`Period of study_Label` = '" + currentYear + "';";
-        teacherDatabaseModel.updateQuery(query);
-        updatePeriodOfStudy(student);*/
-    }
-
     public void graduateSudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-        double theGrade =getOverallGrade(student);
-        int levels = getDegreeLevels(student);
-        String finalGrade = "";
-        if(levels == 3) {
-            finalGrade = getBachelorResult(theGrade);
-        }else if(levels == 4) {
-            finalGrade = getMasterResult(theGrade);
-        }
-        String updateHonours = "UPDATE Student SET grade = '" + finalGrade +
-        "' WHERE `Registration number` = '" + student + "';";
         String query = "UPDATE Record SET Registered = 'Graduated' WHERE "
             + "`Student_Registration number` = '" + student + "' AND "
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
-    }
-
-    public double getOverallGrade(String student) {
-        String query = "SELECT Average FROM Record WHERE "
-            + "`Student_Registration number` = '" + student + "';";
-        ArrayList<Double> grades = teacherDatabaseModel.getAllMeanGrades(query);
-        double total = 0.0;
-        for(int i = 0; i < grades.size(); i++) {
-            total += grades.get(i);
-        }
-        return total;
     }
 
     public String createPeriodOfStudy(String student, String period) {
@@ -226,24 +228,10 @@ public class TeacherController {
         teacherDatabaseModel.insertIntoDatabase(table, values);
     }
 
-    public int getDegreeLevels(String student) {
-        String getCode = "SELECT Degree_DegreeCode FROM Student WHERE "
-            + "`Registration number` = '" + student + "';";
-        String theDegreeCode = teacherDatabaseModel.stringQuery(getCode);
-        String getLevels = "SELECT `Level of study` FROM Degree WHERE "
-            + "DegreeCode = '" + theDegreeCode + "';";
-        String result = teacherDatabaseModel.   stringQuery(getLevels);
-        return Integer.parseInt(result.substring((result.length() - 1), result.length()));
-    }
-
     public String theDegreeResult(String student) {
         String initialResult = getDegreeResult(student);
-        System.out.println(initialResult + " --> " + getDegreeType(student));
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
-        if(getDegreeType(student).equalsIgnoreCase("One Year Msc")) {
-            return postgradResult(student);
-        }
         if(initialResult.equalsIgnoreCase("fail")) {
             if(getLevelOfStudy(student) != 4) {
                 int creditsEarned = creditsAchieved(student);
@@ -503,8 +491,8 @@ public class TeacherController {
         ArrayList<String> possibleModules = teacherDatabaseModel.getDissertationModules();
         ArrayList<String> stuModules = teacherDatabaseModel.getStudentModuleCode(getRecordId(student));
         String theModule = "";
-        for(int i = 0; i < possibleModules.size(); i++) {
-            if(stuModules.get(i).equals(possibleModules.get(i))) {
+        for(int i = 0; i < stuModules.size(); i++) {
+            if(stuModules.get(i) == possibleModules.get(i)) {
                 theModule = possibleModules.get(i);
             }
             if(possibleModules.size() == (i - 1)) {
@@ -582,4 +570,5 @@ public class TeacherController {
         int scale = (int) Math.pow(10, 1);
         return (double) Math.round(value * scale) / scale;
     }
+    
 }

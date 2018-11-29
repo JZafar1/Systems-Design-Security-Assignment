@@ -232,6 +232,31 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public String getRecordRegStatus(String recordId){
+        initConnection();
+        initStatement();
+        String reg = "";
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT Registered FROM Record WHERE `Record ID` = '" + recordId + "';");
+                getResult().next();
+                reg = getResult().getString(1);
+                    
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return reg;
+    }
+    
     public Mark getStudentsModules(int recordId){
         
         initConnection();
@@ -249,8 +274,8 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 while (getResult().next()) {
                     int markId = Integer.parseInt(getResult().getString(1));
                     String moduleCode = getResult().getString(2);
-                    int mark = Integer.parseInt(getResult().getString(4));
-                    int resitMark = Integer.parseInt(getResult().getString(5));
+                    String mark = getResult().getString(4);
+                    String resitMark = getResult().getString(5);
                     int credits = Integer.parseInt(getResult().getString(6));
                     String core = getResult().getString(7);
                     modules.addRow(markId,moduleCode,recordId,mark,resitMark,credits,core);
