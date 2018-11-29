@@ -42,7 +42,7 @@ public class StudentUI extends javax.swing.JPanel {
         gradeLabel = new javax.swing.JLabel();
         gradeOutput = new javax.swing.JLabel();
 
-        StudentUI.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        setBorder(javax.swing.BorderFactory.createTitledBorder(
                         javax.swing.BorderFactory.createEtchedBorder(), "Student Page: Welcome user " + username,
                         javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                         javax.swing.border.TitledBorder.DEFAULT_POSITION,
@@ -50,6 +50,12 @@ public class StudentUI extends javax.swing.JPanel {
 
         yearSelector.setModel(new javax.swing.DefaultComboBoxModel<>(
                         controller.getPeriodsOfStudy(username)));
+        yearSelector.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                periodOfStudy = (String) yearSelector.getSelectedItem();
+                refreshDatabase();
+            }
+        };
 
         yearLabel.setText("Select Year: ");
 
@@ -96,7 +102,7 @@ public class StudentUI extends javax.swing.JPanel {
                         .addContainerGap()));
         StudentUILayout.setVerticalGroup(StudentUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StudentUILayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
                         .addGroup(StudentUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(yearLabel)
                                 .addComponent(yearSelector, javax.swing.GroupLayout.PREFERRED_SIZE,
