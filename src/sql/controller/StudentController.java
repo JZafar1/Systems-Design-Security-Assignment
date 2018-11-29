@@ -44,6 +44,7 @@ public class StudentController {
         for (int c = 0; c < numOfYears; c++) {
             periodsOfStudy[c] = studentYearInfo.get(c)[1];
         }
+
         return periodsOfStudy;
     }
 
