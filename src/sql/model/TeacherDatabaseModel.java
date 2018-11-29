@@ -69,7 +69,7 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         String results = "";
         String whichMark = "`The mark`";
         if(resit == "true") whichMark = "`Resit mark`";
-        
+
         try {
             try {
                 openConnection();
@@ -122,7 +122,6 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         initConnection();
         initStatement();
         String theModule = module.substring(0, 7);
-        String grade2 = "40";
         try {
             try {
                 openConnection();
@@ -130,11 +129,10 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
                 String query = "WHERE `Student_Registration number` = '" + name + "';";
                 String record = getRecordId(query);
                 if(resit) {
-                    if(Double.parseDouble(grade)<40) grade2 = grade;
-                    query = "UPDATE Mark SET `Resit mark` = " + grade + ", `The mark` = " + grade2 +
+                    query = "UPDATE Mark SET `Resit mark` = " + grade +
                         " WHERE `Record_Record ID` = " + record + " AND "
                         + "Module_ModuleCode = '" + theModule + "';";
-                    
+
                 }else {
                     query = "UPDATE Mark SET `The mark` = " + grade +
                         " WHERE `Record_Record ID` = " + record + " AND "
@@ -163,7 +161,35 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
                 String record = getRecordId(query);
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT `The mark` FROM Mark WHERE `Record_Record ID` = '" + record + "';");
+                openResultQuery("SELECT `The mark` FROM Mark WHERE "
+                + "`Record_Record ID` = '" + record + "';");
+                while (getResult().next()) {
+                    results.add(Integer.parseInt(getResult().getString(1)));
+                }
+            } finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return results;
+    }
+
+    
+    public ArrayList<Integer> getGradeList(String student, String type) {
+        initConnection();
+        initStatement();
+        String query = "WHERE `Student_Registration number` = '" + student + "';";
+        ArrayList<Integer> results = new ArrayList<Integer>();
+        try {
+            try {
+                String record = getRecordId(query);
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `" + type + "` FROM Mark WHERE "
+                + "`Record_Record ID` = '" + record + "';");
                 while (getResult().next()) {
                     results.add(Integer.parseInt(getResult().getString(1)));
                 }

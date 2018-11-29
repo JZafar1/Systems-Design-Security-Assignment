@@ -49,10 +49,9 @@ public class TeacherController {
 
     public String[] getModuleList(String student) {
         String record = getRecordId(student);
-        ArrayList<String> tempArray = teacherDatabaseModel.getStudentModuleCode(record);
-        String[] stringArray = new String[tempArray.size()];
-        for(int i=0;i<tempArray.size();i++) stringArray[i] = tempArray.get(i);
-        return stringArray;
+        ArrayList<String> recordList = teacherDatabaseModel.getStudentModuleCode(record);
+        String[] asArray = recordList.stream().toArray(String[]::new);
+        return asArray;
     }
 
     public String getDegreeName(String cond) {
@@ -65,6 +64,11 @@ public class TeacherController {
     }
 
     public void updateGrade(String student, String module, String grade, boolean resit) {
+        if(resit) {
+            if(Integer.parseInt(grade) >= 40) {
+                grade = "40";
+            }
+        }
         teacherDatabaseModel.insertGrade(student, module, grade, resit);
     }
 
@@ -150,7 +154,6 @@ public class TeacherController {
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
         if(initialResult.equalsIgnoreCase("fail")) {
-            System.out.println("Dupa1");
             if(getLevelOfStudy(student) != 4) {
                 int creditsEarned = creditsAchieved(student);
                 if(checkMinCreditsReq(student) && creditsAchieved(student) != 120
@@ -171,7 +174,6 @@ public class TeacherController {
                 }
             }
         }else {
-            System.out.println("Dupa2");
             if(creditsAchieved(student) == 120) {
                 return initialResult;
             }else if(creditsAchieved(student) <= 100 &&
@@ -219,9 +221,9 @@ public class TeacherController {
             return "FAIL";
         }else {
             String type = getDegreeType(student);
-            if(type == "Bsc" || type == "BEng") {
+            if(type.startsWith("B")) {
                 return getBachelorResult(theMeanGrade);
-            }else if(type == "Msc" || type == "MEng") {
+            }else if(type.startsWith("M")) {
                 return getMasterResult(theMeanGrade);
             }else {
                 return getOneYearResult(theMeanGrade);
@@ -233,9 +235,9 @@ public class TeacherController {
     public String getDegreeType(String student) {
         int theLength = teacherDatabaseModel.getDegreeType(student);
         if(theLength == 3) {
-            return "BSc";
+            return "B";
         }else if(theLength == 4) {
-            return "MSc";
+            return "M";
         }else {
             return "One Year Msc";
         }
@@ -285,8 +287,8 @@ public class TeacherController {
     public String studentFailed(String name) {
         String type = getDegreeType(name);
         int level = getLevelOfStudy(name);
-        if(level == 3 && type.equalsIgnoreCase("Bsc")
-            || type.equalsIgnoreCase("Msc")) {
+        if(level == 3 && type.startsWith("B")
+            || type.startsWith("M")) {
             return "Resit for pass(non-honours) degree";
         }else if(level == 4) {
             return "Pass with bachelor’s degree";
@@ -302,8 +304,10 @@ public class TeacherController {
     public double getWeightedMean(String student) {
         double weightedMean = 0;
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
+        ArrayList<Integer> allResitGrades = new ArrayList<Integer>();
         ArrayList<Integer> theModules = new ArrayList<Integer>();
-        allGrades = teacherDatabaseModel.getGradeList(student);
+        allGrades = teacherDatabaseModel.getGradeList(student, "The mark");
+        allResitGrades = teacherDatabaseModel.getGradeList(student, "Resit mark");
         theModules = getCreditValue(student);
         double divisor = 0;
         if(getLevelOfStudy(student) == 4) {
@@ -312,7 +316,11 @@ public class TeacherController {
             divisor = 120;
         }
         for(int i = 0; i < allGrades.size(); i++) {
-            weightedMean += (allGrades.get(i) * (theModules.get(i) / divisor));
+            if(allResitGrades.get(i) != -1) {
+                weightedMean += (allResitGrades.get(i) * (theModules.get(i) / divisor));
+            }else {
+                weightedMean += (allGrades.get(i) * (theModules.get(i) / divisor));
+            }
         }
         updateWeightedMean(student, roundResults(weightedMean));
         return roundResults(weightedMean);
@@ -412,7 +420,7 @@ public class TeacherController {
                 return -1;
             }
         }
-        int grade = Integer.parseInt(teacherDatabaseModel.getCurrentGrade(student, theModule, "false"));
+        double grade = Double.parseDouble(teacherDatabaseModel.getCurrentGrade(student, theModule, "false"));
         if(grade >= 49.5) {
             return 1;
         }else {
