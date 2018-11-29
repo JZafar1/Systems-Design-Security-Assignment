@@ -75,12 +75,12 @@ public class TeacherController {
     public void createPassStudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-        String query = "UPDATE Record SET Registered = 'No' WHERE "
-            + "`Student_Registration number` = '" + student + "' AND "
-            + "`Period of study_Label` = '" + currentYear + "';";
-        teacherDatabaseModel.updateQuery(query);
+//        String query = "UPDATE Record SET Registered = 'No' WHERE "
+//            + "`Student_Registration number` = '" + student + "' AND "
+//            + "`Period of study_Label` = '" + currentYear + "';";
+//        teacherDatabaseModel.updateQuery(query);
         updateLevelOfStudy(student);
-        updatePeriodOfStudy(student);
+        registrarController.registerStudent("" + currentYear, student);
     }
 
     public void createFailStudent(String student) {
