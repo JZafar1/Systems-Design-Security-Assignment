@@ -4,6 +4,8 @@ import javax.swing.JTable;
 import javax.swing.JPanel;
 import src.sql.controller.*;
 import src.sql.model.TeacherDatabaseModel;
+import src.sql.model.RegistrarDatabaseModel;
+import src.sql.model.StudentDatabaseModel;
 import src.sql.controller.RegistrarController;
 import src.sql.tables.*;
 import java.sql.*;
@@ -15,9 +17,13 @@ public class TeacherController {
 
     private TeacherDatabaseModel teacherDatabaseModel;
     private RegistrarController registrarController;
+    private RegistrarDatabaseModel regDatabaseModel;
+    private StudentDatabaseModel stDatabaseModel;
 
     public TeacherController() {
         teacherDatabaseModel = new TeacherDatabaseModel();
+        stDatabaseModel = new StudentDatabaseModel();
+        regDatabaseModel = new RegistrarDatabaseModel();
         registrarController = new RegistrarController();
     }
 
@@ -49,10 +55,48 @@ public class TeacherController {
 
     public String[] getModuleList(String student) {
         String record = getRecordId(student);
-        ArrayList<String> tempArray = teacherDatabaseModel.getStudentModuleCode(record);
-        String[] stringArray = new String[tempArray.size()];
-        for(int i=0;i<tempArray.size();i++) stringArray[i] = tempArray.get(i);
-        return stringArray;
+        ArrayList<String> recordList = teacherDatabaseModel.getStudentModuleCode(record);
+        String[] asArray = recordList.stream().toArray(String[]::new);
+        return asArray;
+    }
+
+    public ArrayList<String[]> getStudentYearInfo(int studentUsername) {
+        return stDatabaseModel.getStudentYearInfo(String.valueOf(studentUsername));
+    }
+
+    public String[] getPeriodsOfStudy(int studentUsername) {
+
+        ArrayList<String[]> studentYearInfo = getStudentYearInfo(studentUsername);
+        int numOfYears = studentYearInfo.size();
+        String[] periodsOfStudy = new String[numOfYears];
+
+        for (int c = 0; c < numOfYears; c++) {
+            periodsOfStudy[c] = studentYearInfo.get(c)[1];
+        }
+        return periodsOfStudy;
+    }
+
+    public Object[][] getYearsModules(String student, String periodOfStudy) {
+        String peroidOfStudyLabel = getPeriodOfStudyLabel(student, periodOfStudy);
+        int recordID = regDatabaseModel.getRecordId(student, peroidOfStudyLabel);
+        Mark marks = regDatabaseModel.getStudentsModules(recordID);
+        return marks.getTable();
+    }
+
+    public String getPeriodOfStudyLabel(String student, String periodOfStudy) {
+
+        ArrayList<String[]> studentPeriodsOfStudy = getStudentYearInfo(Integer.parseInt(student));
+
+        String periodOfStudyLabel = null;
+        int numOfYears = studentPeriodsOfStudy.size();
+        for (int c = 0; c < numOfYears; c++) {
+            String periodOfStudyTest = studentPeriodsOfStudy.get(c)[1];
+            if (periodOfStudyTest.equals(periodOfStudy)) {
+
+                periodOfStudyLabel = studentPeriodsOfStudy.get(c)[0];
+            }
+        }
+        return periodOfStudyLabel;
     }
 
     public String getDegreeName(String cond) {
@@ -65,18 +109,29 @@ public class TeacherController {
     }
 
     public void updateGrade(String student, String module, String grade, boolean resit) {
+        if(resit) {
+            if(Integer.parseInt(grade) >= 40) {
+                grade = "40";
+            }
+        }
         teacherDatabaseModel.insertGrade(student, module, grade, resit);
     }
 
-    public void createPassStudent(String student) {
+    public boolean createPassStudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-        String query = "UPDATE Record SET Registered = 'No' WHERE "
-            + "`Student_Registration number` = '" + student + "' AND "
-            + "`Period of study_Label` = '" + currentYear + "';";
-        teacherDatabaseModel.updateQuery(query);
-        updateLevelOfStudy(student);
-        updatePeriodOfStudy(student);
+        if(getLevelOfStudy(student) >= getDegreeLevels(student)) {
+            graduateSudent(student);
+            return false;
+        }else {
+    //        String query = "UPDATE Record SET Registered = 'No' WHERE "
+    //            + "`Student_Registration number` = '" + student + "' AND "
+    //            + "`Period of study_Label` = '" + currentYear + "';";
+    //        teacherDatabaseModel.updateQuery(query);
+            updateLevelOfStudy(student);
+            registrarController.registerStudent("" + currentYear, student);
+            return true;
+        }
     }
 
     public void createFailStudent(String student) {
@@ -89,23 +144,49 @@ public class TeacherController {
         updatePeriodOfStudy(student);
     }
 
-    public void createResitStudent(String student) {
-        ArrayList<Integer> periods = getPeriodsofStudy(student);
-        int currentYear = Collections.max(periods);
-        String query = "UPDATE Record SET Registered = 'Resit' WHERE "
+    public boolean createGraduate(String student) {
+        int theLength = teacherDatabaseModel.getDegreeType(student);
+        if(getLevelOfStudy(student) == getDegreeLevels(student)) {
+            graduateSudent(student);
+            return true;
+        }else {
+            return false;
+        }
+        /*String query = "UPDATE Record SET Registered = 'Resit' WHERE "
             + "`Student_Registration number` = '" + student + "' AND "
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
-        updatePeriodOfStudy(student);
+        updatePeriodOfStudy(student);*/
     }
 
     public void graduateSudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
+        double theGrade =getOverallGrade(student);
+        int levels = getDegreeLevels(student);
+        String finalGrade = "";
+        if(levels == 3) {
+            finalGrade = getBachelorResult(theGrade);
+        }else if(levels == 4) {
+            finalGrade = getMasterResult(theGrade);
+        }
+        String updateHonours = "UPDATE Student SET grade = '" + finalGrade +
+        "' WHERE `Registration number` = '" + student + "';";
         String query = "UPDATE Record SET Registered = 'Graduated' WHERE "
             + "`Student_Registration number` = '" + student + "' AND "
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
+    }
+
+    public double getOverallGrade(String student) {
+        String query = "SELECT Average FROM Record WHERE "
+            + "`Student_Registration number` = '" + student + "';";
+        ArrayList<Double> grades = teacherDatabaseModel.getAllMeanGrades(query);
+        double total = 0.0;
+        for(int i = 0; i < grades.size(); i++) {
+            total += grades.get(i);
+        }
+        return total;
     }
 
     public String createPeriodOfStudy(String student, String period) {
@@ -145,12 +226,25 @@ public class TeacherController {
         teacherDatabaseModel.insertIntoDatabase(table, values);
     }
 
+    public int getDegreeLevels(String student) {
+        String getCode = "SELECT Degree_DegreeCode FROM Student WHERE "
+            + "`Registration number` = '" + student + "';";
+        String theDegreeCode = teacherDatabaseModel.stringQuery(getCode);
+        String getLevels = "SELECT `Level of study` FROM Degree WHERE "
+            + "DegreeCode = '" + theDegreeCode + "';";
+        String result = teacherDatabaseModel.   stringQuery(getLevels);
+        return Integer.parseInt(result.substring((result.length() - 1), result.length()));
+    }
+
     public String theDegreeResult(String student) {
         String initialResult = getDegreeResult(student);
+        System.out.println(initialResult + " --> " + getDegreeType(student));
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
+        if(getDegreeType(student).equalsIgnoreCase("One Year Msc")) {
+            return postgradResult(student);
+        }
         if(initialResult.equalsIgnoreCase("fail")) {
-            System.out.println("Dupa1");
             if(getLevelOfStudy(student) != 4) {
                 int creditsEarned = creditsAchieved(student);
                 if(checkMinCreditsReq(student) && creditsAchieved(student) != 120
@@ -171,7 +265,6 @@ public class TeacherController {
                 }
             }
         }else {
-            System.out.println("Dupa2");
             if(creditsAchieved(student) == 120) {
                 return initialResult;
             }else if(creditsAchieved(student) <= 100 &&
@@ -219,9 +312,9 @@ public class TeacherController {
             return "FAIL";
         }else {
             String type = getDegreeType(student);
-            if(type == "Bsc" || type == "BEng") {
+            if(type.startsWith("B")) {
                 return getBachelorResult(theMeanGrade);
-            }else if(type == "Msc" || type == "MEng") {
+            }else if(type.startsWith("M")) {
                 return getMasterResult(theMeanGrade);
             }else {
                 return getOneYearResult(theMeanGrade);
@@ -233,9 +326,9 @@ public class TeacherController {
     public String getDegreeType(String student) {
         int theLength = teacherDatabaseModel.getDegreeType(student);
         if(theLength == 3) {
-            return "BSc";
+            return "B";
         }else if(theLength == 4) {
-            return "MSc";
+            return "M";
         }else {
             return "One Year Msc";
         }
@@ -285,8 +378,8 @@ public class TeacherController {
     public String studentFailed(String name) {
         String type = getDegreeType(name);
         int level = getLevelOfStudy(name);
-        if(level == 3 && type.equalsIgnoreCase("Bsc")
-            || type.equalsIgnoreCase("Msc")) {
+        if(level == 3 && type.startsWith("B")
+            || type.startsWith("M")) {
             return "Resit for pass(non-honours) degree";
         }else if(level == 4) {
             return "Pass with bachelor’s degree";
@@ -302,8 +395,10 @@ public class TeacherController {
     public double getWeightedMean(String student) {
         double weightedMean = 0;
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
+        ArrayList<Integer> allResitGrades = new ArrayList<Integer>();
         ArrayList<Integer> theModules = new ArrayList<Integer>();
-        allGrades = teacherDatabaseModel.getGradeList(student);
+        allGrades = teacherDatabaseModel.getGradeList(student, "The mark");
+        allResitGrades = teacherDatabaseModel.getGradeList(student, "Resit mark");
         theModules = getCreditValue(student);
         double divisor = 0;
         if(getLevelOfStudy(student) == 4) {
@@ -312,7 +407,11 @@ public class TeacherController {
             divisor = 120;
         }
         for(int i = 0; i < allGrades.size(); i++) {
-            weightedMean += (allGrades.get(i) * (theModules.get(i) / divisor));
+            if(allResitGrades.get(i) != -1) {
+                weightedMean += (allResitGrades.get(i) * (theModules.get(i) / divisor));
+            }else {
+                weightedMean += (allGrades.get(i) * (theModules.get(i) / divisor));
+            }
         }
         updateWeightedMean(student, roundResults(weightedMean));
         return roundResults(weightedMean);
@@ -404,15 +503,15 @@ public class TeacherController {
         ArrayList<String> possibleModules = teacherDatabaseModel.getDissertationModules();
         ArrayList<String> stuModules = teacherDatabaseModel.getStudentModuleCode(getRecordId(student));
         String theModule = "";
-        for(int i = 0; i < stuModules.size(); i++) {
-            if(stuModules.get(i) == possibleModules.get(i)) {
+        for(int i = 0; i < possibleModules.size(); i++) {
+            if(stuModules.get(i).equals(possibleModules.get(i))) {
                 theModule = possibleModules.get(i);
             }
             if(possibleModules.size() == (i - 1)) {
                 return -1;
             }
         }
-        int grade = Integer.parseInt(teacherDatabaseModel.getCurrentGrade(student, theModule, "false"));
+        double grade = Double.parseDouble(teacherDatabaseModel.getCurrentGrade(student, theModule, "false"));
         if(grade >= 49.5) {
             return 1;
         }else {
