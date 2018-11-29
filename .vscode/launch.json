@@ -2,6 +2,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - StudentUI",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "sql.controller.StudentUI",
+            "args": ""
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Login",
             "request": "launch",
             "cwd": "${workspaceFolder}",

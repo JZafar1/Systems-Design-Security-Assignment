@@ -14,3 +14,7 @@ password:123
 Registrar login details
 username:gjones1@sheffield.ac.uk
 password:123
+
+Student login details
+username:
+password:123

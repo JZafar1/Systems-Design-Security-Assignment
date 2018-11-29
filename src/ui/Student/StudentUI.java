@@ -29,7 +29,9 @@ public class StudentUI extends javax.swing.JPanel {
 
     private void initComponents() {
 
-        periodOfStudy = controller.getPeriodsOfStudy(username)[0];
+        String[] periodsOfStudy = controller.getPeriodsOfStudy(username);
+        if (periodsOfStudy.length > 0)
+            periodOfStudy = periodsOfStudy[0];
 
         StudentUI = new javax.swing.JPanel();
         databaseView = new javax.swing.JScrollPane();
