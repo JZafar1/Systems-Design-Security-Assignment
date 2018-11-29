@@ -134,6 +134,17 @@ public class RegistrarController {
         databaseModel.insertIntoDatabase("Mark", values);
     }
     
+    public void pasteMark (int recordId, String moduleCode, String mark, String resitMark){
+        
+        moduleCode = validation.generalValidation(moduleCode);
+        
+        int markId = generateMarkId(0);
+        
+        String values = "('" + markId + "','" + moduleCode  + "','" + recordId + "','" + mark + "','" + resitMark + "' )";
+        
+        databaseModel.insertIntoDatabase("Mark", values);
+    }
+    
     public void removeMark (String markId){
         
         markId = validation.generalValidation(markId);
