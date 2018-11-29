@@ -97,8 +97,8 @@ public class RegisterStudent extends Menu{
     }
 
     private void setMeanText() {
-        int value = controller.getWeightedMean(String.valueOf(students.getSelectedItem()));
-        weightedMean.setText(Integer.toString(value));
+        double value = controller.getWeightedMean(String.valueOf(students.getSelectedItem()));
+        weightedMean.setText(Double.toString(value));
     }
 
     private void setResultText() {

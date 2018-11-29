@@ -3,8 +3,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import src.sql.controller.*;
-import src.sql.model.AdminDatabaseModel;
 import src.sql.model.TeacherDatabaseModel;
+import src.sql.controller.RegistrarController;
 import src.sql.tables.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,17 +12,17 @@ import java.util.Collections;
 
 public class TeacherController {
 
-    private AdminDatabaseModel mainDatabaseModel;
     private TeacherDatabaseModel teacherDatabaseModel;
+    private RegistrarController registrarController;
 
     public TeacherController() {
-        mainDatabaseModel = new AdminDatabaseModel();
         teacherDatabaseModel = new TeacherDatabaseModel();
+        registrarController = new RegistrarController();
     }
 
     //Get full list of modules and module codes
     public String[] getModuleNames() {
-        Modules modules = mainDatabaseModel.getModules("*", "");
+        Modules modules = teacherDatabaseModel.getModules("*", "");
         String[] moduleNames = modules.getModuleNames();
         if (moduleNames == null || moduleNames.length == 0) {
             return new String[] {"No modules found"};
@@ -32,18 +32,23 @@ public class TeacherController {
     }
 
     public String[] getStudents() {
-        Students students = mainDatabaseModel.getStudents("*", "");
+        Students students = teacherDatabaseModel.getStudents("*", "");
         return students.getStudentNames();
     }
 
     //All student information
     public String [] studentInfo(String cond) {
-        Students theStudent = mainDatabaseModel.getStudents("*", cond);
+        Students theStudent = teacherDatabaseModel.getStudents("*", cond);
         return theStudent.getStudentInformation();
     }
 
     public String getStudentTutor(String cond) {
         return teacherDatabaseModel.getTutor(cond);
+    }
+
+    public ArrayList<String> getModuleList(String student) {
+        String record = getRecordId(student);
+        return teacherDatabaseModel.getStudentModuleCode(record);
     }
 
     public String getDegreeName(String cond) {
@@ -90,6 +95,7 @@ public class TeacherController {
             + "`Student_Registration number` = '" + student + "' AND "
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
+        updatePeriodOfStudy(student);
     }
 
     public void graduateSudent(String student) {
@@ -99,6 +105,11 @@ public class TeacherController {
             + "`Student_Registration number` = '" + student + "' AND "
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
+    }
+
+    public String createPeriodOfStudy(String student, String period) {
+        registrarController.registerStudent(student, period);
+        return null;
     }
 
     public void updateLevelOfStudy(String student) {
@@ -111,9 +122,26 @@ public class TeacherController {
     public void updatePeriodOfStudy(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-        String query = "UPDATE Record SET `Period of study_Label` = '" + (currentYear + 1)
-            + "' WHERE `Student_Registration number` = '" + student + "';";
-        teacherDatabaseModel.updateQuery(query);
+        if(!checkPeriodOfStudy(currentYear)) {
+            createPeriodOfStudy(currentYear);
+        }else {
+            String query = "UPDATE Record SET `Period of study_Label` = '" + (currentYear + 1)
+                + "' WHERE `Student_Registration number` = '" + student + "';";
+            teacherDatabaseModel.updateQuery(query);
+        }
+    }
+
+    public boolean checkPeriodOfStudy(int period) {
+        String query = "SELECT * FROM `Period of study` WHERE `Label` = '" + (period + 1) + "';";
+        return teacherDatabaseModel.executeBoolQuery(query);
+    }
+
+    public void createPeriodOfStudy(int period) {
+        String table = "`Period of study`";
+        String start = "01.09." + (period + 1);
+        String end = "01.07." + (period + 1);
+        String values = "('" + (period + 1) + "','" + start + "','" + end + "')";
+        teacherDatabaseModel.insertIntoDatabase(table, values);
     }
 
     public String theDegreeResult(String student) {
@@ -289,8 +317,8 @@ public class TeacherController {
 
     //Get a list of all periods of study
     public ArrayList<Integer> getPeriodsofStudy(String student) {
-        String query = "SELECT `Period of study_Label` FROM Record WHERE "
-            + "Student_Registration number = '" + student + "';";
+            String query = "SELECT `Period of study_Label` FROM Record WHERE "
+                    + "`Student_Registration number` = '" + student + "';";
         ArrayList<String> results = new ArrayList<String>();
         results = teacherDatabaseModel.getPeriodOfStudy(query);
         ArrayList<Integer> resultAsInt = new ArrayList<Integer>(results.size()) ;
@@ -314,7 +342,7 @@ public class TeacherController {
         moduleCodes = teacherDatabaseModel.getStudentModuleCode(record);
         ArrayList<Integer> creditValues = new ArrayList<Integer>();
         for(int i = 0; i < moduleCodes.size(); i++) {
-            creditValues.add(teacherDatabaseModel.getCredits(moduleCodes.get(i)));
+            creditValues.add(teacherDatabaseModel.getCredits(student, moduleCodes.get(i)));
         }
         return creditValues;
     }
@@ -404,7 +432,7 @@ public class TeacherController {
         + "`Student_Registration number` = '" + student + " AND "
         + "``Period of study_Label` = '" + (currentYear - 1) + "';";
         double lastYearResult = teacherDatabaseModel.getWeightedMean(query);
-        if(getLevelOfStudy(student) == 3) {;
+        if(getLevelOfStudy(student) == 3) {
             double totalAverage = (thisYearResult * (2/3)) + (lastYearResult * (1/3));
             totalAverage = roundResults(totalAverage);
             return getBachelorResult(totalAverage);

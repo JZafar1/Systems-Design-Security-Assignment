@@ -99,7 +99,7 @@ public class EditGrades extends Menu {
     }
 
     private void displayModule() {
-        moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleNames()));
+        moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleList()));
     }
 
     private void displayStudents() {
@@ -120,7 +120,7 @@ public class EditGrades extends Menu {
         String grade = newGrade.getText();
         String module = String.valueOf(moduleList.getSelectedItem());
         String student = String.valueOf(studentList.getSelectedItem());
-        boolean resitGrade = (boolean) resit.getSelectedItem();
+        boolean resitGrade = (Boolean.parseBoolean(String.valueOf(resit.getSelectedItem())));
         controller.updateGrade(student, module, grade, resitGrade);
         javax.swing.JOptionPane.showMessageDialog(this, "Grade Updated.");
         getCurrentGrade();

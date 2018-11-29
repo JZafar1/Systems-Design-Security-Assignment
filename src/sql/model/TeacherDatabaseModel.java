@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TeacherDatabaseModel extends DatabaseModel {
+public class TeacherDatabaseModel extends AdminDatabaseModel {
 
     public TeacherDatabaseModel() {}
 
@@ -204,14 +204,14 @@ public class TeacherDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                String query = "SELECT Degree_DegreeCode FROM  Student " +
+                String query = "SELECT Degree_DegreeCode FROM Student " +
                     "WHERE `Registration number` = '" + student + "';";
                 String degreeCode = "";
                 openResultQuery(query);
                 while (getResult().next()) {
                     degreeCode = getResult().getString(1);
                 }
-                query = "SELECT `Level of study` FROM Degree" +
+                query = "SELECT `Level of study` FROM Degree " +
                     "WHERE DegreeCode = '" + degreeCode + "';";
                 openConnection();
                 openStatement();
@@ -238,8 +238,8 @@ public class TeacherDatabaseModel extends DatabaseModel {
             try {
                 openConnection();
                 openStatement();
-                String query = "SELECT Module_ModuleCode FROM Mark " +
-                    "WHERE `Record_Record ID` = " + record + ";";
+                    String query = "SELECT Module_ModuleCode FROM Mark " +
+                    "WHERE `Record_Record ID` = '" + record + "';";
                 openResultQuery(query);
                 while (getResult().next()) {
                     theResults.add(getResult().getString(1));
@@ -255,16 +255,25 @@ public class TeacherDatabaseModel extends DatabaseModel {
         return theResults;
     }
 
-    public int getCredits(String moduleCode) {
+    public int getCredits(String student, String moduleCode) {
         initConnection();
         initStatement();
         int result = 0;
+        String code = "";
         try {
             try {
                 openConnection();
                 openStatement();
+                openResultQuery("SELECT Degree_DegreeCode FROM  Student WHERE `Registration number` = '"
+                    + student + "';");
+                while (getResult().next()) {
+                    code = getResult().getString(1);
+                }
+                openConnection();
+                openStatement();
                 String query = "SELECT credits FROM `Module degree (linking)` "
-                    + "WHERE `Degree_DegreeCode` = '" + moduleCode + "';";
+                    + "WHERE `Degree_DegreeCode` = '" + code + "' AND "
+                    + "Module_ModuleCode = '" + moduleCode + "';";
                 openResultQuery(query);
                 while (getResult().next()) {
                     result = Integer.parseInt(getResult().getString(1));

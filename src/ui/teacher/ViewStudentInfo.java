@@ -3,6 +3,7 @@ package src.ui.teacher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+//import src.sql.controller.StudentController;
 import src.sql.controller.TeacherController;
 
 public class ViewStudentInfo extends Menu{
@@ -25,11 +26,13 @@ public class ViewStudentInfo extends Menu{
     private javax.swing.JTextField tutor;
     private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> studentList;
+    //private StudentController stuController;
     private TeacherController controller;
 
     public ViewStudentInfo (TeacherGUI teacherui) {
         super(teacherui);
         controller = new TeacherController();
+        //stuController = new StudentController();
         setVisible(true);
         initComponents();
         placeComponents();
