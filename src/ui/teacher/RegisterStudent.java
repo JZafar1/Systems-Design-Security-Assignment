@@ -119,9 +119,13 @@ public class RegisterStudent extends Menu{
 
     private void passStudent() {
         String theResult = finalResult.getText();
-        if(theResult.equalsIgnoreCase("pass") || theResult.equalsIgnoreCase("Conceded pass")) {
+        if(theResult.equalsIgnoreCase("First Class") || theResult.equalsIgnoreCase("Upper Second")
+            || theResult.equalsIgnoreCase("Lower Second") || theResult.equalsIgnoreCase("Conceded pass")
+            || theResult.equalsIgnoreCase("Third Class") || theResult.equalsIgnoreCase("Pass (non-honours)s")) {
             String student = String.valueOf(students.getSelectedItem());
             controller.createPassStudent(student);
+            JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(this, "The selected student has not passed!",
                 "Error", JOptionPane.ERROR_MESSAGE);

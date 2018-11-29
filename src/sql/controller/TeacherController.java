@@ -4,6 +4,8 @@ import javax.swing.JTable;
 import javax.swing.JPanel;
 import src.sql.controller.*;
 import src.sql.model.TeacherDatabaseModel;
+import src.sql.model.RegistrarDatabaseModel;
+import src.sql.model.StudentDatabaseModel;
 import src.sql.controller.RegistrarController;
 import src.sql.tables.*;
 import java.sql.*;
@@ -15,9 +17,13 @@ public class TeacherController {
 
     private TeacherDatabaseModel teacherDatabaseModel;
     private RegistrarController registrarController;
+    private RegistrarDatabaseModel regDatabaseModel;
+    private StudentDatabaseModel stDatabaseModel;
 
     public TeacherController() {
         teacherDatabaseModel = new TeacherDatabaseModel();
+        stDatabaseModel = new StudentDatabaseModel();
+        regDatabaseModel = new RegistrarDatabaseModel();
         registrarController = new RegistrarController();
     }
 
@@ -52,6 +58,45 @@ public class TeacherController {
         ArrayList<String> recordList = teacherDatabaseModel.getStudentModuleCode(record);
         String[] asArray = recordList.stream().toArray(String[]::new);
         return asArray;
+    }
+
+    public ArrayList<String[]> getStudentYearInfo(int studentUsername) {
+        return stDatabaseModel.getStudentYearInfo(String.valueOf(studentUsername));
+    }
+
+    public String[] getPeriodsOfStudy(int studentUsername) {
+
+        ArrayList<String[]> studentYearInfo = getStudentYearInfo(studentUsername);
+        int numOfYears = studentYearInfo.size();
+        String[] periodsOfStudy = new String[numOfYears];
+
+        for (int c = 0; c < numOfYears; c++) {
+            periodsOfStudy[c] = studentYearInfo.get(c)[1];
+        }
+        return periodsOfStudy;
+    }
+
+    public Object[][] getYearsModules(String student, String periodOfStudy) {
+        String peroidOfStudyLabel = getPeriodOfStudyLabel(student, periodOfStudy);
+        int recordID = regDatabaseModel.getRecordId(student, peroidOfStudyLabel);
+        Mark marks = regDatabaseModel.getStudentsModules(recordID);
+        return marks.getTable();
+    }
+
+    public String getPeriodOfStudyLabel(String student, String periodOfStudy) {
+
+        ArrayList<String[]> studentPeriodsOfStudy = getStudentYearInfo(Integer.parseInt(student));
+
+        String periodOfStudyLabel = null;
+        int numOfYears = studentPeriodsOfStudy.size();
+        for (int c = 0; c < numOfYears; c++) {
+            String periodOfStudyTest = studentPeriodsOfStudy.get(c)[1];
+            if (periodOfStudyTest.equals(periodOfStudy)) {
+
+                periodOfStudyLabel = studentPeriodsOfStudy.get(c)[0];
+            }
+        }
+        return periodOfStudyLabel;
     }
 
     public String getDegreeName(String cond) {
