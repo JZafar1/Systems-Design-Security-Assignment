@@ -75,8 +75,9 @@ public class EditGrades extends Menu {
                 getTeacherUI().getMainMenu().setVisible(true);
             }
         });
-        displayModule();
+        
         displayStudents();
+        displayModule();
         getCurrentGrade();
 
         studentList.addItemListener(new ItemListener() {
@@ -96,10 +97,19 @@ public class EditGrades extends Menu {
                 }
             }
         });
+        
+        resit.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    getCurrentGrade();
+                }
+            }
+        });
     }
 
     private void displayModule() {
-        moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleList()));
+        moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleList(studentList.getSelectedItem().toString())));
     }
 
     private void displayStudents() {
@@ -110,9 +120,10 @@ public class EditGrades extends Menu {
 
     private void getCurrentGrade() {
         String module = String.valueOf(moduleList.getSelectedItem());
-        String theModule = module.substring(0, 7);
+        String theModule = module;
+        if(module.length() >= 7) theModule = module.substring(0, 7);
         String name = String.valueOf(studentList.getSelectedItem());
-        String result = controller.getGrade(name, theModule);
+        String result = controller.getGrade(name, theModule, resit.getSelectedItem().toString());
         currentGrade.setText(result);
     }
 

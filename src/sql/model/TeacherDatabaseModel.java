@@ -63,10 +63,13 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
-    public String getCurrentGrade(String regNo, String moduleCode) {
+    public String getCurrentGrade(String regNo, String moduleCode, String resit) {
         initConnection();
         initStatement();
         String results = "";
+        String whichMark = "`The mark`";
+        if(resit == "true") whichMark = "`Resit mark`";
+        
         try {
             try {
                 openConnection();
@@ -77,7 +80,7 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
                 openStatement();
                 query = "WHERE `Record_Record ID` = '" + record +
                 "' AND Module_ModuleCode = '" + moduleCode + "';";
-                openResultQuery("SELECT `The mark` FROM Mark " + query);
+                openResultQuery("SELECT " + whichMark + " FROM Mark " + query);
                 while (getResult().next()) {
                     results = getResult().getString(1);
                 }
@@ -119,6 +122,7 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         initConnection();
         initStatement();
         String theModule = module.substring(0, 7);
+        String grade2 = "40";
         try {
             try {
                 openConnection();
@@ -126,11 +130,13 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
                 String query = "WHERE `Student_Registration number` = '" + name + "';";
                 String record = getRecordId(query);
                 if(resit) {
-                    query = "UPDATE Mark SET `The mark` = " + grade +
+                    if(Double.parseDouble(grade)<40) grade2 = grade;
+                    query = "UPDATE Mark SET `Resit mark` = " + grade + ", `The mark` = " + grade2 +
                         " WHERE `Record_Record ID` = " + record + " AND "
                         + "Module_ModuleCode = '" + theModule + "';";
+                    
                 }else {
-                    query = "UPDATE Mark SET `Resit mark` = " + grade +
+                    query = "UPDATE Mark SET `The mark` = " + grade +
                         " WHERE `Record_Record ID` = " + record + " AND "
                         + "Module_ModuleCode = '" + theModule + "';";
                 }

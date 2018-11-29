@@ -9,6 +9,7 @@ import src.sql.tables.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class TeacherController {
 
@@ -46,9 +47,12 @@ public class TeacherController {
         return teacherDatabaseModel.getTutor(cond);
     }
 
-    public ArrayList<String> getModuleList(String student) {
+    public String[] getModuleList(String student) {
         String record = getRecordId(student);
-        return teacherDatabaseModel.getStudentModuleCode(record);
+        ArrayList<String> tempArray = teacherDatabaseModel.getStudentModuleCode(record);
+        String[] stringArray = new String[tempArray.size()];
+        for(int i=0;i<tempArray.size();i++) stringArray[i] = tempArray.get(i);
+        return stringArray;
     }
 
     public String getDegreeName(String cond) {
@@ -56,14 +60,11 @@ public class TeacherController {
     }
 
     //Get grade for a given module
-    public String getGrade(String cond, String module) {
-        return teacherDatabaseModel.getCurrentGrade(cond, module);
+    public String getGrade(String cond, String module, String resit) {
+        return teacherDatabaseModel.getCurrentGrade(cond, module, resit);
     }
 
     public void updateGrade(String student, String module, String grade, boolean resit) {
-        if(resit) {
-            grade = "40";
-        }
         teacherDatabaseModel.insertGrade(student, module, grade, resit);
     }
 
@@ -149,6 +150,7 @@ public class TeacherController {
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
         if(initialResult.equalsIgnoreCase("fail")) {
+            System.out.println("Dupa1");
             if(getLevelOfStudy(student) != 4) {
                 int creditsEarned = creditsAchieved(student);
                 if(checkMinCreditsReq(student) && creditsAchieved(student) != 120
@@ -169,6 +171,7 @@ public class TeacherController {
                 }
             }
         }else {
+            System.out.println("Dupa2");
             if(creditsAchieved(student) == 120) {
                 return initialResult;
             }else if(creditsAchieved(student) <= 100 &&
@@ -409,7 +412,7 @@ public class TeacherController {
                 return -1;
             }
         }
-        int grade = Integer.parseInt(teacherDatabaseModel.getCurrentGrade(student, theModule));
+        int grade = Integer.parseInt(teacherDatabaseModel.getCurrentGrade(student, theModule, "false"));
         if(grade >= 49.5) {
             return 1;
         }else {
