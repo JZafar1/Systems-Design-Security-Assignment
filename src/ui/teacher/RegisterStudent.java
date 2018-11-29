@@ -14,7 +14,7 @@ public class RegisterStudent extends Menu{
     private javax.swing.JTextField finalResult;
     private javax.swing.JButton passButton;
     private javax.swing.JButton failButton;
-    private javax.swing.JButton resitButton;
+    private javax.swing.JButton graduateButton;
     private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> students;
     private TeacherController controller;
@@ -56,11 +56,11 @@ public class RegisterStudent extends Menu{
             }
         });
 
-        resitButton = new javax.swing.JButton();
-        resitButton.setText("Resit Student");
-        resitButton.addActionListener(new ActionListener() {
+        graduateButton = new javax.swing.JButton();
+        graduateButton.setText("Graduate Student");
+        graduateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                resitStudent();
+                graduateStudent();
             }
         });
 
@@ -123,22 +123,27 @@ public class RegisterStudent extends Menu{
             || theResult.equalsIgnoreCase("Lower Second") || theResult.equalsIgnoreCase("Conceded pass")
             || theResult.equalsIgnoreCase("Third Class") || theResult.equalsIgnoreCase("Pass (non-honours)s")) {
             String student = String.valueOf(students.getSelectedItem());
-            controller.createPassStudent(student);
-            JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
-                "Success", JOptionPane.INFORMATION_MESSAGE);
+            if(controller.createPassStudent(student)) {
+                JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(this, "Error this student is ready to graduate!",
+                    "Success", JOptionPane.ERROR_MESSAGE);
+            }
         }else {
             JOptionPane.showMessageDialog(this, "The selected student has not passed!",
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void resitStudent() {
+    private void graduateStudent() {
         String theResult = finalResult.getText();
-        if(theResult.equalsIgnoreCase("Resit year")) {
-            String student = String.valueOf(students.getSelectedItem());
-            controller.createResitStudent(student);
+        String student = String.valueOf(students.getSelectedItem());
+        if(controller.createGraduate(student)) {
+            JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
         }else {
-            JOptionPane.showMessageDialog(this, "The selected student can not resit!",
+            JOptionPane.showMessageDialog(this, "The selected student can not graduate yet!",
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -169,7 +174,7 @@ public class RegisterStudent extends Menu{
                     .addGroup(registerStudentLayout.createSequentialGroup()
                         .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(graduateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(failButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,7 +209,7 @@ public class RegisterStudent extends Menu{
                 .addGroup(registerStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(passButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(failButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(resitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(graduateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
