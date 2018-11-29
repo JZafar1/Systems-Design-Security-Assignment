@@ -125,7 +125,8 @@ public class TeacherController {
 //            + "`Period of study_Label` = '" + currentYear + "';";
 //        teacherDatabaseModel.updateQuery(query);
         updateLevelOfStudy(student);
-        registrarController.registerStudent("" + currentYear, student);
+        if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
+        registrarController.registerStudent("" + (currentYear+1), student);
     }
 
     public void createFailStudent(String student) {
