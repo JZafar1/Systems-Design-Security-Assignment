@@ -6,6 +6,10 @@ import java.awt.event.*;
 import src.sql.controller.StudentController;
 import src.sql.controller.TeacherController;
 
+/**
+ *
+ * @author James
+ */
 public class ViewStudentInfo extends Menu{
     private javax.swing.JLabel selStu;
     private javax.swing.JLabel foreNameLabel;
@@ -120,6 +124,11 @@ public class ViewStudentInfo extends Menu{
         databaseView.setViewportView(databaseTable);
     }
 
+
+    /**
+     *
+     * @param student the student regiatration number
+     */
     private void displayInformation(String name) {
         String cond = "WHERE `Registration number` = '" + name  + "'";
         String [] theResults = controller.studentInfo(cond);
@@ -139,6 +148,10 @@ public class ViewStudentInfo extends Menu{
         setDegreeText(name);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     private void setTutorText(String name) {
         String cond = "WHERE `Registration number` = '" + name  + "'";
         String result = controller.getStudentTutor(cond);
@@ -146,6 +159,10 @@ public class ViewStudentInfo extends Menu{
         tutor.setEditable(false);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     private void setDegreeText(String regNo) {
         String query = " WHERE `Registration number` = '" + regNo + "';";
         String res = controller.getDegreeName(regNo);

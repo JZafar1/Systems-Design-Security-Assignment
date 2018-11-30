@@ -5,6 +5,10 @@ import java.awt.event.*;
 import src.sql.controller.TeacherController;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author James
+ */
 public class EditGrades extends Menu {
     private javax.swing.JLabel select;
     private javax.swing.JLabel resitLabel;
@@ -109,6 +113,7 @@ public class EditGrades extends Menu {
         });
     }
 
+    //Get and display all modules in the combo box
     private void displayModule() {
         moduleList.setModel(new javax.swing.DefaultComboBoxModel<String>(controller.getModuleList(studentList.getSelectedItem().toString())));
     }
@@ -132,10 +137,12 @@ public class EditGrades extends Menu {
     }
 
     private void commitChange() {
+        //Get info needed to change grade them commit changes
         String grade = newGrade.getText();
         String module = String.valueOf(moduleList.getSelectedItem());
         String student = String.valueOf(studentList.getSelectedItem());
         boolean resitGrade = (Boolean.parseBoolean(String.valueOf(resit.getSelectedItem())));
+        //If input is valid then show information has been updated, else show error message
         if(controller.updateGrade(student, module, grade, resitGrade)) {
             JOptionPane.showMessageDialog(this, "Student grade has been successfuly updated!",
                 "Success", JOptionPane.INFORMATION_MESSAGE);

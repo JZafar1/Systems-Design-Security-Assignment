@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @author James
+ */
 public class TeacherController {
 
     private TeacherDatabaseModel teacherDatabaseModel;
@@ -22,6 +26,9 @@ public class TeacherController {
     private StudentDatabaseModel stDatabaseModel;
     private SQLValidation validation;
 
+    /**
+     *
+     */
     public TeacherController() {
         teacherDatabaseModel = new TeacherDatabaseModel();
         stDatabaseModel = new StudentDatabaseModel();
@@ -31,6 +38,11 @@ public class TeacherController {
     }
 
     //Get full list of modules and module codes
+
+    /**
+     *
+     * @return the name/module code of all moduls
+     */
     public String[] getModuleNames() {
         Modules modules = teacherDatabaseModel.getModules("*", "");
         String[] moduleNames = modules.getModuleNames();
@@ -41,21 +53,41 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @return An array of all students
+     */
     public String[] getStudents() {
         Students students = teacherDatabaseModel.getStudents("*", "");
         return students.getStudentNames();
     }
 
     //All student information
+
+    /**
+     *
+     * @param cond the student registation number
+     * @return all information regarding a given student
+     */
     public String [] studentInfo(String cond) {
         Students theStudent = teacherDatabaseModel.getStudents("*", cond);
         return theStudent.getStudentInformation();
     }
 
+    /**
+     *
+     * @param cond the student regiatration number
+     * @return the tutor of a given student
+     */
     public String getStudentTutor(String cond) {
         return teacherDatabaseModel.getTutor(cond);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return a list of all modules that a student studies
+     */
     public String[] getModuleList(String student) {
         String record = getRecordId(student);
         ArrayList<String> recordList = teacherDatabaseModel.getStudentModuleCode(record);
@@ -63,10 +95,20 @@ public class TeacherController {
         return asArray;
     }
 
+    /**
+     *
+     * @param studentUsername the student regiatration number
+     * @return an ArrayList containing all student info for a given year
+     */
     public ArrayList<String[]> getStudentYearInfo(int studentUsername) {
         return stDatabaseModel.getStudentYearInfo(String.valueOf(studentUsername));
     }
 
+    /**
+     *
+     * @param studentUsername the student regiatration number
+     * @return all periods of study a student has
+     */
     public String[] getPeriodsOfStudy(int studentUsername) {
 
         ArrayList<String[]> studentYearInfo = getStudentYearInfo(studentUsername);
@@ -79,6 +121,12 @@ public class TeacherController {
         return periodsOfStudy;
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @param periodOfStudy the period of study
+     * @return all modules for a given year of study
+     */
     public Object[][] getYearsModules(String student, String periodOfStudy) {
         String peroidOfStudyLabel = getPeriodOfStudyLabel(student, periodOfStudy);
         int recordID = regDatabaseModel.getRecordId(student, peroidOfStudyLabel);
@@ -86,6 +134,12 @@ public class TeacherController {
         return marks.getTable();
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @param periodOfStudy the period of study
+     * @return the label attached to a given period of study
+     */
     public String getPeriodOfStudyLabel(String student, String periodOfStudy) {
 
         ArrayList<String[]> studentPeriodsOfStudy = getStudentYearInfo(Integer.parseInt(student));
@@ -102,15 +156,36 @@ public class TeacherController {
         return periodOfStudyLabel;
     }
 
+    /**
+     *
+     * @param cond  the student regiatration number
+     * @return the degree name of a given a student
+     */
     public String getDegreeName(String cond) {
         return teacherDatabaseModel.getDegreeName(cond);
     }
 
     //Get grade for a given module
+
+    /**
+     *
+     * @param cond the student regiatration number
+     * @param module the module
+     * @param resit whether or not the grade is a resit grade
+     * @return the grade for a given module of a student
+     */
     public String getGrade(String cond, String module, String resit) {
         return teacherDatabaseModel.getCurrentGrade(cond, module, resit);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @param module the module
+     * @param grade the grade
+     * @param resit whether or not it is a resit grade
+     * @return whether update grade completed successfully
+     */
     public boolean updateGrade(String student, String module, String grade, boolean resit) {
         String validateGrade = validation.generalValidation(grade);
         if(!(validateGrade.equals(grade))) {
@@ -123,7 +198,7 @@ public class TeacherController {
                 return false;
             }
         }else {
-            if(Integer.parseInt(grade) <= 0 || Integer.parseInt(grade) >= 100) {
+            if(Integer.parseInt(grade) < 0 || Integer.parseInt(grade) > 100) {
                 return false;
             }
         }
@@ -131,24 +206,27 @@ public class TeacherController {
         return true;
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     public void createPassStudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-//        String query = "UPDATE Record SET Registered = 'No' WHERE "
-//            + "`Student_Registration number` = '" + student + "' AND "
-//            + "`Period of study_Label` = '" + currentYear + "';";
-//        teacherDatabaseModel.updateQuery(query);
         updateLevelOfStudy(student);
         if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
         registrarController.registerStudent("" + (currentYear+1), student);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     public void createFailStudent(String student) {
 
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
         int currentLevel = getLevelOfStudy(student);
-//      String currentRecord = getRecordId(student);
 
         String query = "UPDATE Record SET Registered = 'Failed' WHERE "
             + "`Student_Registration number` = '" + student + "' AND "
@@ -172,7 +250,11 @@ public class TeacherController {
 //        updatePeriodOfStudy(student);
 
     }
-
+    /**
+    *
+    * @param student the student regiatration number
+    * @param currentYear the current year of study
+    */
     private void repeatYear(String student, int currentYear){
 
         if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
@@ -186,6 +268,11 @@ public class TeacherController {
 
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return whether or not the student can graduate
+     */
     public boolean createGraduate(String student) {
         int theLength = teacherDatabaseModel.getDegreeType(student);
         if(getLevelOfStudy(student) == getDegreeLevels(student)) {
@@ -201,6 +288,10 @@ public class TeacherController {
         updatePeriodOfStudy(student);*/
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     public void createResitStudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
@@ -211,6 +302,10 @@ public class TeacherController {
         updatePeriodOfStudy(student);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     public void graduateSudent(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
@@ -219,8 +314,6 @@ public class TeacherController {
         String finalGrade = "";
         if(getPeriodsofStudy(student).size() ==  1) {
             finalGrade = getOneYearResult(theGrade);
-            System.out.println(theGrade + "--> " + finalGrade);
-            System.out.println("Here");
         }else if(levels == 3) {
             finalGrade = getBachelorResult(theGrade);
         }else if(levels == 4) {
@@ -235,6 +328,11 @@ public class TeacherController {
         teacherDatabaseModel.updateQuery(updateHonours);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the final grade of a completed degree
+     */
     public double getOverallGrade(String student) {
         String query = "SELECT Average FROM Record WHERE "
             + "`Student_Registration number` = '" + student + "';";
@@ -246,6 +344,11 @@ public class TeacherController {
         return total;
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the levels of study of a given degree
+     */
     public int getDegreeLevels(String student) {
         String getCode = "SELECT Degree_DegreeCode FROM Student WHERE "
             + "`Registration number` = '" + student + "';";
@@ -256,11 +359,19 @@ public class TeacherController {
         return Integer.parseInt(result.substring((result.length() - 1), result.length()));
     }
 
-    public String createPeriodOfStudy(String student, String period) {
+    /**
+     *
+     * @param student the student regiatration number
+     * @param period the period to be created
+     */
+    public void createPeriodOfStudy(String student, String period) {
         registrarController.registerStudent(student, period);
-        return null;
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     public void updateLevelOfStudy(String student) {
         int currentLevel = getLevelOfStudy(student);
         String query = "UPDATE Student SET `Level of study` = '" + (currentLevel + 1)
@@ -268,6 +379,10 @@ public class TeacherController {
         teacherDatabaseModel.updateQuery(query);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     */
     public void updatePeriodOfStudy(String student) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
@@ -280,11 +395,20 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param period the student regiatration number
+     * @return true if period of study exists, false otherwise
+     */
     public boolean checkPeriodOfStudy(int period) {
         String query = "SELECT * FROM `Period of study` WHERE `Label` = '" + (period + 1) + "';";
         return teacherDatabaseModel.executeBoolQuery(query);
     }
 
+    /**
+     *
+     * @param period the period of study to be created
+     */
     public void createPeriodOfStudy(int period) {
         String table = "`Period of study`";
         String start = "01.09." + (period + 1);
@@ -293,10 +417,19 @@ public class TeacherController {
         teacherDatabaseModel.insertIntoDatabase(table, values);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the final result of a degree
+     */
     public String theDegreeResult(String student) {
         String initialResult = getDegreeResult(student);
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
+        System.out.println(java.util.Arrays.toString(allGrades.toArray()));
+        System.out.println("Cred" + creditsAchieved(student));
+        System.out.println("Initial " + initialResult);
+        System.out.println(modulesPassed(student) + "Module " + numberOfModules(student));
         if(getDegreeType(student).equalsIgnoreCase("One Year Msc")) {
             return postgradResult(student);
         }
@@ -313,7 +446,11 @@ public class TeacherController {
                 return postgradResult(student);
             }else {
                 int creditsEarned = creditsAchieved(student);
-                if(checkMinCreditsReq(student) && creditsAchieved(student) != 180
+                if(creditsEarned == 120) {
+                    return getBachelorResult(getWeightedMean(student));
+                }else if(creditsEarned == 180) {
+                    return getMasterResult(getWeightedMean(student));
+                }else if(checkMinCreditsReq(student) && creditsAchieved(student) != 180
                     && modulesPassed(student) == (numberOfModules(student) - 1)) {
                     return "Conceded Pass";
                 }else {
@@ -329,11 +466,18 @@ public class TeacherController {
                 if(minGrade > 29.5) {
                     return "Conceded Pass";
                 }
+            }else {
+                return "Fail";
             }
         }
         return "Error";
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the result of a postgraduate degree
+     */
     public String postgradResult(String student) {
         int credits = creditsAchieved(student);
         int dissertation = checkDissertationGrade(student);
@@ -362,6 +506,12 @@ public class TeacherController {
     }
 
     //Calculate the degree result for a given year
+
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the degree result
+     */
     public String getDegreeResult(String student) {
         final double theMeanGrade = getWeightedMean(student);
         if(theMeanGrade <= 39.5) {
@@ -379,6 +529,12 @@ public class TeacherController {
     }
 
     //Check if degree is bachelor/master/1 year MSc
+
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the degree type
+     */
     public String getDegreeType(String student) {
         int theLength = teacherDatabaseModel.getDegreeType(student);
         if(theLength == 3) {
@@ -391,6 +547,12 @@ public class TeacherController {
     }
 
     //Get the degree result for a given year
+
+    /**
+     *
+     * @param theGrade the mean grade
+     * @return the result
+     */
     public String getBachelorResult(final double theGrade) {
         if(theGrade < 39.5) {
             return "Fail";
@@ -407,6 +569,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param theGrade the weighted mean grade
+     * @return the degree result
+     */
     public String getMasterResult(final double theGrade) {
         if(theGrade <= 49.4) {
             return "FAIL";
@@ -419,6 +586,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param theGrade the weighted mean grade
+     * @return the degree result
+     */
     public String getOneYearResult(final double theGrade) {
         if(theGrade <= 49.4) {
             return "FAIL";
@@ -431,6 +603,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param name the student regiatration number
+     * @return the result given they have failed
+     */
     public String studentFailed(String name) {
         String type = getDegreeType(name);
         int level = getLevelOfStudy(name);
@@ -444,10 +621,20 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param theName the student regiatration number
+     * @return the current level of study
+     */
     public int getLevelOfStudy(String theName) {
         return teacherDatabaseModel.getLevelOfStudy(theName);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the weighted mean grade for the current period
+     */
     public double getWeightedMean(String student) {
         double weightedMean = 0;
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
@@ -474,6 +661,12 @@ public class TeacherController {
     }
 
     //Get a list of all periods of study
+
+    /**
+     *
+     * @param student the student regiatration number
+     * @return an ArrayList of all periods of study
+     */
     public ArrayList<Integer> getPeriodsofStudy(String student) {
             String query = "SELECT `Period of study_Label` FROM Record WHERE "
                     + "`Student_Registration number` = '" + student + "';";
@@ -487,13 +680,25 @@ public class TeacherController {
     }
 
     //Add weighted mean to database
+
+    /**
+     *
+     * @param student the student regiatration number
+     * @param mean the weighted mean grade
+     */
     public void updateWeightedMean(String student, double mean) {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
         String query = "UPDATE Record SET Average = '" + mean + "' WHERE "
-            + "`Period of study_Label` = '" + currentYear + "';";
+            + "`Period of study_Label` = '" + currentYear + "AND "
+            + "`Student_Registration number` = '" + student + "';";
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the credit value of all modules for a given student
+     */
     public ArrayList<Integer> getCreditValue(String student) {
         String record = getRecordId(student);
         ArrayList<String> moduleCodes = new ArrayList<String>();
@@ -505,11 +710,21 @@ public class TeacherController {
         return creditValues;
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the record ID for a given student
+     */
     public String getRecordId(String student) {
         String query = "WHERE `Student_Registration number` = '" + student + "';";
         return teacherDatabaseModel.getRecordId(query);
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return wheter the student has achieved above the min grade in all modules
+     */
     public boolean checkMinGradeReq(String student) {
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
@@ -521,6 +736,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return true if student has achieved min number of credits, false otherwise
+     */
     public boolean checkMinCreditsReq(String student) {
         int totalCreds = creditsAchieved(student);
         if(checkMinGradeReq(student)) {
@@ -534,11 +754,18 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return number of credits achieved by the student at the current period
+     */
     public int creditsAchieved(String student) {
         ArrayList<Integer> credits = new ArrayList<Integer>();
         credits = getCreditValue(student);
+        System.out.println(java.util.Arrays.toString(credits.toArray()));
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
+        System.out.println(java.util.Arrays.toString(allGrades.toArray()));
         int totalCreds = 0;
         for(int i = 0; i < allGrades.size(); i++) {
             if(getLevelOfStudy(student) != 4) {
@@ -554,7 +781,11 @@ public class TeacherController {
         return totalCreds;
     }
 
-    //Return 1 to be considered for PGDip 0 for PGCert, -1 for fail
+    /**
+     *
+     * @param student the student regiatration number
+     * @return 1 1 to be considered for PGDip 0 for PGCert, -1 for fail
+     */
     public int checkDissertationGrade(String student) {
         ArrayList<String> possibleModules = teacherDatabaseModel.getDissertationModules();
         ArrayList<String> stuModules = teacherDatabaseModel.getStudentModuleCode(getRecordId(student));
@@ -579,6 +810,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the final degree result
+     */
     public String calculateFinalResult(String student) {
         ArrayList<Integer> studyPeriods = getPeriodsofStudy(student);
         double currentYear = Collections.max(studyPeriods);
@@ -608,6 +844,11 @@ public class TeacherController {
         }
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the number of modules the student has passed
+     */
     public int modulesPassed(String student) {
         ArrayList<Integer> credits = new ArrayList<Integer>();
         credits = getCreditValue(student);
@@ -628,12 +869,22 @@ public class TeacherController {
         return total;
     }
 
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the number of modules the student is currently studying
+     */
     public int numberOfModules(String student) {
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
          return (teacherDatabaseModel.getGradeList(student).size());
 
     }
 
+    /**
+     *
+     * @param value the value to be rounded
+     * @return the value rounded to 1 decimal place
+     */
     private double roundResults (double value) {
         int scale = (int) Math.pow(10, 1);
         return (double) Math.round(value * scale) / scale;

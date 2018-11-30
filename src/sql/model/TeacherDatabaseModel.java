@@ -6,10 +6,18 @@ import java.util.concurrent.locks.Condition;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author James
+ */
 public class TeacherDatabaseModel extends AdminDatabaseModel {
-
     public TeacherDatabaseModel() {}
 
+    /**
+     *
+     * @param condition the SQL query
+     * @return the tutor of  given student
+     */
     public String getTutor(String condition) {
         initConnection();
         initStatement();
@@ -34,6 +42,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
+    /**
+     *
+     * @param condition the registation number
+     * @return the degree name
+     */
     public String getDegreeName(String condition) {
         initConnection();
         initStatement();
@@ -63,6 +76,13 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
+    /**
+     *
+     * @param regNo the registation number of a given student
+     * @param moduleCode the module code
+     * @param resit true if grade is a resit, false otherwise
+     * @return the grade of a given module
+     */
     public String getCurrentGrade(String regNo, String moduleCode, String resit) {
         initConnection();
         initStatement();
@@ -95,6 +115,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
+    /**
+     *
+     * @param cond the SQL query
+     * @return the record ID for a given student
+     */
     public String getRecordId(String cond) {
         initConnection();
         initStatement();
@@ -118,6 +143,13 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return result;
     }
 
+    /**
+     *
+     * @param name the student registation number
+     * @param module the module code
+     * @param grade the grade
+     * @param resit true if grade is a resit, false otherwise
+     */
     public void insertGrade(String name, String module, String grade, boolean resit) {
         initConnection();
         initStatement();
@@ -151,6 +183,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         }
     }
 
+    /**
+     *
+     * @param student the student registation number
+     * @return an ArrayList of all grades
+     */
     public ArrayList<Integer> getGradeList(String student) {
         initConnection();
         initStatement();
@@ -177,7 +214,12 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
-
+    /**
+     *
+     * @param student the student registation number
+     * @param type The Mark if mark, Resit mark if resit mark
+     * @return an ArrayList of all grades
+     */
     public ArrayList<Integer> getGradeList(String student, String type) {
         initConnection();
         initStatement();
@@ -204,6 +246,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
+    /**
+     *
+     * @param student the student registation number
+     * @return the current level of study
+     */
     public int getLevelOfStudy(String student) {
         initConnection();
         initStatement();
@@ -228,6 +275,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return result;
     }
 
+    /**
+     *
+     * @param student the student registation number
+     * @return the degree type of a student
+     */
     public int getDegreeType(String student) {
         initConnection();
         initStatement();
@@ -262,6 +314,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return result;
     }
 
+    /**
+     *
+     * @param record the record ID of a student
+     * @return and ArrayList with all module codes
+     */
     public ArrayList<String> getStudentModuleCode(String record) {
         initConnection();
         initStatement();
@@ -287,6 +344,12 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return theResults;
     }
 
+    /**
+     *
+     * @param student the student registation number
+     * @param moduleCode the module code
+     * @return the number of credits a given module is worth
+     */
     public int getCredits(String student, String moduleCode) {
         initConnection();
         initStatement();
@@ -321,6 +384,10 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return result;
     }
 
+    /**
+     *
+     * @return an ArrayList of all dissertation modules
+     */
     public ArrayList<String> getDissertationModules() {
         initConnection();
         initStatement();
@@ -346,6 +413,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return modules;
     }
 
+    /**
+     *
+     * @param query the SQL query
+     * @return an ArrayList of all periods of study
+     */
     public ArrayList<String> getPeriodOfStudy(String query) {
         initConnection();
         initStatement();
@@ -369,6 +441,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return study;
     }
 
+    /**
+     *
+     * @param query the SQL query
+     * @return the weighted mean
+     */
     public int getWeightedMean(String query) {
         initConnection();
         initStatement();
@@ -392,6 +469,10 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return result;
     }
 
+    /**
+     *
+     * @param query the SQL query
+     */
     public void updateQuery(String query) {
         initConnection();
         initStatement();
@@ -410,6 +491,11 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         }
     }
 
+    /**
+     *
+     * @param query the SQL query
+     * @return the result of the query
+     */
     public String stringQuery(String query) {
        initConnection();
        initStatement();
@@ -432,6 +518,12 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
        }
        return result;
    }
+
+    /**
+     *
+     * @param query the SQL query
+     * @return an ArrayList of all weighted mean grades
+     */
     public ArrayList<Double> getAllMeanGrades(String query) {
        initConnection();
        initStatement();
