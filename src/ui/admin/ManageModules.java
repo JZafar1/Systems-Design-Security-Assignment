@@ -90,8 +90,11 @@ public class ManageModules extends Menu {
         if (moduleID == null) {
             JOptionPane.showMessageDialog(this, "No module selected!");
         } else {
-            controller.removeModule(getAdminUI().getDatabaseView().getSelectedRow(0));
-            getAdminUI().getDatabaseView().showModules();
+            Boolean successfullyRemoved = controller.removeModule(moduleID);
+            if (successfullyRemoved)
+                getAdminUI().getDatabaseView().showModules();
+            else
+                JOptionPane.showMessageDialog(this, "Module has too many dependencies!");
         }
     }
     private void showModuleLinkMenu() {

@@ -217,12 +217,13 @@ public class AdminController {
         databaseModel.insertIntoDatabase("`Module degree (linking)`", values);
         return true;
     }
-    public void removeModule(String moduleCode) {
+    public Boolean removeModule(String moduleCode) {
         
         moduleCode = validation.generalValidation(moduleCode);
         
         String conditions = "(ModuleCode = '" + moduleCode + "');";
-        databaseModel.removeFromDatabase("Module", conditions);
+        Boolean successfullyRemoved = databaseModel.executeWithBool("DELETE FROM Module WHERE " + conditions + ";");
+        return successfullyRemoved;
     }
     /**
      * Method removes department via departmentCode
