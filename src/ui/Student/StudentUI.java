@@ -55,7 +55,7 @@ public class StudentUI extends javax.swing.JPanel {
                 periodOfStudy = (String) yearSelector.getSelectedItem();
                 refreshDatabase();
             }
-        };
+        });
 
         yearLabel.setText("Select Year: ");
 

@@ -177,7 +177,7 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
         return results;
     }
 
-    
+
     public ArrayList<Integer> getGradeList(String student, String type) {
         initConnection();
         initStatement();
@@ -409,4 +409,49 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
             ex.printStackTrace();
         }
     }
+
+    public String stringQuery(String query) {
+       initConnection();
+       initStatement();
+       String result = "";
+       try {
+           try {
+               openConnection();
+               openStatement();
+               openResultQuery(query);
+               while (getResult().next()) {
+                   result = getResult().getString(1);
+               }
+           } finally {
+               closeResultQuery();
+               closeStatement();
+               closeConnection();
+           }
+       } catch (SQLException ex) {
+           ex.printStackTrace();
+       }
+       return result;
+   }
+    public ArrayList<Double> getAllMeanGrades(String query) {
+       initConnection();
+       initStatement();
+       ArrayList<Double> result = new ArrayList<Double>();
+       try {
+           try {
+               openConnection();
+               openStatement();
+               openResultQuery(query);
+               while (getResult().next()) {
+                   result.add(Double.parseDouble(getResult().getString(1)));
+               }
+           } finally {
+               closeResultQuery();
+               closeStatement();
+               closeConnection();
+           }
+       } catch (SQLException ex) {
+           ex.printStackTrace();
+       }
+       return result;
+   }
 }
