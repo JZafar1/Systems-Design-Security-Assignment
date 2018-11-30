@@ -13,6 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
+/**
+ * UI for managing modules, including adding,
+ * removing and viewing modules.
+ */
 public class ManageModules extends Menu {
 
     private JLabel moduleNameLabel;

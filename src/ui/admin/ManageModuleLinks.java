@@ -12,6 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import src.sql.controller.AdminController;
 
+/**
+ * UI for linking modules to degrees, including
+ * removing, adding and viewing module links.
+ */
 public class ManageModuleLinks extends LinkingMenu {
 
     private JLabel degreeLevelLabel;

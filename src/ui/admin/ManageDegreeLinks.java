@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import src.sql.controller.AdminController;
 
+/**
+ * UI for linking degrees to departments
+ */
 public class ManageDegreeLinks extends LinkingMenu {
 
     private AdminController controller;

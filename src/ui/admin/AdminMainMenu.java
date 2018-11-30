@@ -6,6 +6,10 @@ import javax.swing.JComboBox;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * GUI Class handles the admin main menu, allowing the admin to naviagte to different
+ * parts of the UI.
+ */
 public class AdminMainMenu extends Menu {
 
     private JButton manageUserAccountsButton;

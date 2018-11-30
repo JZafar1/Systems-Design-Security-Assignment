@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * JPanel class the houses all the Admin UI , so its ready to be
+ * displayed by the main JFrame.
+ */
 public class AdminUI extends JPanel {
 
     private JPanel adminMainMenu;

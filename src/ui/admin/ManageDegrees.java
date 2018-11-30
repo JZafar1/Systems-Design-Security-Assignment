@@ -14,6 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
+/**
+ * UI for the management of degrees, including add, removing and viewing
+ * degrees.
+ */
 public class ManageDegrees extends Menu {
 
     private JLabel degreeNameLabel;

@@ -8,6 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import src.sql.controller.*;
 
+/**
+ * UI for managing departments including
+ * removing, adding and viewing departments.
+ */
 public class ManageDepartments extends Menu {
 
     private JLabel departmentNameLabel;
