@@ -188,7 +188,7 @@ public class AdminController {
         databaseModel.insertIntoDatabase("Module", values);
         return true;
     }
-    public Boolean addModuleLink(String moduleCode, String degreeCode, String level, String semester, String coreOrNot, String dissertation) {
+    public Boolean addModuleLink(String moduleCode, String degreeCode, String level, String semester, String coreOrNot, String typeOfModule) {
 
         ModuleLinks moduleLinks = databaseModel.getModuleLinks("*","mdl.Module_ModuleCode='" + moduleCode + 
                                                                     "' AND mdl.Degree_DegreeCode='" + degreeCode + "'");
@@ -196,17 +196,22 @@ public class AdminController {
             return false;
 
         String credits;
-        if (level.equals("4")) {
-            if (dissertation.equals("Dissertation"))
-                credits = "60";
-            else
-                credits = "15";
+        if (typeOfModule.equals("Year In Industry")) {
+            credits = "120";
+            coreOrNot = "Core";
         } else {
-            if (dissertation.equals("Dissertation"))
-                credits = "40";
-            else
-                credits = "20";
-        }
+            if (level.equals("4")) {
+                if (typeOfModule.equals("Dissertation"))
+                    credits = "60";
+                else
+                    credits = "15";
+            } else {
+                if (typeOfModule.equals("Dissertation"))
+                    credits = "40";
+                else
+                    credits = "20";
+            }
+        }   
 
         String values = "(NULL, '" + moduleCode + "','" + degreeCode + "','" + level + "','" + semester + "','" + credits + "','" + coreOrNot + "')";
         databaseModel.insertIntoDatabase("`Module degree (linking)`", values);
