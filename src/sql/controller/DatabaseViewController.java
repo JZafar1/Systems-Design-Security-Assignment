@@ -4,6 +4,10 @@ import src.sql.model.AdminDatabaseModel;
 import src.sql.model.RegistrarDatabaseModel;
 import src.sql.tables.*;
 
+/**
+ * Controller for the DatabaseView class, which fetches infomation
+ * from the database to display on the UI.
+ */
 public class DatabaseViewController {
 
     private AdminDatabaseModel databaseModel;

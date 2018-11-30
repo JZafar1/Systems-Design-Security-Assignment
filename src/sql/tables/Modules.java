@@ -1,6 +1,10 @@
 package src.sql.tables;
 
 import java.util.ArrayList;
+
+/**
+ * Class representing a collection of Modules
+ */
 public class Modules extends Table {
 
     public Modules() {

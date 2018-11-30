@@ -1,5 +1,8 @@
 package src.sql.tables;
 
+/**
+ * Class representing a collection of User Credentials
+ */
 public class UserCredentials {
 
     private byte[] passwordHash;

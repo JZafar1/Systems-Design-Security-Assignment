@@ -1,5 +1,8 @@
 package src.sql.tables;
 
+/**
+ * Class representing a collection of Module Links
+ */
 public class ModuleLinks extends Table {
 
     public ModuleLinks() {

@@ -1,5 +1,8 @@
 package src.sql.tables;
 
+/**
+ * Class representing a collection of degree links
+ */
 public class DegreeLinks extends Table {
 
     public DegreeLinks() {

@@ -1,6 +1,10 @@
 package src.sql.tables;
 
 import java.util.ArrayList;
+
+/**
+ * Class representing a collection of departments
+ */
 public class Departments extends Table {
 
     public Departments() {

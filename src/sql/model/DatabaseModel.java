@@ -5,6 +5,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Abstract class for database models, containing
+ * methods for opening connections, executing SQL commands etc.
+ */
 public abstract class DatabaseModel {
 
     private Connection connection;

@@ -1,5 +1,8 @@
 package src.sql.tables;
 
+/**
+ * Class representing a collection of degrees
+ */
 public class Degrees extends Table{
 
     public Degrees() {
