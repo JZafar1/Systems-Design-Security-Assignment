@@ -49,15 +49,16 @@ public class RegistrarController {
         
     }
     
-    public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor, String periodOfStudy) {
+    public void addStudent(String firstname, String secondname, String degreeCode, String tutor, String periodOfStudy) {
         
-       levelOfStudy = validation.generalValidation(levelOfStudy);
+       String levelOfStudy = databaseModel.getFirstDegreeLevel(degreeCode);
        firstname = validation.generalValidation(firstname);
        secondname = validation.generalValidation(secondname);
        degreeCode = validation.generalValidation(degreeCode);
        tutor = validation.generalValidation(tutor);
        periodOfStudy = validation.generalValidation(periodOfStudy);
        
+       String title = "Mr.";
        String baseUsername = (firstname.substring(0, 1) + secondname).toLowerCase();
        Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%';");
        String username = generateUsername(baseUsername, users.getTableList());
@@ -71,7 +72,6 @@ public class RegistrarController {
        }
 
        String email = username + "@sheffield.ac.uk";
-       String title = "Mr.";
        String role = "Student";
        
        String registrationNumber = generateRegistrationNumber(0);

@@ -21,7 +21,7 @@ public class ManageStudents extends JPanel {
     private javax.swing.JTextField lastName;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JLabel mainLabel;
-    private javax.swing.JComboBox<String> tutor;
+    private javax.swing.JTextField tutor;
     private javax.swing.JLabel tutorLabel;
     private javax.swing.JLabel levelLabel;
     private javax.swing.JTextField levelOfStudy;
@@ -53,7 +53,7 @@ public class ManageStudents extends JPanel {
         removeStudentButton = new javax.swing.JButton();
         tutorLabel = new javax.swing.JLabel();
         String[] array = {"1","4"};
-        tutor = new JComboBox<>(array);
+        tutor = new javax.swing.JTextField();
         degreeName = new JComboBox<>();
         degreeNameLabel = new javax.swing.JLabel();
         displayArea = new javax.swing.JPanel();
@@ -108,7 +108,7 @@ public class ManageStudents extends JPanel {
         });
 
         tutorLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        tutorLabel.setText("Level of Study");
+        tutorLabel.setText("Tutor");
 
         degreeNameLabel.setFont(new java.awt.Font("Arial", 0, 18));
         degreeNameLabel.setText("Degreee Name");
@@ -146,7 +146,7 @@ public class ManageStudents extends JPanel {
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        controller.addStudent(tutor.getSelectedItem().toString(),firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),"some tutor",levelOfStudy.getText());
+        controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
         
     }
     

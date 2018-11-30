@@ -351,4 +351,32 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public String getFirstDegreeLevel (String degreeCode){
+        
+        initConnection();
+        initStatement();
+        String level = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Level of study` FROM Degree WHERE DegreeCode = '"  + degreeCode +  "' ;");
+                getResult().next();
+                level = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return level.substring(0,1);
+        
+    }
+    
 }
