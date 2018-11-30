@@ -69,8 +69,11 @@ public class ManageDepartments extends Menu {
         if (departmentID == null) {
             JOptionPane.showMessageDialog(this, "No department selected!");
         } else {
-            controller.removeDepartment(departmentID);
-            getAdminUI().getDatabaseView().showDepartments();
+            Boolean successfullyRemoved = controller.removeDepartment(departmentID);
+            if (successfullyRemoved)
+                getAdminUI().getDatabaseView().showDepartments();
+            else
+                JOptionPane.showMessageDialog(this, "Department has too many dependencies!");
         }
     }
 

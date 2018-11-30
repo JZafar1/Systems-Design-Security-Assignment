@@ -99,8 +99,11 @@ public class ManageDegrees extends Menu {
         if (degreeCode == null) {
             JOptionPane.showMessageDialog(this, "No degree selected!");
         } else {
-            controller.removeDegree(degreeCode);
-            getAdminUI().getDatabaseView().showDegrees();
+            Boolean successfullyRemoved = controller.removeDegree(degreeCode);
+            if (successfullyRemoved)
+                getAdminUI().getDatabaseView().showDegrees();
+            else
+                JOptionPane.showMessageDialog(this, "Degree has too many dependencies!");
         }
     }
     private void showDegreeLinkMenu() {

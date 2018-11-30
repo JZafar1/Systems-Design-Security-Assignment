@@ -224,12 +224,17 @@ public class AdminController {
         String conditions = "(ModuleCode = '" + moduleCode + "');";
         databaseModel.removeFromDatabase("Module", conditions);
     }
-    public void removeDepartment(String departmentCode){
+    /**
+     * Method removes department via departmentCode
+     * @param departmentCode - code of department to be deleted
+     */
+    public Boolean removeDepartment(String departmentCode){
         
         departmentCode = validation.generalValidation(departmentCode);
         
         String conditions = "(DepartmentCode = '" + departmentCode + "');";
-        databaseModel.removeFromDatabase("Department",conditions);
+        Boolean successfullyRemoved = databaseModel.executeWithBool("DELETE FROM Department WHERE " + conditions + ";");
+        return successfullyRemoved;
     }
     public void removeUser(String username){
         
@@ -238,12 +243,13 @@ public class AdminController {
         String conditions = "(Username = '" + username + "');";
         databaseModel.removeFromDatabase("Users",conditions);
     }
-    public void removeDegree(String degreeCode){
+    public Boolean removeDegree(String degreeCode){
         
         degreeCode = validation.generalValidation(degreeCode);
         
         databaseModel.removeFromDatabase("`Department degree (linking)`", "(Degree_DegreeCode='" + degreeCode + "');");
-        databaseModel.removeFromDatabase("Degree","(DegreeCode = '" + degreeCode + "');");
+        Boolean successfullyRemoved = databaseModel.executeWithBool("DELETE FROM Degree WHERE (DegreeCode = '" + degreeCode + "');");
+        return successfullyRemoved;
     }
     public Boolean removeDegreeLink(String degreeCode, String departmentCode) {
         

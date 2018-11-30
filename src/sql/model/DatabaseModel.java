@@ -30,10 +30,28 @@ public abstract class DatabaseModel {
                 closeStatement();
                 closeConnection();
             }
-        } 
+        }
         catch (SQLException ex){
             Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Boolean executeWithBool(String querry) {
+        try {
+            openConnection();
+            openStatement();
+            try {
+                int count = getStatement().executeUpdate(querry);
+            } finally {
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            if (ex instanceof SQLIntegrityConstraintViolationException)
+                return false;
+            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
     protected void initConnection() {
