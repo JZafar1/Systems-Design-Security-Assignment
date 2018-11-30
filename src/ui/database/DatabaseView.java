@@ -10,8 +10,15 @@ import src.sql.tables.*;
 
 import src.ui.admin.AdminUI;
 
+/**
+ * Class that displays a table in the UI.
+ */
 public class DatabaseView extends JScrollPane{
 
+    /**
+     * Parent class of the table to ensure it can't be
+     * editted.
+     */
     public class NonEditableTable extends JTable{
 
         public NonEditableTable() {

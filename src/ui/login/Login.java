@@ -8,6 +8,9 @@ import javax.swing.JTextField;
 import src.sql.controller.LoginController;
 import src.ui.MainWindow;
 
+/**
+ * UI for login in
+ */
 public class Login extends javax.swing.JPanel {
 
     private MainWindow mainWindow;

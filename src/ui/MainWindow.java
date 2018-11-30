@@ -12,6 +12,11 @@ import src.ui.teacher.TeacherGUI;
 import src.ui.student.StudentUI;
 import src.ui.login.Login;
 
+/**
+ * JFrame for the whole UI, all UI elements are drawn on this
+ * class. Also handles the showing different parts of the UI
+ * to different users.
+ */
 public class MainWindow extends JFrame {
 
     Dimension screenSize;
