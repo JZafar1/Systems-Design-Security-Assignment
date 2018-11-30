@@ -39,9 +39,16 @@ public class Registrar extends JPanel {
         studentViewScroll = new DatabaseView(this);
         finishedRegistration = new javax.swing.JTable();
         studentLabel = new javax.swing.JLabel();
+        registerLabel = new javax.swing.JLabel();
+        studyLabel = new javax.swing.JLabel();
+        unregisteredLabel = new javax.swing.JLabel();
         dataSelect = new JComboBox<>();
         periodSelect = new JComboBox<>();
         studentLabel.setText("Select a student");
+        registerLabel.setText("Registered Students");
+        studyLabel.setText("Select a period");
+        unregisteredLabel.setText("Un-Registered Students");
+
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
 //        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -123,7 +130,7 @@ public class Registrar extends JPanel {
                         .addComponent(registerButton))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(resgisterLabel)
+                            .addComponent(registerLabel)
                             .addComponent(unregisteredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
@@ -154,7 +161,7 @@ public class Registrar extends JPanel {
                     .addComponent(studyLabel)
                     .addComponent(periodSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resgisterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(registerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(studentViewScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                 .addContainerGap())
