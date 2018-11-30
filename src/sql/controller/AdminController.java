@@ -198,6 +198,7 @@ public class AdminController {
         String credits;
         if (typeOfModule.equals("Year In Industry")) {
             credits = "120";
+            coreOrNot = "Core";
         } else {
             if (level.equals("4")) {
                 if (typeOfModule.equals("Dissertation"))
