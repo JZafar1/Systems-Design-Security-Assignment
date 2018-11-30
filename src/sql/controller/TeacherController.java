@@ -6,6 +6,7 @@ import src.sql.controller.*;
 import src.sql.model.TeacherDatabaseModel;
 import src.sql.model.RegistrarDatabaseModel;
 import src.sql.model.StudentDatabaseModel;
+import src.sql.controller.SQLValidation;
 import src.sql.controller.RegistrarController;
 import src.sql.tables.*;
 import java.sql.*;
@@ -19,12 +20,14 @@ public class TeacherController {
     private RegistrarController registrarController;
     private RegistrarDatabaseModel regDatabaseModel;
     private StudentDatabaseModel stDatabaseModel;
+    private SQLValidation validation;
 
     public TeacherController() {
         teacherDatabaseModel = new TeacherDatabaseModel();
         stDatabaseModel = new StudentDatabaseModel();
         regDatabaseModel = new RegistrarDatabaseModel();
         registrarController = new RegistrarController();
+        validation = new SQLValidation();
     }
 
     //Get full list of modules and module codes
@@ -108,13 +111,24 @@ public class TeacherController {
         return teacherDatabaseModel.getCurrentGrade(cond, module, resit);
     }
 
-    public void updateGrade(String student, String module, String grade, boolean resit) {
+    public boolean updateGrade(String student, String module, String grade, boolean resit) {
+        String validateGrade = validation.generalValidation(grade);
+        if(!(validateGrade.equals(grade))) {
+            return false;
+        }
         if(resit) {
             if(Integer.parseInt(grade) >= 40) {
                 grade = "40";
+            }else if(Integer.parseInt(grade) < 0) {
+                return false;
+            }
+        }else {
+            if(Integer.parseInt(grade) <= 0 || Integer.parseInt(grade) >= 100) {
+                return false;
             }
         }
         teacherDatabaseModel.insertGrade(student, module, grade, resit);
+        return true;
     }
 
     public void createPassStudent(String student) {
