@@ -14,9 +14,6 @@ public class Registrar extends JPanel {
     private DatabaseView registerScroll;
     private javax.swing.JButton registerStudent;
     private javax.swing.JLabel studentLabel;
-    private javax.swing.JLabel studyLabel;
-    private javax.swing.JLabel unregisteredLabel;
-    private javax.swing.JLabel registerLabel;
     private DatabaseView studentViewScroll;
     private javax.swing.JButton registerButton;
     private RegistrarUI registrarUI;
@@ -39,16 +36,9 @@ public class Registrar extends JPanel {
         studentViewScroll = new DatabaseView(this);
         finishedRegistration = new javax.swing.JTable();
         studentLabel = new javax.swing.JLabel();
-        registerLabel = new javax.swing.JLabel();
-        studyLabel = new javax.swing.JLabel();
-        unregisteredLabel = new javax.swing.JLabel();
         dataSelect = new JComboBox<>();
         periodSelect = new JComboBox<>();
         studentLabel.setText("Select a student");
-        registerLabel.setText("Registered Students");
-        studyLabel.setText("Select a period");
-        unregisteredLabel.setText("Un-Registered Students");
-
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
 //        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -98,7 +88,7 @@ public class Registrar extends JPanel {
                     manageStudentActionPerformed();
                 }
         });
-
+        
         placeComponents();
     }
 
@@ -122,47 +112,37 @@ public class Registrar extends JPanel {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(registerScroll)
-                    .addComponent(studentViewScroll)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(registerStudent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(registerButton))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(registerLabel)
-                            .addComponent(unregisteredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(registerButton)
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(studentViewScroll)
                     .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(210, 210, 210)
                         .addComponent(studentLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(dataSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(studyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(periodSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(periodSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(unregisteredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(registerScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(registerStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(registerButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataSelect)
-                    .addComponent(studentLabel)
-                    .addComponent(studyLabel)
-                    .addComponent(periodSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(registerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(periodSelect)
+                    .addComponent(studentLabel))
+                .addGap(18, 18, 18)
                 .addComponent(studentViewScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                 .addContainerGap())
         );

@@ -146,7 +146,10 @@ public class ManageStudents extends JPanel {
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
+        if(lastName.getText().length()==0 && firstName.getText().length()==0) JOptionPane.showMessageDialog(this, "Some of the fields are empty!");
+        else if(isInteger(levelOfStudy.getText())) controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
+        else JOptionPane.showMessageDialog(this, "Period of study must be a vaild year!");
+        scrollTable.showStudents();
         
     }
     
@@ -159,9 +162,7 @@ public class ManageStudents extends JPanel {
     private void removeStudent (){
         String username = scrollTable.getSelectedRow(4);
         
-        if (username == null) {
-            JOptionPane.showMessageDialog(this, "No user selected!");
-        }
+        if (username == null) JOptionPane.showMessageDialog(this, "No user selected!");
         else{
             controller.removeStudent(username);
             scrollTable.showStudents();
@@ -170,6 +171,20 @@ public class ManageStudents extends JPanel {
 
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+    
+    public static boolean isInteger(String s) {
+        
+        try { 
+            Integer.parseInt(s); 
+        } catch(NumberFormatException e) { 
+            return false; 
+        } catch(NullPointerException e) {
+            return false;
+        }
+        
+        return true;
+        
     }
 
     private void placeComponents() {
