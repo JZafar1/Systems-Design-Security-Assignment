@@ -156,10 +156,15 @@ public class RegistrarController {
     public void removeStudent (String username){
        
        username = validation.generalValidation(username);
-        
+       String registrationNumber = databaseModel.getStudentRegistrationNumber(username);
+       ArrayList<Integer> records = databaseModel.getStudentsRecords(registrationNumber);
+       
        String conditionsStudent = "(Username = '" + username + "');";
        String conditionsUser = "(Username = '" + username + "');";
        
+       for(int i=0;i<records.size();i++) databaseModel.removeFromDatabase("Mark", "(`Record_Record ID` = '" + records.get(i) + "');");
+       
+       databaseModel.removeFromDatabase("Record", "(`Student_Registration number` = '" + registrationNumber + "');");
        databaseModel.removeFromDatabase("Student", conditionsStudent);
        databaseModel.removeFromDatabase("Users",conditionsUser);
     }

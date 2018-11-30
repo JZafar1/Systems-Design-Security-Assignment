@@ -6,6 +6,7 @@
 package src.sql.model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import src.sql.tables.*;
 
 /**
@@ -97,6 +98,34 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         }
         
         return degreeCode;
+        
+    }
+    
+    public String getStudentRegistrationNumber(String username){
+        
+        initConnection();
+        initStatement();
+        String regNumber = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Registration number` FROM Student WHERE `Username` = '" + username +  "' ;");
+                getResult().next();
+                regNumber = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return regNumber;
         
     }
     
@@ -376,6 +405,36 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         }
         
         return level.substring(0,1);
+        
+    }
+    
+    public ArrayList<Integer> getStudentsRecords(String registrationNumber){
+        
+        initConnection();
+        initStatement();
+        ArrayList<Integer> recordId = new ArrayList<Integer>();
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Record ID` FROM Record WHERE `Student_Registration number` = '" 
+                                    + registrationNumber  +  "' ;");
+                while (getResult().next()) {
+                    recordId.add(Integer.parseInt(getResult().getString(1)));
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return recordId;
         
     }
     
