@@ -54,7 +54,7 @@ public class ManageDegrees extends Menu {
         levelOfStudyLabel.setText("Level of Study: ");
         yearPlacementLabel.setText("Year Placement: ");
         leadDepartmentDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getDepartmentNames()));
-        levelOfStudyDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "123", "12P3", "4", "123P4"}));
+        levelOfStudyDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "123", "1234", "4", "12P3", "123P4"}));
         addDegreeButton.setText("Add Degree");
         removeDegreeButton.setText("Remove Degree");
         manageDegreeLinksButton.setText("Manage Degree Links");
