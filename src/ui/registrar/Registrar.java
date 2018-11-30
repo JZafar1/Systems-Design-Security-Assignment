@@ -45,33 +45,10 @@ public class Registrar extends JPanel {
         dataSelect = new JComboBox<>();
         periodSelect = new JComboBox<>();
         studentLabel.setText("Select a student");
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
         registerLabel.setText("Registered Students");
         studyLabel.setText("Select a period");
         unregisteredLabel.setText("Un-Registered Students");
-
-        setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-//        inRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-//        inRegistration.setModel(new javax.swing.table.DefaultTableModel(
-//            new Object [][] {
-//
-//            },
-//            new String [] {
-//                "Title 1", "Title 2", "Title 3", "Title 4"
-//            }
-//        ));
-//        registerScroll.setViewportView(inRegistration);
-//
-//        finishedRegistration.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-//        finishedRegistration.setModel(new javax.swing.table.DefaultTableModel(
-//            new Object [][] {
-//
-//            },
-//            new String [] {
-//                "Title 1", "Title 2", "Title 3", "Title 4"
-//            }
-//        ));
-//        studentViewScroll.setViewportView(finishedRegistration);
 
         periodSelect.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getPeriods()));
         periodSelect.addActionListener(new java.awt.event.ActionListener() {
@@ -130,7 +107,7 @@ public class Registrar extends JPanel {
                         .addComponent(registerButton))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(registerLabel)
+                            .addComponent(resgisterLabel)
                             .addComponent(unregisteredLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
@@ -161,7 +138,7 @@ public class Registrar extends JPanel {
                     .addComponent(studyLabel)
                     .addComponent(periodSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(registerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(resgisterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(studentViewScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                 .addContainerGap())

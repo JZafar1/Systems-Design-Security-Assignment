@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 import src.sql.controller.TeacherController;
 
+/**
+* Register Students UI allows students to be registered for new period of study
+* Checks if they can be passed, failed or graduated and validates their final result
+*/
 
 public class RegisterStudent extends Menu{
     private javax.swing.JLabel weightedMeanLabel;
