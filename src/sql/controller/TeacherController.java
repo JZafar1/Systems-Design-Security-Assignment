@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Main controller for Teacher UI
- * Contains logic for all SQL queries and handles all interactions between UI and database
+ *
+ * @author James
  */
 public class TeacherController {
 
@@ -226,7 +226,7 @@ public class TeacherController {
 
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
-        int currentLevel = getLevelOfStudy(student);
+        String currentLevel = getLevelOfStudy(student);
 
         String query = "UPDATE Record SET Registered = 'Failed' WHERE "
             + "`Student_Registration number` = '" + student + "' AND "
@@ -274,7 +274,7 @@ public class TeacherController {
      * @return whether or not the student can graduate
      */
     public boolean createGraduate(String student) {
-        int theLength = teacherDatabaseModel.getDegreeType(student);
+//        int theLength = teacherDatabaseModel.getDegreeType(student);
         if(getLevelOfStudy(student) == getDegreeLevels(student)) {
             graduateSudent(student);
             return true;
@@ -310,13 +310,13 @@ public class TeacherController {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
         double theGrade = getOverallGrade(student);
-        int levels = getDegreeLevels(student);
+        String levels = getDegreeLevels(student);
         String finalGrade = "";
         if(getPeriodsofStudy(student).size() ==  1) {
             finalGrade = getOneYearResult(theGrade);
-        }else if(levels == 3) {
+        }else if(levels.equals("3")) {
             finalGrade = getBachelorResult(theGrade);
-        }else if(levels == 4) {
+        }else if(levels.equals("4")) {
             finalGrade = getMasterResult(theGrade);
         }
         String updateHonours = "UPDATE Student SET grade = '" + finalGrade +
@@ -349,14 +349,14 @@ public class TeacherController {
      * @param student the student regiatration number
      * @return the levels of study of a given degree
      */
-    public int getDegreeLevels(String student) {
+    public String getDegreeLevels(String student) {
         String getCode = "SELECT Degree_DegreeCode FROM Student WHERE "
             + "`Registration number` = '" + student + "';";
         String theDegreeCode = teacherDatabaseModel.stringQuery(getCode);
         String getLevels = "SELECT `Level of study` FROM Degree WHERE "
             + "DegreeCode = '" + theDegreeCode + "';";
         String result = teacherDatabaseModel.   stringQuery(getLevels);
-        return Integer.parseInt(result.substring((result.length() - 1), result.length()));
+        return result.substring((result.length() - 1), result.length());
     }
 
     /**
@@ -373,10 +373,17 @@ public class TeacherController {
      * @param student the student regiatration number
      */
     public void updateLevelOfStudy(String student) {
-        int currentLevel = getLevelOfStudy(student);
-        String query = "UPDATE Student SET `Level of study` = '" + (currentLevel + 1)
+        String currentLevel = getLevelOfStudy(student);
+        String query = "UPDATE Student SET `Level of study` = '" + findNextLevelOfStudy(currentLevel,student)
             + "' WHERE `Registration number` = '" + student + "';";
         teacherDatabaseModel.updateQuery(query);
+    }
+    
+    private String findNextLevelOfStudy(String currentLevel, String student){
+        
+        String degreeLevels = teacherDatabaseModel.getDegreeType(student);
+        for(int i =0; i<degreeLevels.length()-1;i++) if(("" + degreeLevels.charAt(i)).equals(currentLevel)) return "" + degreeLevels.charAt(i+1);
+        return currentLevel;
     }
 
     /**
@@ -434,7 +441,7 @@ public class TeacherController {
             return postgradResult(student);
         }
         if(initialResult.equalsIgnoreCase("fail")) {
-            if(getLevelOfStudy(student) != 4) {
+            if(!getLevelOfStudy(student).equals("4")) {
                 int creditsEarned = creditsAchieved(student);
                 if(checkMinCreditsReq(student) && creditsAchieved(student) != 120
                     && modulesPassed(student) == (numberOfModules(student) - 1) ) {
@@ -536,10 +543,10 @@ public class TeacherController {
      * @return the degree type
      */
     public String getDegreeType(String student) {
-        int theLength = teacherDatabaseModel.getDegreeType(student);
-        if(theLength == 3) {
+        String theLength = teacherDatabaseModel.getDegreeType(student);
+        if(theLength.equals("123") || theLength.equals("12P3")) {
             return "B";
-        }else if(theLength == 4) {
+        }else if(theLength.equals("1234") || theLength.equals("123P4")) {
             return "M";
         }else {
             return "One Year Msc";
@@ -610,11 +617,11 @@ public class TeacherController {
      */
     public String studentFailed(String name) {
         String type = getDegreeType(name);
-        int level = getLevelOfStudy(name);
-        if(level == 3 && type.startsWith("B")
+        String level = getLevelOfStudy(name);
+        if(level.equals("3") && type.startsWith("B")
             || type.startsWith("M")) {
             return "Resit for pass(non-honours) degree";
-        }else if(level == 4) {
+        }else if(level.equals("4")) {
             return "Pass with bachelor’s degree";
         }else {
             return "Null";
@@ -626,7 +633,7 @@ public class TeacherController {
      * @param theName the student regiatration number
      * @return the current level of study
      */
-    public int getLevelOfStudy(String theName) {
+    public String getLevelOfStudy(String theName) {
         return teacherDatabaseModel.getLevelOfStudy(theName);
     }
 
@@ -644,7 +651,7 @@ public class TeacherController {
         allResitGrades = teacherDatabaseModel.getGradeList(student, "Resit mark");
         theModules = getCreditValue(student);
         double divisor = 0;
-        if(getLevelOfStudy(student) == 4) {
+        if(getLevelOfStudy(student).equals("4")) {
             divisor = 180;
         }else{
             divisor = 120;
@@ -729,7 +736,7 @@ public class TeacherController {
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
         int minGrade = allGrades.indexOf(Collections.min(allGrades));
-        if(getLevelOfStudy(student) != 4) {
+        if(!getLevelOfStudy(student).equals("4")) {
             return (minGrade < 29.5);
         }else {
             return (minGrade < 39.5);
@@ -746,7 +753,7 @@ public class TeacherController {
         if(checkMinGradeReq(student)) {
             return false;
         }else {
-            if(getLevelOfStudy(student) == 4) {
+            if(getLevelOfStudy(student).equals("4")) {
                 return (totalCreds >= 165);
             }else {
                 return (totalCreds >= 100);
@@ -768,7 +775,7 @@ public class TeacherController {
         System.out.println(java.util.Arrays.toString(allGrades.toArray()));
         int totalCreds = 0;
         for(int i = 0; i < allGrades.size(); i++) {
-            if(getLevelOfStudy(student) != 4) {
+            if(!getLevelOfStudy(student).equals("4")) {
                 if(allGrades.get(i) >= 39.5) {
                     totalCreds += credits.get(i);
                 }
@@ -826,11 +833,11 @@ public class TeacherController {
         + "`Student_Registration number` = '" + student + " AND "
         + "``Period of study_Label` = '" + (currentYear - 1) + "';";
         double lastYearResult = teacherDatabaseModel.getWeightedMean(query);
-        if(getLevelOfStudy(student) == 3) {
+        if(getLevelOfStudy(student).equals("3")) {
             double totalAverage = (thisYearResult * (2/3)) + (lastYearResult * (1/3));
             totalAverage = roundResults(totalAverage);
             return getBachelorResult(totalAverage);
-        }else if(getLevelOfStudy(student) == 4) {
+        }else if(getLevelOfStudy(student).equals("4")) {
             query ="SELECT Average FROM Record WHERE "
             + "`Student_Registration number` = '" + student + " AND "
             + "``Period of study_Label` = '" + (currentYear - 2) + "';";
@@ -856,7 +863,7 @@ public class TeacherController {
         allGrades = teacherDatabaseModel.getGradeList(student);
         int total = 0;
         for(int i = 0; i < allGrades.size(); i++) {
-            if(getLevelOfStudy(student) != 4) {
+            if(!getLevelOfStudy(student).equals("4")) {
                 if(allGrades.get(i) >= 39.5) {
                     total ++;
                 }

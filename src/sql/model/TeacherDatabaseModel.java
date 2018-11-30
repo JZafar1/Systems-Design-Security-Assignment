@@ -7,8 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Database model for Teacher UI
- * handles all SQL queries for teacher UI
+ *
+ * @author James
  */
 public class TeacherDatabaseModel extends AdminDatabaseModel {
     public TeacherDatabaseModel() {}
@@ -251,10 +251,10 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
      * @param student the student registation number
      * @return the current level of study
      */
-    public int getLevelOfStudy(String student) {
+    public String getLevelOfStudy(String student) {
         initConnection();
         initStatement();
-        int result = 0;
+        String result = "";
         try {
             try {
                 openConnection();
@@ -262,7 +262,7 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
                 openResultQuery("SELECT `Level of study` FROM Student" +
                     " WHERE `Registration number` = '" + student + "';");
                 while (getResult().next()) {
-                    result = Integer.parseInt(getResult().getString(1));
+                    result = getResult().getString(1);
                 }
             } finally {
                 closeResultQuery();
@@ -280,10 +280,10 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
      * @param student the student registation number
      * @return the degree type of a student
      */
-    public int getDegreeType(String student) {
+    public String getDegreeType(String student) {
         initConnection();
         initStatement();
-        int result = 0;
+        String result = "";
         try {
             try {
                 openConnection();
@@ -301,7 +301,7 @@ public class TeacherDatabaseModel extends AdminDatabaseModel {
                 openStatement();
                 openResultQuery(query);
                 while (getResult().next()) {
-                    result = getResult().getString(1).length();
+                    result = getResult().getString(1);
                 }
             } finally {
                 closeResultQuery();
