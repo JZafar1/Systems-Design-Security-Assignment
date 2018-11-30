@@ -7,8 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author James
+ * Database model for Teacher UI
+ * handles all SQL queries for teacher UI
  */
 public class TeacherDatabaseModel extends AdminDatabaseModel {
     public TeacherDatabaseModel() {}

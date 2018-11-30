@@ -6,8 +6,8 @@ import src.sql.controller.TeacherController;
 import java.util.ArrayList;
 
 /**
- *
- * @author James
+ * Edit Grades UI for adding/updating grades
+ * Shows all students and their registered modules, allows resit grades to be entered
  */
 public class EditGrades extends Menu {
     private javax.swing.JLabel select;

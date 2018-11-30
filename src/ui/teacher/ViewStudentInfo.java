@@ -7,8 +7,8 @@ import src.sql.controller.StudentController;
 import src.sql.controller.TeacherController;
 
 /**
- *
- * @author James
+ * Display all information about a student that we hold in the database
+ * Also includes all grades from all periods of study displayed in a table
  */
 public class ViewStudentInfo extends Menu{
     private javax.swing.JLabel selStu;
