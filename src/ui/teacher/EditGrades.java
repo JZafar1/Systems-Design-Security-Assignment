@@ -75,7 +75,7 @@ public class EditGrades extends Menu {
                 getTeacherUI().getMainMenu().setVisible(true);
             }
         });
-        
+
         displayStudents();
         displayModule();
         getCurrentGrade();
@@ -98,7 +98,7 @@ public class EditGrades extends Menu {
                 }
             }
         });
-        
+
         resit.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -125,6 +125,9 @@ public class EditGrades extends Menu {
         if(module.length() >= 7) theModule = module.substring(0, 7);
         String name = String.valueOf(studentList.getSelectedItem());
         String result = controller.getGrade(name, theModule, resit.getSelectedItem().toString());
+        if(result.equals("-1")) {
+            result = " ";
+        }
         currentGrade.setText(result);
     }
 
@@ -133,8 +136,13 @@ public class EditGrades extends Menu {
         String module = String.valueOf(moduleList.getSelectedItem());
         String student = String.valueOf(studentList.getSelectedItem());
         boolean resitGrade = (Boolean.parseBoolean(String.valueOf(resit.getSelectedItem())));
-        controller.updateGrade(student, module, grade, resitGrade);
-        javax.swing.JOptionPane.showMessageDialog(this, "Grade Updated.");
+        if(controller.updateGrade(student, module, grade, resitGrade)) {
+            JOptionPane.showMessageDialog(this, "Student grade has been successfuly updated!",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(this, "The grade entered is not valid!",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
         getCurrentGrade();
         newGrade.setText("");
     }

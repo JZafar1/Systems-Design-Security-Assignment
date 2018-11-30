@@ -115,7 +115,7 @@ public class ViewStudentInfo extends Menu{
         int arg = Integer.parseInt(String.valueOf(studentList.getSelectedItem()));
         periodOfStudy = controller.getPeriodsOfStudy(arg)[0];
         databaseTable.setModel(new javax.swing.table.DefaultTableModel(
-                stuController.getYearsModules(String.valueOf(studentList.getSelectedItem()), periodOfStudy),
+                controller.getYearsModules(String.valueOf(studentList.getSelectedItem()), periodOfStudy),
                 new String[] { "Mark Id", "Module Code", "Record ID", "Mark", "Resit Mark" }));
         databaseView.setViewportView(databaseTable);
     }
@@ -124,11 +124,17 @@ public class ViewStudentInfo extends Menu{
         String cond = "WHERE `Registration number` = '" + name  + "'";
         String [] theResults = controller.studentInfo(cond);
         forename.setText(theResults[2]);
+        forename.setEditable(false);
         surname.setText(theResults[3]);
+        surname.setEditable(false);
         resgistrationNumber.setText(theResults[0]);
+        resgistrationNumber.setEditable(false);
         email.setText(theResults[5]);
+        email.setEditable(false);
         userName.setText(theResults[4]);
+        userName.setEditable(false);
         studyLevel.setText(theResults[6]);
+        studyLevel.setEditable(false);
         setTutorText(name);
         setDegreeText(name);
     }
@@ -137,12 +143,14 @@ public class ViewStudentInfo extends Menu{
         String cond = "WHERE `Registration number` = '" + name  + "'";
         String result = controller.getStudentTutor(cond);
         tutor.setText(result);
+        tutor.setEditable(false);
     }
 
     private void setDegreeText(String regNo) {
         String query = " WHERE `Registration number` = '" + regNo + "';";
         String res = controller.getDegreeName(regNo);
         degree.setText(res);
+        degree.setEditable(false);
     }
 
     protected void placeComponents() {
