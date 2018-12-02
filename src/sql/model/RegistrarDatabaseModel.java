@@ -192,7 +192,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    public ModuleLinks getValidOptionalCoreModules (String degreeCode, String degreeName, boolean isCore, int level) {
+    public ModuleLinks getValidOptionalCoreModules (String degreeCode, String degreeName, boolean isCore, String level) {
         
         initConnection();
         initStatement();
@@ -205,7 +205,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT * FROM `Module degree (linking)` INNER JOIN `Module`  ON `Module degree (linking)`.Module_ModuleCode = `Module`.ModuleCode WHERE Degree_DegreeCode = '" + degreeCode + "' AND CoreOrNot = " + core + " AND Level = " + level + " ;");
+                openResultQuery("SELECT * FROM `Module degree (linking)` INNER JOIN `Module`  ON `Module degree (linking)`.Module_ModuleCode = `Module`.ModuleCode WHERE Degree_DegreeCode = '" + degreeCode + "' AND CoreOrNot = " + core + " AND Level = '" + level + "' ;");
                 while (getResult().next()) {
                     int pairingId = Integer.parseInt(getResult().getString(1));
                     String moduleCode = getResult().getString(2);
@@ -323,11 +323,11 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    public int getStudentsLevel(String studentRegistrationNumber){
+    public String getStudentsLevel(String studentRegistrationNumber){
         
         initConnection();
         initStatement();
-        int level = 0;
+        String level = "";
         
         try {
             try {
@@ -335,7 +335,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 openStatement();
                 openResultQuery("SELECT `Level of study` FROM Student WHERE `Registration number` = '" + studentRegistrationNumber +  "' ;");
                 getResult().next();
-                level = Integer.parseInt(getResult().getString(1));
+                level = getResult().getString(1);
             }
             finally {
                 closeResultQuery();

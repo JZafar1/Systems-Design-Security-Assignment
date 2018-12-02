@@ -43,7 +43,7 @@ public class RegistrarController {
         String registrationNumber = databaseModel.getRegistrationNumber(recordId);
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
-        int level = databaseModel.getStudentsLevel(registrationNumber);
+        String level = databaseModel.getStudentsLevel(registrationNumber);
         ModuleLinks validModules = databaseModel.getValidOptionalCoreModules(degreeCode,degreeName,false,level);
         return  validModules.getModuleCodes();
         
@@ -95,7 +95,7 @@ public class RegistrarController {
         int recordId = databaseModel.getRecordId(registrationNumber,periodOfStudy);
         
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
-        int level = databaseModel.getStudentsLevel(registrationNumber);
+        String level = databaseModel.getStudentsLevel(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
         
         ModuleLinks coreModules = databaseModel.getValidOptionalCoreModules (degreeCode,degreeName,true,level);
@@ -215,9 +215,9 @@ public class RegistrarController {
     public boolean completeRegistration(int recordId){
         
         String registrationNumber = databaseModel.getRegistrationNumber(recordId);
-        int level = databaseModel.getStudentsLevel(registrationNumber);
+        String level = databaseModel.getStudentsLevel(registrationNumber);
         int requiredCredits = 120;
-        if(level == 4) requiredCredits = 180;
+        if(level.equals("4")) requiredCredits = 180;
         
         if(requiredCredits == getCreditsSum(recordId)){
             databaseModel.updateRegistrationStatus(recordId,"yes");
