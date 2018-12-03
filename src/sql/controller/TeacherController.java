@@ -210,7 +210,7 @@ public class TeacherController {
      *
      * @param student the student regiatration number
      */
-    public boolean createPassStudent(String student) {
+    public Boolean createPassStudent(String student) {
         if(getLevelOfStudy(student).equals(getDegreeLevels(student))) {
             return false;
         }else {
