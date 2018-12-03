@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
 
+/**
+ * UI for adding/removing students
+ */
 public class ManageStudents extends JPanel {
 
     private javax.swing.JButton addStudentButton;
@@ -146,10 +149,16 @@ public class ManageStudents extends JPanel {
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        if(lastName.getText().length()==0 && firstName.getText().length()==0) JOptionPane.showMessageDialog(this, "Some of the fields are empty!");
-        else if(isInteger(levelOfStudy.getText())) controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
-        else JOptionPane.showMessageDialog(this, "Period of study must be a vaild year!");
-        scrollTable.showStudents();
+        if(lastName.getText().length()==0 && firstName.getText().length()==0) {
+            JOptionPane.showMessageDialog(this, "Some of the fields are empty!");
+        } else if(isInteger(levelOfStudy.getText())) {
+            controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
+            scrollTable.showStudents();
+            JOptionPane.showMessageDialog(this, "Created with password of '123'");
+        } else {
+            JOptionPane.showMessageDialog(this, "Period of study must be a vaild year!");
+        }
+        
         
     }
     

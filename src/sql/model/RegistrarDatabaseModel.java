@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import src.sql.tables.*;
 
 /**
- *
- * @author aca17mss
+ * Database model, handles all the SQL operations for all registrar related tasks.
  */
 public class RegistrarDatabaseModel extends AdminDatabaseModel{
     

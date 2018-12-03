@@ -5,6 +5,9 @@ import src.ui.MainWindow;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * UI for the student to view their records
+ */
 public class StudentUI extends javax.swing.JPanel {
 
     private javax.swing.JPanel StudentUI;

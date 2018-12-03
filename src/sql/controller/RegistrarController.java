@@ -12,8 +12,8 @@ import src.sql.tables.*;
 
 
 /**
- *
- * @author aca17mss
+ * Class acts as a interface between the GUI and the SQL commands, handling the
+ * logic and processing of the data before its added to the database.
  */
 public class RegistrarController {
     

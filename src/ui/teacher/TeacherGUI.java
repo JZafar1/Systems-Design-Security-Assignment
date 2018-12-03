@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import src.ui.MainWindow;
 
+/**
+ * JPanel for which all of the ui states of registrar are drawn apon
+ */
 public class TeacherGUI extends JPanel {
     private JPanel editGrades;
     private JPanel teacherMainMenu;

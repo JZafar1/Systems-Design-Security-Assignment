@@ -5,6 +5,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
+
+/**
+ * UI for registering modules for students
+ */
 public class ManageModules extends JPanel {
 
     private javax.swing.JPanel addRemoveModule;

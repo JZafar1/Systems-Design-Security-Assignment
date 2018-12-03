@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import src.sql.controller.TeacherController;
 
+/**
+ * UI for the main menu of teacher
+ */
 public class TeacherMainMenu extends Menu {
     private javax.swing.JButton editGrades;
     private javax.swing.JButton registerStudent;

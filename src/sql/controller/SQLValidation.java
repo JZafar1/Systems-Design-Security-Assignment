@@ -5,8 +5,8 @@
  */
 package src.sql.controller;
 /**
- *
- * @author aca17mss
+ *Class that validates strings being entered into SQL commands, mainly to prevent
+ *SQL injection attacks.
  */
 public class SQLValidation {
     
