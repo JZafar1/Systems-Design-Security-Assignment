@@ -274,8 +274,7 @@ public class TeacherController {
      * @return whether or not the student can graduate
      */
     public boolean createGraduate(String student) {
-//        int theLength = teacherDatabaseModel.getDegreeType(student);
-        if(getLevelOfStudy(student) == getDegreeLevels(student)) {
+        if(getLevelOfStudy(student).equals(getDegreeLevels(student))) {
             graduateSudent(student);
             return true;
         }else {
@@ -356,7 +355,7 @@ public class TeacherController {
         String theDegreeCode = teacherDatabaseModel.stringQuery(getCode);
         String getLevels = "SELECT `Level of study` FROM Degree WHERE "
             + "DegreeCode = '" + theDegreeCode + "';";
-        String result = teacherDatabaseModel.   stringQuery(getLevels);
+        String result = teacherDatabaseModel.stringQuery(getLevels);
         return result.substring((result.length() - 1), result.length());
     }
 

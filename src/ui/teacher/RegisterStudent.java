@@ -118,6 +118,8 @@ public class RegisterStudent extends Menu{
             || theResult.equalsIgnoreCase("Resit for pass(non-honours) degree")) {
             String student = String.valueOf(students.getSelectedItem());
             controller.createFailStudent(student);
+            JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(this, "The selected student has not failed!",
                 "Error", JOptionPane.ERROR_MESSAGE);
