@@ -502,13 +502,13 @@ public class TeacherController {
         if(dissertation == 1) {
             ArrayList<Integer> allGrades = new ArrayList<Integer>();
             allGrades = teacherDatabaseModel.getGradeList(student);
-            int minGrade = allGrades.indexOf(Collections.min(allGrades));
+            int minGrade = (Collections.min(allGrades));
             if(creditsAchieved(student) == 180) {
                 return "Proceed to graduation";
             }else if(minGrade >= 49.5 && creditsAchieved(student) >= 165) {
                 return "Graduate with bachelors";
             }else if(minGrade >= 39.5 && creditsAchieved(student) >= 165) {
-                return "Achieved Postgraduate Diploma";
+                return "Conceded Pass";
             }else {
                 return "Fail";
             }
@@ -708,7 +708,7 @@ public class TeacherController {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
         String query = "UPDATE Record SET Average = '" + mean + "' WHERE "
-            + "`Period of study_Label` = '" + currentYear + "AND "
+            + "`Period of study_Label` = '" + currentYear + "' AND "
             + "`Student_Registration number` = '" + student + "';";
         teacherDatabaseModel.updateQuery(query);
     }
