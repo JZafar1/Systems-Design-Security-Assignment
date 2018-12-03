@@ -323,7 +323,13 @@ public class TeacherController {
         }else if(levels.equals("4")) {
             finalGrade = getMasterResult(theGrade);
         }
-        System.out.println(finalGrade);
+        if(getLevelOfStudy(student).equals("4")) {
+            finalGrade = "Masters " + finalGrade;
+        }else if(getLevelOfStudy(student).equals("3"))) {
+            finalGrade = "Bachelors " + finalGrade;
+        }else {
+            finalGrade = "One Year " + finalGrade;
+        }
         String updateHonours = "UPDATE Student SET grade = '" + finalGrade +
         "' WHERE `Registration number` = '" + student + "';";
         String query = "UPDATE Record SET Registered = 'Graduated' WHERE "
@@ -785,10 +791,8 @@ public class TeacherController {
     public int creditsAchieved(String student) {
         ArrayList<Integer> credits = new ArrayList<Integer>();
         credits = getCreditValue(student);
-        System.out.println(java.util.Arrays.toString(credits.toArray()));
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
-        System.out.println(java.util.Arrays.toString(allGrades.toArray()));
         int totalCreds = 0;
         for(int i = 0; i < allGrades.size(); i++) {
             if(!getLevelOfStudy(student).equals("4")) {
