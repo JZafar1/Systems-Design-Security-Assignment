@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
- * @author James
+ * Controller for teacher UI, handling the logic between the UI and the SQL
+ * statements.
  */
 public class TeacherController {
 

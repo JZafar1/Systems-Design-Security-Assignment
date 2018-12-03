@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
 
+/**
+ * UI for adding/removing students
+ */
 public class ManageStudents extends JPanel {
 
     private javax.swing.JButton addStudentButton;
@@ -21,7 +24,7 @@ public class ManageStudents extends JPanel {
     private javax.swing.JTextField lastName;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JLabel mainLabel;
-    private javax.swing.JComboBox<String> tutor;
+    private javax.swing.JTextField tutor;
     private javax.swing.JLabel tutorLabel;
     private javax.swing.JLabel levelLabel;
     private javax.swing.JTextField levelOfStudy;
@@ -53,7 +56,7 @@ public class ManageStudents extends JPanel {
         removeStudentButton = new javax.swing.JButton();
         tutorLabel = new javax.swing.JLabel();
         String[] array = {"1","4"};
-        tutor = new JComboBox<>(array);
+        tutor = new javax.swing.JTextField();
         degreeName = new JComboBox<>();
         degreeNameLabel = new javax.swing.JLabel();
         displayArea = new javax.swing.JPanel();
@@ -108,7 +111,7 @@ public class ManageStudents extends JPanel {
         });
 
         tutorLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        tutorLabel.setText("Level of Study");
+        tutorLabel.setText("Tutor");
 
         degreeNameLabel.setFont(new java.awt.Font("Arial", 0, 18));
         degreeNameLabel.setText("Degreee Name");
@@ -146,7 +149,16 @@ public class ManageStudents extends JPanel {
     
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        controller.addStudent(tutor.getSelectedItem().toString(),firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),"some tutor",levelOfStudy.getText());
+        if(lastName.getText().length()==0 && firstName.getText().length()==0) {
+            JOptionPane.showMessageDialog(this, "Some of the fields are empty!");
+        } else if(isInteger(levelOfStudy.getText())) {
+            controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
+            scrollTable.showStudents();
+            JOptionPane.showMessageDialog(this, "Created with password of '123'");
+        } else {
+            JOptionPane.showMessageDialog(this, "Period of study must be a vaild year!");
+        }
+        
         
     }
     
@@ -159,9 +171,7 @@ public class ManageStudents extends JPanel {
     private void removeStudent (){
         String username = scrollTable.getSelectedRow(4);
         
-        if (username == null) {
-            JOptionPane.showMessageDialog(this, "No user selected!");
-        }
+        if (username == null) JOptionPane.showMessageDialog(this, "No user selected!");
         else{
             controller.removeStudent(username);
             scrollTable.showStudents();
@@ -170,6 +180,20 @@ public class ManageStudents extends JPanel {
 
     private void logOffButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+    
+    public static boolean isInteger(String s) {
+        
+        try { 
+            Integer.parseInt(s); 
+        } catch(NumberFormatException e) { 
+            return false; 
+        } catch(NullPointerException e) {
+            return false;
+        }
+        
+        return true;
+        
     }
 
     private void placeComponents() {

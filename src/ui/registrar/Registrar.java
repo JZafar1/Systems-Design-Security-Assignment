@@ -4,7 +4,9 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
-
+/**
+ * UI for the registrar main menu
+ */
 public class Registrar extends JPanel {
     private javax.swing.JComboBox<String> dataSelect;
     private javax.swing.JComboBox<String> periodSelect;

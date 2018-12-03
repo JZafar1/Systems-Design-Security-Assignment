@@ -6,8 +6,7 @@
 package src.sql.tables;
 
 /**
- *
- * @author aca17mss
+ * Class representing a collection of marks
  */
 public class Mark extends Table {
     
