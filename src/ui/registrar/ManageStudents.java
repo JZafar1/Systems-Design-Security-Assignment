@@ -152,6 +152,7 @@ public class ManageStudents extends JPanel {
         if(lastName.getText().length()==0 && firstName.getText().length()==0) {
             JOptionPane.showMessageDialog(this, "Some of the fields are empty!");
         } else if(isInteger(levelOfStudy.getText())) {
+            JOptionPane.showMessageDialog(this, "Valid infomation, adding student (may take a minute)");
             controller.addStudent(firstName.getText(),lastName.getText(),degreeName.getSelectedItem().toString(),tutor.getText(),levelOfStudy.getText());
             scrollTable.showStudents();
             JOptionPane.showMessageDialog(this, "Created with password of '123'");
@@ -294,8 +295,7 @@ public class ManageStudents extends JPanel {
                         .addComponent(displayArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(userPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(mainLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(logOffButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            ).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,8 +306,7 @@ public class ManageStudents extends JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(displayArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(logOffButton))
-        );
+        ));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         setLayout(layout);
