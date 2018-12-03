@@ -227,28 +227,28 @@ public class TeacherController {
         ArrayList<Integer> periods = getPeriodsofStudy(student);
         int currentYear = Collections.max(periods);
         String currentLevel = getLevelOfStudy(student);
-
-        String query = "UPDATE Record SET Registered = 'Failed' WHERE "
-            + "`Student_Registration number` = '" + student + "' AND "
-            + "`Period of study_Label` = '" + currentYear + "';";
+        String query = "";
+        if(getDegreeType(student).equals("B") && getLevelOfStudy(student).equals("3")) {
+            query = "UPDATE Record SET Registered = 'Gradduated' WHERE "
+                + "`Student_Registration number` = '" + student + "' AND "
+                + "`Period of study_Label` = '" + currentYear + "';";
+        }else if(getDegreeType(student).equals("M") && getLevelOfStudy(student).equals("4")){
+            query = "UPDATE Record SET Registered = 'Graduated' WHERE "
+                + "`Student_Registration number` = '" + student + "' AND "
+                + "`Period of study_Label` = '" + currentYear + "';";
+        }else {
+            query = "UPDATE Record SET Registered = 'Failed' WHERE "
+                + "`Student_Registration number` = '" + student + "' AND "
+                + "`Period of study_Label` = '" + currentYear + "';";
+        }
         teacherDatabaseModel.updateQuery(query);
 
-        if(periods.size()>1){
-
+        if(periods.size() > 1) {
             int previousRecord = regDatabaseModel.getRecordId(student, "" + (currentYear - 1));
             String status = regDatabaseModel.getRecordRegStatus("" + previousRecord);
-
             if(!status.equals("Failed")) repeatYear(student,currentYear);
-
         }
         else repeatYear(student,currentYear);
-
-//        String query = "UPDATE Record SET Registered = 'Failed' WHERE "
-//            + "`Student_Registration number` = '" + student + "' AND "
-//            + "`Period of study_Label` = '" + currentYear + "';";
-//        teacherDatabaseModel.updateQuery(query);
-//        updatePeriodOfStudy(student);
-
     }
     /**
     *
@@ -319,6 +319,7 @@ public class TeacherController {
         }else if(levels.equals("4")) {
             finalGrade = getMasterResult(theGrade);
         }
+        System.out.println(finalGrade);
         String updateHonours = "UPDATE Student SET grade = '" + finalGrade +
         "' WHERE `Registration number` = '" + student + "';";
         String query = "UPDATE Record SET Registered = 'Graduated' WHERE "
@@ -433,10 +434,6 @@ public class TeacherController {
         String initialResult = getDegreeResult(student);
         ArrayList<Integer> allGrades = new ArrayList<Integer>();
         allGrades = teacherDatabaseModel.getGradeList(student);
-        System.out.println(java.util.Arrays.toString(allGrades.toArray()));
-        System.out.println("Cred" + creditsAchieved(student));
-        System.out.println("Initial " + initialResult);
-        System.out.println(modulesPassed(student) + "Module " + numberOfModules(student));
         if(getDegreeType(student).equalsIgnoreCase("One Year Msc")) {
             return postgradResult(student);
         }
@@ -510,7 +507,7 @@ public class TeacherController {
                 return "Proceed to graduation";
             }else if(minGrade >= 49.5 && creditsAchieved(student) >= 165) {
                 return "Graduate with bachelors";
-            }else if(minGrade >= 39.5) {
+            }else if(minGrade >= 39.5 && creditsAchieved(student) >= 165) {
                 return "Achieved Postgraduate Diploma";
             }else {
                 return "Fail";
@@ -632,11 +629,11 @@ public class TeacherController {
     public String studentFailed(String name) {
         String type = getDegreeType(name);
         String level = getLevelOfStudy(name);
-        if(level.equals("3") && type.startsWith("B")
+        if(level.equals("4")) {
+            return "Pass with bachelor’s degree";
+        }else if(level.equals("3") && type.startsWith("B")
             || type.startsWith("M")) {
             return "Resit for pass(non-honours) degree";
-        }else if(level.equals("4")) {
-            return "Pass with bachelor’s degree";
         }else {
             return "Null";
         }
@@ -713,6 +710,7 @@ public class TeacherController {
         String query = "UPDATE Record SET Average = '" + mean + "' WHERE "
             + "`Period of study_Label` = '" + currentYear + "AND "
             + "`Student_Registration number` = '" + student + "';";
+        teacherDatabaseModel.updateQuery(query);
     }
 
     /**

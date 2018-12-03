@@ -114,7 +114,8 @@ public class RegisterStudent extends Menu{
 
     private void failStudent() {
         String theResult = finalResult.getText();
-        if(theResult.equalsIgnoreCase("fail")) {
+        if(theResult.equalsIgnoreCase("fail") || theResult.equalsIgnoreCase("Pass with bachelor’s degree")
+            || theResult.equalsIgnoreCase("Resit for pass(non-honours) degree")) {
             String student = String.valueOf(students.getSelectedItem());
             controller.createFailStudent(student);
         }else {
