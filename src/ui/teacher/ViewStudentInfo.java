@@ -34,7 +34,6 @@ public class ViewStudentInfo extends Menu{
     private javax.swing.JButton backButton;
     private javax.swing.JComboBox<String> studentList;
     private javax.swing.JComboBox<String> yearSelector;
-    private String periodOfStudy;
     private StudentController stuController;
     private TeacherController controller;
 
@@ -94,7 +93,17 @@ public class ViewStudentInfo extends Menu{
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED) {
                     displayInformation(String.valueOf(studentList.getSelectedItem()));
-                    refreshDatabase();
+                    refreshDatabase(String.valueOf(yearSelector.getSelectedItem()));
+                }
+            }
+        });
+
+        yearSelector.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {
+                    displayInformation(String.valueOf(studentList.getSelectedItem()));
+                    refreshDatabase(String.valueOf(yearSelector.getSelectedItem()));
                 }
             }
         });
@@ -103,7 +112,7 @@ public class ViewStudentInfo extends Menu{
                                       "Student Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                         new java.awt.Font("Trebuchet MS", 0, 24)));
         displayStudents();
-        refreshDatabase();
+        refreshDatabase(String.valueOf(yearSelector.getSelectedItem()));
         yearSelector.setModel(new javax.swing.DefaultComboBoxModel<>(
             controller.getPeriodsOfStudy(
                 Integer.valueOf(String.valueOf(studentList.getSelectedItem())))));
@@ -113,13 +122,15 @@ public class ViewStudentInfo extends Menu{
         String[] stuList = controller.getStudents();
         studentList.setModel(new DefaultComboBoxModel(stuList));
         displayInformation(String.valueOf(studentList.getSelectedItem()));
+        yearSelector.setModel(new javax.swing.DefaultComboBoxModel<>(
+            controller.getPeriodsOfStudy(
+                Integer.valueOf(String.valueOf(studentList.getSelectedItem())))));
     }
 
-    private void refreshDatabase() {
+    private void refreshDatabase(String period) {
         int arg = Integer.parseInt(String.valueOf(studentList.getSelectedItem()));
-        periodOfStudy = controller.getPeriodsOfStudy(arg)[0];
         databaseTable.setModel(new javax.swing.table.DefaultTableModel(
-                controller.getYearsModules(String.valueOf(studentList.getSelectedItem()), periodOfStudy),
+                controller.getYearsModules(arg, period),
                 new String[] { "Mark Id", "Module Code", "Record ID", "Mark", "Resit Mark" }));
         databaseView.setViewportView(databaseTable);
     }
