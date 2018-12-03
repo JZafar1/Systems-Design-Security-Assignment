@@ -285,11 +285,6 @@ public class TeacherController {
         }else {
             return false;
         }
-        /*String query = "UPDATE Record SET Registered = 'Resit' WHERE "
-            + "`Student_Registration number` = '" + student + "' AND "
-            + "`Period of study_Label` = '" + currentYear + "';";
-        teacherDatabaseModel.updateQuery(query);
-        updatePeriodOfStudy(student);*/
     }
 
     /**
@@ -324,8 +319,12 @@ public class TeacherController {
             finalGrade = getMasterResult(theGrade);
         }
         if(getLevelOfStudy(student).equals("4")) {
-            finalGrade = "Masters " + finalGrade;
-        }else if(getLevelOfStudy(student).equals("3"))) {
+            if(getWeightedMean(student) <= 49.5) {
+                finalGrade = "Bachelors " + getBachelorResult(getFailGrade(student));
+            }else {
+                finalGrade = "Masters " + finalGrade;
+            }
+        }else if(getLevelOfStudy(student).equals("3")) {
             finalGrade = "Bachelors " + finalGrade;
         }else {
             finalGrade = "One Year " + finalGrade;
@@ -337,6 +336,21 @@ public class TeacherController {
             + "`Period of study_Label` = '" + currentYear + "';";
         teacherDatabaseModel.updateQuery(query);
         teacherDatabaseModel.updateQuery(updateHonours);
+    }
+
+    /**
+     *
+     * @param student the student regiatration number
+     * @return the final grade of a failed masters degree
+     */
+    public double getFailGrade(String student) {
+        String query = "SELECT Average FROM Record WHERE "
+            + "`Student_Registration number` = '" + student + "';";
+        ArrayList<Double> grades = teacherDatabaseModel.getAllMeanGrades(query);
+        double total = 0.0;
+        total += grades.get(1) * (1.0 / 3);
+        total += grades.get(2) * (2.0 / 3);
+        return total;
     }
 
     /**
@@ -854,7 +868,7 @@ public class TeacherController {
         + "``Period of study_Label` = '" + (currentYear - 1) + "';";
         double lastYearResult = teacherDatabaseModel.getWeightedMean(query);
         if(getLevelOfStudy(student).equals("3")) {
-            double totalAverage = (thisYearResult * (2/3)) + (lastYearResult * (1/3));
+            double totalAverage = (thisYearResult * (2.0/3)) + (lastYearResult * (1.0/3));
             totalAverage = roundResults(totalAverage);
             return getBachelorResult(totalAverage);
         }else if(getLevelOfStudy(student).equals("4")) {
@@ -862,8 +876,8 @@ public class TeacherController {
             + "`Student_Registration number` = '" + student + " AND "
             + "``Period of study_Label` = '" + (currentYear - 2) + "';";
             double twoYearRes = teacherDatabaseModel.getWeightedMean(query);
-            double totalAverage = (thisYearResult * (2/5)) + (lastYearResult * (2/5))
-                + (twoYearRes * (1/5));
+            double totalAverage = (thisYearResult * (2.0/5)) + (lastYearResult * (2.0/5))
+                + (twoYearRes * (1.0/5));
             totalAverage = roundResults(totalAverage);
             return getMasterResult(totalAverage);
         }else {
