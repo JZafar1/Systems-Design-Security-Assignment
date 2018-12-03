@@ -117,7 +117,7 @@ public class ManageStudents extends JPanel {
         degreeNameLabel.setText("Degreee Name");
 
         levelLabel.setFont(new java.awt.Font("Arial", 0, 18));
-        levelLabel.setText("Period of study");
+        levelLabel.setText("Period of study e.g. 2018");
 
 //        displayTable.setFont(new java.awt.Font("Arial", 0, 18));
 //        displayTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -221,7 +221,7 @@ public class ManageStudents extends JPanel {
                             .addComponent(tutor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(degreeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(levelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(levelLabel)
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(levelOfStudy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE))
@@ -242,7 +242,7 @@ public class ManageStudents extends JPanel {
                     .addGroup(userPanelLayout.createSequentialGroup()
                         .addGroup(userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(userPanelLayout.createSequentialGroup()
-                                .addComponent(levelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(levelLabel)
                                 .addGap(2, 2, 2))
                             .addGroup(userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(tutor, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
