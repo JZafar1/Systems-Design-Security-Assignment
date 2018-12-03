@@ -378,9 +378,9 @@ public class TeacherController {
             + "' WHERE `Registration number` = '" + student + "';";
         teacherDatabaseModel.updateQuery(query);
     }
-    
+
     private String findNextLevelOfStudy(String currentLevel, String student){
-        
+
         String degreeLevels = teacherDatabaseModel.getDegreeType(student);
         for(int i =0; i<degreeLevels.length()-1;i++) if(("" + degreeLevels.charAt(i)).equals(currentLevel)) return "" + degreeLevels.charAt(i+1);
         return currentLevel;
@@ -465,16 +465,30 @@ public class TeacherController {
                 }
             }
         }else {
-            if(creditsAchieved(student) == 120) {
-                return initialResult;
-            }else if(creditsAchieved(student) <= 100 &&
-                modulesPassed(student) == (numberOfModules(student) - 1)) {
-                int minGrade = allGrades.indexOf(Collections.min(allGrades));
-                if(minGrade > 29.5) {
-                    return "Conceded Pass";
+            if(getLevelOfStudy(student).equals("4")) {
+                if(creditsAchieved(student) == 180) {
+                    return initialResult;
+                }else if(creditsAchieved(student) >= 165) {
+                    return getMasterResult(getWeightedMean(student));
+                }else {
+                    if(creditsAchieved(student) >= 120) {
+                        return postgradResult(student);
+                    }else {
+                        return "Fail";
+                    }
                 }
             }else {
-                return "Fail";
+                if(creditsAchieved(student) == 120) {
+                    return initialResult;
+                }else if(creditsAchieved(student) <= 100 &&
+                    modulesPassed(student) == (numberOfModules(student) - 1)) {
+                    int minGrade = allGrades.indexOf(Collections.min(allGrades));
+                    if(minGrade > 29.5) {
+                        return "Conceded Pass";
+                    }
+                }else {
+                    return "Fail";
+                }
             }
         }
         return "Error";
