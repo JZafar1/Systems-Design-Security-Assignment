@@ -6,6 +6,10 @@ import src.sql.model.RegistrarDatabaseModel;
 import src.sql.model.StudentDatabaseModel;
 import src.sql.tables.Mark;
 
+/***
+ * Controller for student UI, handling the logic between
+ * the UI and the SQL statements.
+ */
 public class StudentController {
 
     StudentDatabaseModel stDatabaseModel;
@@ -44,14 +48,12 @@ public class StudentController {
         for (int c = 0; c < numOfYears; c++) {
             periodsOfStudy[c] = studentYearInfo.get(c)[1];
         }
-
         return periodsOfStudy;
     }
 
     public String getYearsGrade(String studentUsername, String periodOfStudy) {
 
         String studentRegNum = stDatabaseModel.getStudentRegNum(studentUsername);
-        System.out.println("hiss " + periodOfStudy);
         String peroidOfStudyLabel = getPeriodOfStudyLabel(studentUsername, periodOfStudy);
         return stDatabaseModel.getGrade(studentRegNum, peroidOfStudyLabel);
     }

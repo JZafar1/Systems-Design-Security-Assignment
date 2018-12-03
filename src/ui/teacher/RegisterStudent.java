@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 import src.sql.controller.TeacherController;
 
+/**
+* Register Students UI allows students to be registered for new period of study
+* Checks if they can be passed, failed or graduated and validates their final result
+*/
 
 public class RegisterStudent extends Menu{
     private javax.swing.JLabel weightedMeanLabel;
@@ -77,6 +81,7 @@ public class RegisterStudent extends Menu{
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED) {
+                    //Change mean/result text everytime new student selected
                     setMeanText();
                     setResultText();
                 }
@@ -97,6 +102,7 @@ public class RegisterStudent extends Menu{
     }
 
     private void setMeanText() {
+        //get and display weighted mean
         double value = controller.getWeightedMean(String.valueOf(students.getSelectedItem()));
         weightedMean.setText(Double.toString(value));
     }
@@ -123,13 +129,9 @@ public class RegisterStudent extends Menu{
             || theResult.equalsIgnoreCase("Lower Second") || theResult.equalsIgnoreCase("Conceded pass")
             || theResult.equalsIgnoreCase("Third Class") || theResult.equalsIgnoreCase("Pass (non-honours)s")) {
             String student = String.valueOf(students.getSelectedItem());
-            if(controller.createPassStudent(student)) {
-                JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
-            }else {
-                JOptionPane.showMessageDialog(this, "Error this student is ready to graduate!",
-                    "Success", JOptionPane.ERROR_MESSAGE);
-            }
+            controller.createPassStudent(student);
+            JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(this, "The selected student has not passed!",
                 "Error", JOptionPane.ERROR_MESSAGE);
@@ -139,6 +141,7 @@ public class RegisterStudent extends Menu{
     private void graduateStudent() {
         String theResult = finalResult.getText();
         String student = String.valueOf(students.getSelectedItem());
+        //If createGraduate returns true then student has been graduated, else student can't graduate
         if(controller.createGraduate(student)) {
             JOptionPane.showMessageDialog(this, "Student information has been successfuly updated!",
                 "Success", JOptionPane.INFORMATION_MESSAGE);

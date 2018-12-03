@@ -8,6 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import src.sql.controller.*;
 
+/**
+ * UI for managing departments including
+ * removing, adding and viewing departments.
+ */
 public class ManageDepartments extends Menu {
 
     private JLabel departmentNameLabel;
@@ -69,8 +73,11 @@ public class ManageDepartments extends Menu {
         if (departmentID == null) {
             JOptionPane.showMessageDialog(this, "No department selected!");
         } else {
-            controller.removeDepartment(departmentID);
-            getAdminUI().getDatabaseView().showDepartments();
+            Boolean successfullyRemoved = controller.removeDepartment(departmentID);
+            if (successfullyRemoved)
+                getAdminUI().getDatabaseView().showDepartments();
+            else
+                JOptionPane.showMessageDialog(this, "Department has too many dependencies!");
         }
     }
 

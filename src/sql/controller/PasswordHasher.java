@@ -5,6 +5,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Class that contains methods for generating unique salts
+ * and generated hashed passwords.
+ */
 public class PasswordHasher {
 
     public static byte[] generateSalt() {

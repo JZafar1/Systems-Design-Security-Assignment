@@ -5,6 +5,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Abstract class for database models, containing
+ * methods for opening connections, executing SQL commands etc.
+ */
 public abstract class DatabaseModel {
 
     private Connection connection;
@@ -30,10 +34,28 @@ public abstract class DatabaseModel {
                 closeStatement();
                 closeConnection();
             }
-        } 
+        }
         catch (SQLException ex){
             Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Boolean executeWithBool(String querry) {
+        try {
+            openConnection();
+            openStatement();
+            try {
+                int count = getStatement().executeUpdate(querry);
+            } finally {
+                closeStatement();
+                closeConnection();
+            }
+        } catch (SQLException ex) {
+            if (ex instanceof SQLIntegrityConstraintViolationException)
+                return false;
+            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
     protected void initConnection() {

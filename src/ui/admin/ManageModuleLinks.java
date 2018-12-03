@@ -12,6 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import src.sql.controller.AdminController;
 
+/**
+ * UI for linking modules to degrees, including
+ * removing, adding and viewing module links.
+ */
 public class ManageModuleLinks extends LinkingMenu {
 
     private JLabel degreeLevelLabel;
@@ -21,7 +25,7 @@ public class ManageModuleLinks extends LinkingMenu {
     private JComboBox<String> degreeLevelDropDown;
     private JComboBox<String> seasonDropDown;
     private JComboBox<String> coreDropDown;
-    private JComboBox<String> dissertationField;
+    private JComboBox<String> typeOfModule;
     private AdminController controller;
 
     public ManageModuleLinks(AdminUI adminUI) {
@@ -43,15 +47,15 @@ public class ManageModuleLinks extends LinkingMenu {
         degreeLevelDropDown = new JComboBox<>();
         seasonDropDown = new JComboBox<>();
         coreDropDown = new JComboBox<>();
-        dissertationField = new JComboBox<>();
+        typeOfModule = new JComboBox<>();
 
         degreeLevelLabel.setText("Degree Level: ");
         seasonLabel.setText("Season: ");
-        dissertationLabel.setText("Dissertation or not: ");
-        degreeLevelDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Level 1", "Level 2", "Level 3","Level 4"}));
+        dissertationLabel.setText("Regular Module / Dissertation / Year in Industry: ");
+        degreeLevelDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Level 1", "Level 2", "Level 3", "Level 4", "Level P"}));
         seasonDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Autumn", "Spring", "Summer", "All Year"}));
         coreDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Core", "Not Core"}));
-        dissertationField.setModel((new javax.swing.DefaultComboBoxModel<>(new String[] {"Not Dissertation", "Dissertation"})));
+        typeOfModule.setModel((new javax.swing.DefaultComboBoxModel<>(new String[] {"Regular Module", "Dissertation", "Year In Industry"})));
 
         degreeLevelDropDown.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +97,9 @@ public class ManageModuleLinks extends LinkingMenu {
             case "Level 4":
                 getChildSelectorTable().showDegrees("4");
                 break;
+            case "Level P":
+                getChildSelectorTable().showDegrees("P");
+                break;
         }
     }
     private void addModuleLink() {
@@ -101,12 +108,16 @@ public class ManageModuleLinks extends LinkingMenu {
         String level = ((String) degreeLevelDropDown.getSelectedItem()).substring(6);
         String semester = (String) seasonDropDown.getSelectedItem();
         String coreOrNot = (String) coreDropDown.getSelectedItem();
-        String dissertation = (String) dissertationField.getSelectedItem();
+        String typeOfModuleString = (String) typeOfModule.getSelectedItem();
 
         if (degreeCode == null) {
             JOptionPane.showMessageDialog(this, "One or more input fields are empty!");
+    
+        } else if (level.equals("P") ^ typeOfModuleString.equals("Year In Industry")) {
+            JOptionPane.showMessageDialog(this, "Can only add placement during a year in industry!");
+        
         } else {
-            Boolean successfullyAdded = controller.addModuleLink(moduleCode, degreeCode, level, semester, coreOrNot, dissertation);
+            Boolean successfullyAdded = controller.addModuleLink(moduleCode, degreeCode, level, semester, coreOrNot, typeOfModuleString);
             if (successfullyAdded) {
                 getAdminUI().getDatabaseView().showModuleLinks();
             } else {
@@ -164,7 +175,7 @@ public class ManageModuleLinks extends LinkingMenu {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(dissertationLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(dissertationField, javax.swing.GroupLayout.PREFERRED_SIZE, 107,
+                                        .addComponent(typeOfModule, javax.swing.GroupLayout.PREFERRED_SIZE, 107,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -209,7 +220,7 @@ public class ManageModuleLinks extends LinkingMenu {
                                 .addComponent(seasonDropDown, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(dissertationLabel)
-                                .addComponent(dissertationField,
+                                .addComponent(typeOfModule,
                                         javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(coreLabel)

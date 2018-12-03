@@ -4,6 +4,9 @@ import src.sql.tables.Record;
 import java.util.ArrayList;
 import java.sql.SQLException;
 
+/**
+ * Database model, handles all the SQL operations for all student related tasks.
+ */
 public class StudentDatabaseModel extends AdminDatabaseModel {
 
     public StudentDatabaseModel() {}

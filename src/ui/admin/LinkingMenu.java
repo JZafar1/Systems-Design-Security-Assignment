@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import src.ui.database.DatabaseView;
 
+/**
+ * Abstract class for a UI that links two different database
+ * entries, e.g degrees & departments, modules & degrees
+ */
 public abstract class LinkingMenu extends Menu {
 
     private JButton addLinkButton;

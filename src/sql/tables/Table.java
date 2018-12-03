@@ -2,6 +2,9 @@ package src.sql.tables;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract class representing a table
+ */
 public abstract class Table {
 
     private ArrayList<Object[]> tableList;

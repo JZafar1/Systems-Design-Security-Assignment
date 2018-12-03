@@ -1,6 +1,7 @@
 package src.ui.registrar;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import src.sql.controller.RegistrarController;
 import src.ui.database.DatabaseView;
@@ -68,8 +69,13 @@ public class ManageModules extends JPanel {
         removeModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //TO DO
-                controller.removeMark(moduleScroll.getSelectedRow(0));
-                moduleScroll.showStudentsModules(recordId);
+                if(moduleScroll.getSelectedRow(6).equals("Core")){
+                    displayError();
+                }
+                else{
+                    controller.removeMark(moduleScroll.getSelectedRow(0));
+                    moduleScroll.showStudentsModules(recordId);
+                }
             }
         });
 
@@ -92,6 +98,10 @@ public class ManageModules extends JPanel {
         System.out.println(controller.getCreditsSum(recordId));
         
         placeComponents();
+    }
+    
+    private void displayError(){
+        JOptionPane.showMessageDialog(this, "Can't delete core modules!");
     }
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {

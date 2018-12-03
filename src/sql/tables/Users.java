@@ -1,5 +1,8 @@
 package src.sql.tables;
 
+/**
+ * Class representing a collection of Users
+ */
 public class Users extends Table {
 
     public Users() {

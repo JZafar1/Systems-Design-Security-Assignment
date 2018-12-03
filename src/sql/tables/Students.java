@@ -1,7 +1,10 @@
 package src.sql.tables;
 
-import java.util.ArrayList;;
+import java.util.ArrayList;
 
+/**
+ * Class representing a collection of students
+ */
 public class Students extends Table {
 
     public Students() {

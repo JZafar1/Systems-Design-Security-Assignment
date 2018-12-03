@@ -7,6 +7,10 @@ import java.util.concurrent.locks.Condition;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Database model, handles all the SQL operations for all
+ * admin related tasks.
+ */
 public class AdminDatabaseModel extends DatabaseModel {
 
     public AdminDatabaseModel() {}

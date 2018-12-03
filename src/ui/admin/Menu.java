@@ -5,6 +5,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Abstract class for all menu items, handles calls to the
+ * parent UI element as well as logging off.
+ */
 public abstract class Menu extends JPanel {
 
     private AdminUI adminUI;

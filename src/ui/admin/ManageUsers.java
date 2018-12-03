@@ -8,6 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
+/**
+ * UI for managing users, including
+ * adding, removing and view users.
+ */
 public class ManageUsers extends Menu {
 
     private JLabel forenameLabel;

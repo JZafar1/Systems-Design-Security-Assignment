@@ -4,6 +4,9 @@ import java.sql.*;
 
 import src.sql.tables.UserCredentials;
 
+/**
+ * Database model, handles all the SQL operations for all log in related tasks.
+ */
 public class LoginDatabaseModel extends DatabaseModel {
 
     public LoginDatabaseModel() {}

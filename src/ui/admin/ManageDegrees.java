@@ -14,6 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import src.sql.controller.*;
 
+/**
+ * UI for the management of degrees, including add, removing and viewing
+ * degrees.
+ */
 public class ManageDegrees extends Menu {
 
     private JLabel degreeNameLabel;
@@ -50,7 +54,7 @@ public class ManageDegrees extends Menu {
         levelOfStudyLabel.setText("Level of Study: ");
         yearPlacementLabel.setText("Year Placement: ");
         leadDepartmentDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(controller.getDepartmentNames()));
-        levelOfStudyDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "123", "12P3", "4", "123P4"}));
+        levelOfStudyDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "123", "1234", "4", "12P3", "123P4"}));
         addDegreeButton.setText("Add Degree");
         removeDegreeButton.setText("Remove Degree");
         manageDegreeLinksButton.setText("Manage Degree Links");
@@ -99,8 +103,11 @@ public class ManageDegrees extends Menu {
         if (degreeCode == null) {
             JOptionPane.showMessageDialog(this, "No degree selected!");
         } else {
-            controller.removeDegree(degreeCode);
-            getAdminUI().getDatabaseView().showDegrees();
+            Boolean successfullyRemoved = controller.removeDegree(degreeCode);
+            if (successfullyRemoved)
+                getAdminUI().getDatabaseView().showDegrees();
+            else
+                JOptionPane.showMessageDialog(this, "Degree has too many dependencies!");
         }
     }
     private void showDegreeLinkMenu() {

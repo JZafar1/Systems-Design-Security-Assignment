@@ -5,6 +5,11 @@ import java.util.Arrays;
 import src.sql.model.LoginDatabaseModel;
 import src.sql.tables.UserCredentials;
 
+/**
+ * Controller for the login system, that handles the
+ * logic of validating username and passwords against the 
+ * database.
+ */
 public class LoginController {
 
     private LoginDatabaseModel databaseModel;

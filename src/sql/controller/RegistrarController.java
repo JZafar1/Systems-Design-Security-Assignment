@@ -43,21 +43,22 @@ public class RegistrarController {
         String registrationNumber = databaseModel.getRegistrationNumber(recordId);
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
-        int level = databaseModel.getStudentsLevel(registrationNumber);
+        String level = databaseModel.getStudentsLevel(registrationNumber);
         ModuleLinks validModules = databaseModel.getValidOptionalCoreModules(degreeCode,degreeName,false,level);
         return  validModules.getModuleCodes();
         
     }
     
-    public void addStudent(String levelOfStudy, String firstname, String secondname, String degreeCode, String tutor, String periodOfStudy) {
+    public void addStudent(String firstname, String secondname, String degreeCode, String tutor, String periodOfStudy) {
         
-       levelOfStudy = validation.generalValidation(levelOfStudy);
+       String levelOfStudy = databaseModel.getFirstDegreeLevel(degreeCode);
        firstname = validation.generalValidation(firstname);
        secondname = validation.generalValidation(secondname);
        degreeCode = validation.generalValidation(degreeCode);
        tutor = validation.generalValidation(tutor);
        periodOfStudy = validation.generalValidation(periodOfStudy);
        
+       String title = "Mr.";
        String baseUsername = (firstname.substring(0, 1) + secondname).toLowerCase();
        Users users = databaseModel.getUsers("*","WHERE Username LIKE '" + baseUsername + "%';");
        String username = generateUsername(baseUsername, users.getTableList());
@@ -71,7 +72,6 @@ public class RegistrarController {
        }
 
        String email = username + "@sheffield.ac.uk";
-       String title = "Mr.";
        String role = "Student";
        
        String registrationNumber = generateRegistrationNumber(0);
@@ -95,7 +95,7 @@ public class RegistrarController {
         int recordId = databaseModel.getRecordId(registrationNumber,periodOfStudy);
         
         String degreeCode = databaseModel.getStudentDegree(registrationNumber);
-        int level = databaseModel.getStudentsLevel(registrationNumber);
+        String level = databaseModel.getStudentsLevel(registrationNumber);
         String degreeName = databaseModel.getDegreeName(degreeCode);
         
         ModuleLinks coreModules = databaseModel.getValidOptionalCoreModules (degreeCode,degreeName,true,level);
@@ -134,6 +134,17 @@ public class RegistrarController {
         databaseModel.insertIntoDatabase("Mark", values);
     }
     
+    public void pasteMark (int recordId, String moduleCode, String mark, String resitMark){
+        
+        moduleCode = validation.generalValidation(moduleCode);
+        
+        int markId = generateMarkId(0);
+        
+        String values = "('" + markId + "','" + moduleCode  + "','" + recordId + "','" + mark + "','" + resitMark + "' )";
+        
+        databaseModel.insertIntoDatabase("Mark", values);
+    }
+    
     public void removeMark (String markId){
         
         markId = validation.generalValidation(markId);
@@ -145,10 +156,15 @@ public class RegistrarController {
     public void removeStudent (String username){
        
        username = validation.generalValidation(username);
-        
+       String registrationNumber = databaseModel.getStudentRegistrationNumber(username);
+       ArrayList<Integer> records = databaseModel.getStudentsRecords(registrationNumber);
+       
        String conditionsStudent = "(Username = '" + username + "');";
        String conditionsUser = "(Username = '" + username + "');";
        
+       for(int i=0;i<records.size();i++) databaseModel.removeFromDatabase("Mark", "(`Record_Record ID` = '" + records.get(i) + "');");
+       
+       databaseModel.removeFromDatabase("Record", "(`Student_Registration number` = '" + registrationNumber + "');");
        databaseModel.removeFromDatabase("Student", conditionsStudent);
        databaseModel.removeFromDatabase("Users",conditionsUser);
     }
@@ -199,9 +215,9 @@ public class RegistrarController {
     public boolean completeRegistration(int recordId){
         
         String registrationNumber = databaseModel.getRegistrationNumber(recordId);
-        int level = databaseModel.getStudentsLevel(registrationNumber);
+        String level = databaseModel.getStudentsLevel(registrationNumber);
         int requiredCredits = 120;
-        if(level == 4) requiredCredits = 180;
+        if(level.equals("4")) requiredCredits = 180;
         
         if(requiredCredits == getCreditsSum(recordId)){
             databaseModel.updateRegistrationStatus(recordId,"yes");

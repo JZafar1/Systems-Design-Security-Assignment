@@ -6,6 +6,7 @@
 package src.sql.model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import src.sql.tables.*;
 
 /**
@@ -100,6 +101,34 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public String getStudentRegistrationNumber(String username){
+        
+        initConnection();
+        initStatement();
+        String regNumber = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Registration number` FROM Student WHERE `Username` = '" + username +  "' ;");
+                getResult().next();
+                regNumber = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return regNumber;
+        
+    }
+    
     public String getDegreeName(String degreeCode){
         
         initConnection();
@@ -163,7 +192,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    public ModuleLinks getValidOptionalCoreModules (String degreeCode, String degreeName, boolean isCore, int level) {
+    public ModuleLinks getValidOptionalCoreModules (String degreeCode, String degreeName, boolean isCore, String level) {
         
         initConnection();
         initStatement();
@@ -176,7 +205,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
             try {
                 openConnection();
                 openStatement();
-                openResultQuery("SELECT * FROM `Module degree (linking)` INNER JOIN `Module`  ON `Module degree (linking)`.Module_ModuleCode = `Module`.ModuleCode WHERE Degree_DegreeCode = '" + degreeCode + "' AND CoreOrNot = " + core + " AND Level = " + level + " ;");
+                openResultQuery("SELECT * FROM `Module degree (linking)` INNER JOIN `Module`  ON `Module degree (linking)`.Module_ModuleCode = `Module`.ModuleCode WHERE Degree_DegreeCode = '" + degreeCode + "' AND CoreOrNot = " + core + " AND Level = '" + level + "' ;");
                 while (getResult().next()) {
                     int pairingId = Integer.parseInt(getResult().getString(1));
                     String moduleCode = getResult().getString(2);
@@ -232,6 +261,31 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
+    public String getRecordRegStatus(String recordId){
+        initConnection();
+        initStatement();
+        String reg = "";
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT Registered FROM Record WHERE `Record ID` = '" + recordId + "';");
+                getResult().next();
+                reg = getResult().getString(1);
+                    
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return reg;
+    }
+    
     public Mark getStudentsModules(int recordId){
         
         initConnection();
@@ -249,8 +303,8 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 while (getResult().next()) {
                     int markId = Integer.parseInt(getResult().getString(1));
                     String moduleCode = getResult().getString(2);
-                    int mark = Integer.parseInt(getResult().getString(4));
-                    int resitMark = Integer.parseInt(getResult().getString(5));
+                    String mark = getResult().getString(4);
+                    String resitMark = getResult().getString(5);
                     int credits = Integer.parseInt(getResult().getString(6));
                     String core = getResult().getString(7);
                     modules.addRow(markId,moduleCode,recordId,mark,resitMark,credits,core);
@@ -269,11 +323,11 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         
     }
     
-    public int getStudentsLevel(String studentRegistrationNumber){
+    public String getStudentsLevel(String studentRegistrationNumber){
         
         initConnection();
         initStatement();
-        int level = 0;
+        String level = "";
         
         try {
             try {
@@ -281,7 +335,7 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
                 openStatement();
                 openResultQuery("SELECT `Level of study` FROM Student WHERE `Registration number` = '" + studentRegistrationNumber +  "' ;");
                 getResult().next();
-                level = Integer.parseInt(getResult().getString(1));
+                level = getResult().getString(1);
             }
             finally {
                 closeResultQuery();
@@ -323,6 +377,64 @@ public class RegistrarDatabaseModel extends AdminDatabaseModel{
         catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
+    }
+    
+    public String getFirstDegreeLevel (String degreeCode){
+        
+        initConnection();
+        initStatement();
+        String level = "";
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Level of study` FROM Degree WHERE DegreeCode = '"  + degreeCode +  "' ;");
+                getResult().next();
+                level = getResult().getString(1);
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return level.substring(0,1);
+        
+    }
+    
+    public ArrayList<Integer> getStudentsRecords(String registrationNumber){
+        
+        initConnection();
+        initStatement();
+        ArrayList<Integer> recordId = new ArrayList<Integer>();
+        
+        try {
+            try {
+                openConnection();
+                openStatement();
+                openResultQuery("SELECT `Record ID` FROM Record WHERE `Student_Registration number` = '" 
+                                    + registrationNumber  +  "' ;");
+                while (getResult().next()) {
+                    recordId.add(Integer.parseInt(getResult().getString(1)));
+                }
+            }
+            finally {
+                closeResultQuery();
+                closeStatement();
+                closeConnection();
+            }   
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return recordId;
         
     }
     
