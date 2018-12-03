@@ -210,12 +210,17 @@ public class TeacherController {
      *
      * @param student the student regiatration number
      */
-    public void createPassStudent(String student) {
-        ArrayList<Integer> periods = getPeriodsofStudy(student);
-        int currentYear = Collections.max(periods);
-        updateLevelOfStudy(student);
-        if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
-        registrarController.registerStudent("" + (currentYear+1), student);
+    public boolean createPassStudent(String student) {
+        if(getLevelOfStudy(student).equals(getDegreeLevels(student))) {
+            return false;
+        }else {
+            ArrayList<Integer> periods = getPeriodsofStudy(student);
+            int currentYear = Collections.max(periods);
+            updateLevelOfStudy(student);
+            if(!checkPeriodOfStudy(currentYear)) createPeriodOfStudy(currentYear);
+            registrarController.registerStudent("" + (currentYear+1), student);
+            return true;
+        }
     }
 
     /**
