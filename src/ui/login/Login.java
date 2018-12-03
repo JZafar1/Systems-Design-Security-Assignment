@@ -138,7 +138,10 @@ public class Login extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "One or more fields are empty!");
         } else {
             String[] userInfo = controller.checkUser(emailString, passwordArray);
-            getMainWindow().setUser(userInfo);
+            if(userInfo==null)
+                JOptionPane.showMessageDialog(this, "Wrong password/username");
+            else
+                getMainWindow().setUser(userInfo);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
